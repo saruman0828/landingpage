@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Search engines must be able to crawl pages to read the noindex meta tag.
