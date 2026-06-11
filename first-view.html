@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI導入支援サービス | 中小企業の雑務削減</title>
+  <title>AI導入支援サービス | ファーストビュー</title>
   <meta name="description" content="社員5〜50名の中小企業経営者向け。社長の雑務を棚卸しし、AI社員に任せられる業務から小さく始めるAI導入支援サービス。">
   <style>
     :root {
@@ -15,6 +15,7 @@
       --green: #1f6b4f;
       --green-dark: #174e3a;
       --amber: #d8922b;
+      --blue: #2f6f91;
       --shadow: 0 24px 60px rgba(19, 36, 28, 0.16);
     }
 
@@ -40,7 +41,7 @@
       overflow: hidden;
       isolation: isolate;
       background:
-        linear-gradient(90deg, rgba(247, 244, 237, 0.98) 0%, rgba(247, 244, 237, 0.92) 42%, rgba(247, 244, 237, 0.70) 67%, rgba(247, 244, 237, 0.40) 100%),
+        linear-gradient(90deg, rgba(247, 244, 237, 0.98) 0%, rgba(247, 244, 237, 0.92) 42%, rgba(247, 244, 237, 0.72) 63%, rgba(247, 244, 237, 0.36) 100%),
         linear-gradient(180deg, #fffaf0 0%, #eef5f1 100%);
     }
 
@@ -59,17 +60,15 @@
       min-height: 100svh;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(0, 0.98fr) minmax(360px, 1.02fr);
+      grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
       align-items: center;
-      gap: clamp(28px, 5vw, 64px);
+      gap: clamp(28px, 6vw, 72px);
       padding: clamp(22px, 4vw, 48px) 0;
     }
 
     .hero__copy {
-      max-width: 640px;
+      max-width: 650px;
       padding: 16px 0;
-      position: relative;
-      z-index: 2;
     }
 
     .eyebrow {
@@ -81,7 +80,7 @@
       border: 1px solid rgba(31, 107, 79, 0.28);
       border-radius: 999px;
       color: var(--green-dark);
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(255, 255, 255, 0.68);
       font-size: clamp(12px, 1.5vw, 14px);
       font-weight: 700;
       line-height: 1.45;
@@ -107,7 +106,7 @@
 
     .subcopy {
       margin: clamp(16px, 2.4vw, 24px) 0 0;
-      max-width: 600px;
+      max-width: 610px;
       font-size: clamp(20px, 2.6vw, 28px);
       line-height: 1.45;
       font-weight: 800;
@@ -116,11 +115,34 @@
 
     .bodycopy {
       margin: 14px 0 0;
-      max-width: 620px;
+      max-width: 640px;
       color: var(--muted);
       font-size: clamp(15px, 1.8vw, 17px);
       line-height: 1.75;
       font-weight: 500;
+    }
+
+    .proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .proof li {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+      color: #253128;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
     }
 
     .cta-row {
@@ -165,29 +187,6 @@
       font-weight: 600;
     }
 
-    .proof {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 18px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .proof li {
-      display: inline-flex;
-      align-items: center;
-      min-height: 38px;
-      padding: 8px 12px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.74);
-      color: #253128;
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.35;
-    }
-
     .time-note {
       margin: 12px 0 0;
       color: #6b5a3a;
@@ -196,99 +195,52 @@
       font-weight: 600;
     }
 
-    .hero__image-wrap {
+    .hero__visual {
       position: relative;
       min-height: 560px;
       display: grid;
-      align-items: center;
+      place-items: center;
     }
 
-    .hero__image-card {
-      position: relative;
-      width: min(100%, 560px);
-      min-height: 430px;
-      margin-left: auto;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      background: #dfe6df;
+    .visual-frame {
+      width: min(100%, 520px);
+      filter: drop-shadow(var(--shadow));
     }
 
-    .hero__image-card::after {
-      content: "";
+    .floating-list {
       position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(23, 33, 27, 0.18) 0%, rgba(23, 33, 27, 0.04) 38%, rgba(23, 33, 27, 0) 100%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0) 58%, rgba(23, 33, 27, 0.16) 100%);
-      pointer-events: none;
-    }
-
-    .hero__image {
-      width: 100%;
-      height: 100%;
-      min-height: 430px;
-      display: block;
-      object-fit: cover;
-      object-position: 60% center;
-    }
-
-    .image-badge {
-      position: absolute;
-      left: 18px;
-      bottom: 18px;
-      max-width: 300px;
-      padding: 14px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.54);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(10px);
-      color: #253128;
-      font-size: 13px;
-      line-height: 1.55;
-      font-weight: 800;
-      box-shadow: 0 14px 28px rgba(23, 33, 27, 0.14);
-    }
-
-    .floating-card {
-      position: absolute;
-      right: 0;
-      top: 42px;
-      width: min(290px, 72%);
+      left: 0;
+      bottom: 8%;
+      width: min(290px, 70%);
+      display: grid;
+      gap: 8px;
       padding: 14px;
       border: 1px solid rgba(23, 33, 27, 0.12);
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
       box-shadow: 0 18px 45px rgba(23, 33, 27, 0.13);
     }
 
-    .floating-card__title {
-      margin: 0 0 8px;
+    .floating-list__title {
+      margin: 0 0 2px;
       color: var(--green-dark);
       font-size: 13px;
       font-weight: 900;
     }
 
-    .floating-card__list {
+    .floating-list__item {
       display: grid;
-      gap: 6px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
+      grid-template-columns: 10px 1fr;
+      gap: 8px;
+      align-items: start;
       color: #344139;
       font-size: 13px;
       line-height: 1.45;
       font-weight: 700;
     }
 
-    .floating-card__list li {
-      display: grid;
-      grid-template-columns: 8px 1fr;
-      gap: 8px;
-      align-items: start;
-    }
-
-    .floating-card__list li::before {
+    .floating-list__item::before {
       content: "";
       width: 8px;
       height: 8px;
@@ -297,17 +249,27 @@
       background: var(--amber);
     }
 
+    .scroll-cue {
+      position: absolute;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      color: rgba(23, 33, 27, 0.52);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
     @media (max-width: 920px) {
       .hero {
         background:
-          linear-gradient(180deg, rgba(247, 244, 237, 0.99) 0%, rgba(247, 244, 237, 0.94) 60%, rgba(238, 245, 241, 0.88) 100%),
+          linear-gradient(180deg, rgba(247, 244, 237, 0.98) 0%, rgba(247, 244, 237, 0.95) 54%, rgba(247, 244, 237, 0.72) 100%),
           linear-gradient(180deg, #fffaf0 0%, #eef5f1 100%);
       }
 
       .hero__inner {
         grid-template-columns: 1fr;
         align-content: start;
-        gap: 26px;
+        gap: 22px;
         padding-top: 28px;
         padding-bottom: 52px;
       }
@@ -316,18 +278,23 @@
         max-width: none;
       }
 
-      .hero__image-wrap {
-        min-height: 360px;
+      h1 {
+        max-width: 9.6em;
       }
 
-      .hero__image-card {
-        width: 100%;
-        min-height: 360px;
+      .hero__visual {
+        min-height: 330px;
       }
 
-      .hero__image {
-        min-height: 360px;
-        object-position: 58% center;
+      .visual-frame {
+        width: min(92%, 430px);
+      }
+
+      .floating-list {
+        right: 0;
+        left: auto;
+        bottom: -8px;
+        width: min(320px, 82%);
       }
     }
 
@@ -349,6 +316,10 @@
         font-size: 22px;
       }
 
+      .proof li {
+        width: 100%;
+      }
+
       .cta-row {
         align-items: stretch;
       }
@@ -361,35 +332,20 @@
         max-width: none;
       }
 
-      .proof li {
-        width: 100%;
-      }
-
-      .hero__image-wrap {
-        min-height: auto;
-      }
-
-      .hero__image-card {
+      .hero__visual {
         min-height: 300px;
       }
 
-      .hero__image {
-        min-height: 300px;
-        object-position: 62% center;
-      }
-
-      .floating-card {
+      .floating-list {
         position: relative;
-        inset: auto;
+        right: auto;
+        bottom: auto;
         width: 100%;
-        margin-top: 12px;
+        margin-top: -26px;
       }
 
-      .image-badge {
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
-        max-width: none;
+      .scroll-cue {
+        display: none;
       }
     }
   </style>
@@ -417,21 +373,67 @@
         <p class="time-note">※1日約2時間の確認・連絡・転記業務がある場合、年間約500時間規模の見直し余地になります。</p>
       </section>
 
-      <aside class="hero__image-wrap" aria-label="中小企業の業務整理を相談している写真">
-        <figure class="hero__image-card">
-          <img class="hero__image" src="assets/hero-ai-office.png" alt="書類が積まれた事務所で、中小企業の経営者が相談しながら業務を整理している様子" width="1672" height="941">
-          <figcaption class="image-badge">紙・電話・メールで止まっている業務を、社長の頭の中から一緒に棚卸しします。</figcaption>
-        </figure>
-        <div class="floating-card" aria-label="AI社員に任せやすい業務例">
-          <p class="floating-card__title">AI（Artificial Intelligence、人工知能）社員に任せやすい業務</p>
-          <ul class="floating-card__list">
-            <li>メール返信の下書き</li>
-            <li>問い合わせ内容の分類</li>
-            <li>日報・議事録の整理</li>
-          </ul>
+      <aside class="hero__visual" aria-label="社長の雑務がAI社員に整理されるイメージ">
+        <svg class="visual-frame" viewBox="0 0 560 560" role="img" aria-label="中小企業の事務作業が整理されていく様子のイラスト">
+          <defs>
+            <linearGradient id="desk" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#f6d8a8"/>
+              <stop offset="100%" stop-color="#c98d48"/>
+            </linearGradient>
+            <linearGradient id="screen" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#e9f4f6"/>
+              <stop offset="100%" stop-color="#9ec5c9"/>
+            </linearGradient>
+            <linearGradient id="person" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#2f6f91"/>
+              <stop offset="100%" stop-color="#1f6b4f"/>
+            </linearGradient>
+          </defs>
+          <rect x="22" y="40" width="516" height="470" rx="34" fill="#fffdf8"/>
+          <path d="M60 413 C150 372 238 398 329 363 C408 332 461 340 512 371 L512 510 L60 510 Z" fill="#e8f0e9"/>
+          <rect x="96" y="346" width="366" height="44" rx="14" fill="url(#desk)"/>
+          <rect x="122" y="389" width="42" height="86" rx="10" fill="#b87639"/>
+          <rect x="395" y="389" width="42" height="86" rx="10" fill="#b87639"/>
+          <rect x="286" y="168" width="132" height="98" rx="12" fill="#264437"/>
+          <rect x="300" y="182" width="104" height="66" rx="7" fill="url(#screen)"/>
+          <rect x="336" y="266" width="36" height="42" rx="8" fill="#264437"/>
+          <rect x="310" y="303" width="88" height="18" rx="9" fill="#264437"/>
+          <circle cx="205" cy="198" r="42" fill="#e1b28a"/>
+          <path d="M160 175 C171 128 242 126 253 178 C226 162 194 164 160 175 Z" fill="#3c3028"/>
+          <path d="M154 349 C158 279 174 244 209 244 C246 244 268 283 273 349 Z" fill="url(#person)"/>
+          <path d="M173 263 C184 289 227 291 241 263 C225 252 190 252 173 263 Z" fill="#f7f4ed"/>
+          <rect x="83" y="266" width="78" height="54" rx="8" fill="#ffffff" stroke="#d9ded7" stroke-width="3"/>
+          <path d="M96 284 H149 M96 299 H139" stroke="#8b9a90" stroke-width="6" stroke-linecap="round"/>
+          <rect x="89" y="292" width="76" height="56" rx="8" fill="#ffffff" stroke="#d9ded7" stroke-width="3" transform="rotate(-8 127 320)"/>
+          <path d="M104 311 H151 M104 326 H139" stroke="#8b9a90" stroke-width="6" stroke-linecap="round" transform="rotate(-8 127 320)"/>
+          <rect x="404" y="104" width="70" height="54" rx="10" fill="#ffffff" stroke="#d9ded7" stroke-width="3"/>
+          <path d="M418 122 H460 M418 138 H447" stroke="#8b9a90" stroke-width="6" stroke-linecap="round"/>
+          <rect x="412" y="159" width="72" height="54" rx="10" fill="#ffffff" stroke="#d9ded7" stroke-width="3" transform="rotate(10 448 186)"/>
+          <path d="M426 178 H468 M426 194 H455" stroke="#8b9a90" stroke-width="6" stroke-linecap="round" transform="rotate(10 448 186)"/>
+          <path d="M279 220 C318 126 382 85 468 102" fill="none" stroke="#d8922b" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 18"/>
+          <path d="M254 244 C296 283 351 298 411 273" fill="none" stroke="#1f6b4f" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 18"/>
+          <circle cx="476" cy="101" r="16" fill="#d8922b"/>
+          <path d="M468 101 L474 108 L486 91" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="418" cy="270" r="16" fill="#1f6b4f"/>
+          <path d="M410 270 L416 277 L428 260" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <rect x="52" y="68" width="168" height="54" rx="18" fill="#eef5f1"/>
+          <circle cx="82" cy="95" r="10" fill="#d8922b"/>
+          <rect x="104" y="84" width="84" height="8" rx="4" fill="#9db3a7"/>
+          <rect x="104" y="101" width="56" height="8" rx="4" fill="#becbc3"/>
+          <rect x="58" y="130" width="190" height="54" rx="18" fill="#fff7e9"/>
+          <circle cx="88" cy="157" r="10" fill="#2f6f91"/>
+          <rect x="110" y="146" width="100" height="8" rx="4" fill="#9db3a7"/>
+          <rect x="110" y="163" width="64" height="8" rx="4" fill="#becbc3"/>
+        </svg>
+        <div class="floating-list" aria-label="AI社員に任せやすい業務例">
+          <p class="floating-list__title">AI（Artificial Intelligence、人工知能）社員に任せやすい業務</p>
+          <div class="floating-list__item">メール返信の下書き</div>
+          <div class="floating-list__item">問い合わせ内容の分類</div>
+          <div class="floating-list__item">日報・議事録の整理</div>
         </div>
       </aside>
     </div>
+    <div class="scroll-cue" aria-hidden="true">SCROLL</div>
   </main>
 </body>
 </html>

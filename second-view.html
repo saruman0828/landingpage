@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI（Artificial Intelligence、人工知能）導入支援サービス | 課題提起</title>
+  <meta name="description" content="中小企業経営者向け。人手不足、電話、メール、紙の確認、社内問い合わせ対応が社長や一部担当者に偏る課題を整理するページ。">
+  <style>
+    :root {
+      --ink: #17211b;
+      --muted: #5b665f;
+      --paper: #f7f4ed;
+      --white: #ffffff;
+      --green: #1f6b4f;
+      --green-dark: #174e3a;
+      --amber: #d8922b;
+      --blue: #2f6f91;
+      --line: rgba(23, 33, 27, 0.14);
+      --soft: #eef5f1;
+      --warn: #fff4df;
+      --shadow: 0 24px 60px rgba(19, 36, 28, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
+      background: var(--paper);
+      letter-spacing: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .problem {
+      min-height: 100svh;
+      padding: clamp(24px, 4vw, 56px) 0;
+      background:
+        linear-gradient(180deg, rgba(255, 250, 240, 0.94) 0%, rgba(238, 245, 241, 0.88) 100%),
+        var(--paper);
+      overflow: hidden;
+    }
+
+    .problem__inner {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 0.92fr) minmax(360px, 1.08fr);
+      gap: clamp(28px, 5vw, 64px);
+      align-items: center;
+    }
+
+    .problem__copy {
+      max-width: 610px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      padding: 8px 12px;
+      border: 1px solid rgba(31, 107, 79, 0.26);
+      border-radius: 999px;
+      color: var(--green-dark);
+      background: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 800;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--amber);
+      flex: 0 0 auto;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5.4vw, 60px);
+      line-height: 1.12;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-wrap: balance;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      color: #2f3b34;
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.78;
+      font-weight: 700;
+    }
+
+    .reason {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.78;
+      font-weight: 600;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px 16px;
+      margin: 22px 0 0;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 54px;
+      padding: 15px 22px;
+      border-radius: 8px;
+      background: var(--green);
+      color: var(--white);
+      box-shadow: 0 14px 28px rgba(31, 107, 79, 0.24);
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.25;
+      text-decoration: none;
+      transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .cta-button:hover,
+    .cta-button:focus-visible {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 18px 34px rgba(31, 107, 79, 0.3);
+      outline: none;
+    }
+
+    .cta-note {
+      max-width: 280px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .workload {
+      display: grid;
+      gap: 14px;
+    }
+
+    .workload__main {
+      padding: clamp(18px, 3vw, 26px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow);
+    }
+
+    .workload__title {
+      margin: 0 0 14px;
+      color: var(--green-dark);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .task-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .task {
+      min-height: 88px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fffdf8;
+    }
+
+    .task__label {
+      margin: 0;
+      color: #253128;
+      font-size: 14px;
+      line-height: 1.55;
+      font-weight: 900;
+    }
+
+    .task__detail {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      font-weight: 650;
+    }
+
+    .risk {
+      display: grid;
+      gap: 10px;
+      padding: 18px;
+      border-radius: 8px;
+      background: var(--warn);
+      border: 1px solid rgba(216, 146, 43, 0.28);
+    }
+
+    .risk__title {
+      margin: 0;
+      color: #7a4e14;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .risk ul {
+      display: grid;
+      gap: 7px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: #5f4a2c;
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .case-preview {
+      padding: 18px;
+      border: 1px solid rgba(47, 111, 145, 0.18);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .case-preview__title {
+      margin: 0 0 12px;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .case-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .case-list li {
+      display: grid;
+      gap: 3px;
+      padding: 0 0 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .case-list li:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .industry {
+      color: var(--green-dark);
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 900;
+    }
+
+    .case-copy {
+      color: #253128;
+      font-size: 14px;
+      line-height: 1.55;
+      font-weight: 800;
+    }
+
+    @media (max-width: 920px) {
+      .problem__inner {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .problem__copy {
+        max-width: none;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .problem {
+        padding: 24px 0 36px;
+      }
+
+      .problem__inner {
+        width: min(100% - 28px, 1120px);
+        gap: 24px;
+      }
+
+      .eyebrow {
+        align-items: flex-start;
+        border-radius: 8px;
+      }
+
+      h1 {
+        font-size: clamp(32px, 10vw, 44px);
+      }
+
+      .lead {
+        font-size: 17px;
+      }
+
+      .cta-button {
+        width: 100%;
+      }
+
+      .cta-note {
+        max-width: none;
+      }
+
+      .task-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="problem" id="problem">
+    <div class="problem__inner">
+      <section class="problem__copy" aria-label="中小企業経営者の課題提起">
+        <p class="eyebrow">2ページ目｜課題提起</p>
+        <h1>その雑務、社長が抱え続ける仕事でしょうか。</h1>
+        <p class="lead">
+          人手不足の中で、電話、メール、紙の確認、社内の問い合わせ対応が積み上がり、
+          社長や一部の担当者に負担が偏っていませんか。
+        </p>
+        <p class="reason">
+          これは、現場の努力不足ではありません。業務の進め方が人に依存し、確認・連絡・転記が日々積み上がる構造になっていることが原因です。
+          AI（Artificial Intelligence、人工知能）を入れる前に、まず「誰が、何に、どれだけ時間を取られているか」を見える化する必要があります。
+        </p>
+        <div class="cta-row">
+          <a class="cta-button" href="first-view.html#free-consultation">自社の該当業務を無料で見てもらう</a>
+          <p class="cta-note">資料がなくても大丈夫です。今、社長の頭の中にある困りごとから整理できます。</p>
+        </div>
+      </section>
+
+      <section class="workload" aria-label="負担が偏りやすい業務と業種別事例見出し">
+        <div class="workload__main">
+          <p class="workload__title">社長や一部担当者に集まりやすい業務</p>
+          <div class="task-grid">
+            <article class="task">
+              <p class="task__label">電話・メール対応</p>
+              <p class="task__detail">問い合わせの一次対応、返信文の作成、担当者への振り分け。</p>
+            </article>
+            <article class="task">
+              <p class="task__label">紙・ファクスの確認</p>
+              <p class="task__detail">注文書、請求書、申込書、現場資料の確認と転記。</p>
+            </article>
+            <article class="task">
+              <p class="task__label">社内問い合わせ</p>
+              <p class="task__detail">過去資料、顧客情報、手順確認が特定の人に集中。</p>
+            </article>
+            <article class="task">
+              <p class="task__label">報告・日報整理</p>
+              <p class="task__detail">現場報告、議事録、進捗メモが活用されず埋もれる。</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="risk">
+          <p class="risk__title">放置すると起きること</p>
+          <ul>
+            <li>社長が判断業務ではなく、確認作業に時間を取られる。</li>
+            <li>担当者が休むと、業務の進め方が分からなくなる。</li>
+            <li>売上につながる提案や改善が、後回しになる。</li>
+          </ul>
+        </div>
+
+        <div class="case-preview">
+          <p class="case-preview__title">業種ごとに、減らせる雑務は変わります</p>
+          <ul class="case-list">
+            <li>
+              <span class="industry">建設・建築業向け</span>
+              <span class="case-copy">現場写真、日報、協力会社への連絡が、社長の夜の仕事になっていませんか。</span>
+            </li>
+            <li>
+              <span class="industry">医療機関向け</span>
+              <span class="case-copy">予約確認、問診整理、書類対応に追われ、患者対応の時間が削られていませんか。</span>
+            </li>
+            <li>
+              <span class="industry">士業向け</span>
+              <span class="case-copy">相談内容の整理、資料確認、定型文作成に、専門家の時間を使いすぎていませんか。</span>
+            </li>
+            <li>
+              <span class="industry">不動産業向け</span>
+              <span class="case-copy">物件問い合わせ、内見調整、契約書類確認が、担当者の記憶頼みになっていませんか。</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
