@@ -1,437 +1,370 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI導入支援サービス | 中小企業の雑務削減</title>
-  <meta name="description" content="社員5〜50名の中小企業経営者向け。社長の雑務を棚卸しし、AI社員に任せられる業務から小さく始めるAI導入支援サービス。">
-  <style>
-    :root {
-      --ink: #17211b;
-      --muted: #5b665f;
-      --line: rgba(23, 33, 27, 0.14);
-      --paper: #f7f4ed;
-      --white: #ffffff;
-      --green: #1f6b4f;
-      --green-dark: #174e3a;
-      --amber: #d8922b;
-      --shadow: 0 24px 60px rgba(19, 36, 28, 0.16);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      color: var(--ink);
-      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic", "YuGothic", "Meiryo", sans-serif;
-      background: var(--paper);
-      letter-spacing: 0;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    .hero {
-      position: relative;
-      min-height: 100svh;
-      overflow: hidden;
-      isolation: isolate;
-      background:
-        linear-gradient(90deg, rgba(247, 244, 237, 0.98) 0%, rgba(247, 244, 237, 0.92) 42%, rgba(247, 244, 237, 0.70) 67%, rgba(247, 244, 237, 0.40) 100%),
-        linear-gradient(180deg, #fffaf0 0%, #eef5f1 100%);
-    }
-
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: auto -12vw -18vh auto;
-      width: min(58vw, 720px);
-      aspect-ratio: 1;
-      background: radial-gradient(circle, rgba(31, 107, 79, 0.16), rgba(31, 107, 79, 0) 67%);
-      z-index: -2;
-    }
-
-    .hero__inner {
-      width: min(1120px, calc(100% - 40px));
-      min-height: 100svh;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: minmax(0, 0.98fr) minmax(360px, 1.02fr);
-      align-items: center;
-      gap: clamp(28px, 5vw, 64px);
-      padding: clamp(22px, 4vw, 48px) 0;
-    }
-
-    .hero__copy {
-      max-width: 640px;
-      padding: 16px 0;
-      position: relative;
-      z-index: 2;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 22px;
-      padding: 8px 12px;
-      border: 1px solid rgba(31, 107, 79, 0.28);
-      border-radius: 999px;
-      color: var(--green-dark);
-      background: rgba(255, 255, 255, 0.72);
-      font-size: clamp(12px, 1.5vw, 14px);
-      font-weight: 700;
-      line-height: 1.45;
-    }
-
-    .eyebrow__dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--amber);
-      flex: 0 0 auto;
-    }
-
-    h1 {
-      margin: 0;
-      max-width: 12em;
-      font-size: clamp(42px, 6vw, 68px);
-      line-height: 1.04;
-      font-weight: 900;
-      letter-spacing: 0;
-      text-wrap: balance;
-    }
-
-    .subcopy {
-      margin: clamp(16px, 2.4vw, 24px) 0 0;
-      max-width: 600px;
-      font-size: clamp(20px, 2.6vw, 28px);
-      line-height: 1.45;
-      font-weight: 800;
-      text-wrap: balance;
-    }
-
-    .bodycopy {
-      margin: 14px 0 0;
-      max-width: 620px;
-      color: var(--muted);
-      font-size: clamp(15px, 1.8vw, 17px);
-      line-height: 1.75;
-      font-weight: 500;
-    }
-
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 14px 18px;
-      margin: 24px 0 0;
-    }
-
-    .cta-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 56px;
-      padding: 16px 24px;
-      border-radius: 8px;
-      border: 0;
-      background: var(--green);
-      color: var(--white);
-      box-shadow: 0 14px 28px rgba(31, 107, 79, 0.26);
-      font-size: 17px;
-      font-weight: 800;
-      line-height: 1.25;
-      text-decoration: none;
-      transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
-    }
-
-    .cta-button:hover,
-    .cta-button:focus-visible {
-      background: var(--green-dark);
-      box-shadow: 0 18px 34px rgba(31, 107, 79, 0.32);
-      transform: translateY(-1px);
-      outline: none;
-    }
-
-    .cta-note {
-      max-width: 290px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-      font-weight: 600;
-    }
-
-    .proof {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 18px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .proof li {
-      display: inline-flex;
-      align-items: center;
-      min-height: 38px;
-      padding: 8px 12px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.74);
-      color: #253128;
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1.35;
-    }
-
-    .time-note {
-      margin: 12px 0 0;
-      color: #6b5a3a;
-      font-size: 12px;
-      line-height: 1.7;
-      font-weight: 600;
-    }
-
-    .hero__image-wrap {
-      position: relative;
-      min-height: 560px;
-      display: grid;
-      align-items: center;
-    }
-
-    .hero__image-card {
-      position: relative;
-      width: min(100%, 560px);
-      min-height: 430px;
-      margin-left: auto;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      background: #dfe6df;
-    }
-
-    .hero__image-card::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg, rgba(23, 33, 27, 0.18) 0%, rgba(23, 33, 27, 0.04) 38%, rgba(23, 33, 27, 0) 100%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0) 58%, rgba(23, 33, 27, 0.16) 100%);
-      pointer-events: none;
-    }
-
-    .hero__image {
-      width: 100%;
-      height: 100%;
-      min-height: 430px;
-      display: block;
-      object-fit: cover;
-      object-position: 60% center;
-    }
-
-    .image-badge {
-      position: absolute;
-      left: 18px;
-      bottom: 18px;
-      max-width: 300px;
-      padding: 14px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.54);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(10px);
-      color: #253128;
-      font-size: 13px;
-      line-height: 1.55;
-      font-weight: 800;
-      box-shadow: 0 14px 28px rgba(23, 33, 27, 0.14);
-    }
-
-    .floating-card {
-      position: absolute;
-      right: 0;
-      top: 42px;
-      width: min(290px, 72%);
-      padding: 14px;
-      border: 1px solid rgba(23, 33, 27, 0.12);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 18px 45px rgba(23, 33, 27, 0.13);
-    }
-
-    .floating-card__title {
-      margin: 0 0 8px;
-      color: var(--green-dark);
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    .floating-card__list {
-      display: grid;
-      gap: 6px;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      color: #344139;
-      font-size: 13px;
-      line-height: 1.45;
-      font-weight: 700;
-    }
-
-    .floating-card__list li {
-      display: grid;
-      grid-template-columns: 8px 1fr;
-      gap: 8px;
-      align-items: start;
-    }
-
-    .floating-card__list li::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      margin-top: 5px;
-      border-radius: 50%;
-      background: var(--amber);
-    }
-
-    @media (max-width: 920px) {
-      .hero {
-        background:
-          linear-gradient(180deg, rgba(247, 244, 237, 0.99) 0%, rgba(247, 244, 237, 0.94) 60%, rgba(238, 245, 241, 0.88) 100%),
-          linear-gradient(180deg, #fffaf0 0%, #eef5f1 100%);
-      }
-
-      .hero__inner {
-        grid-template-columns: 1fr;
-        align-content: start;
-        gap: 26px;
-        padding-top: 28px;
-        padding-bottom: 52px;
-      }
-
-      .hero__copy {
-        max-width: none;
-      }
-
-      .hero__image-wrap {
-        min-height: 360px;
-      }
-
-      .hero__image-card {
-        width: 100%;
-        min-height: 360px;
-      }
-
-      .hero__image {
-        min-height: 360px;
-        object-position: 58% center;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .hero__inner {
-        width: min(100% - 28px, 1120px);
-      }
-
-      .eyebrow {
-        align-items: flex-start;
-        border-radius: 8px;
-      }
-
-      h1 {
-        font-size: clamp(38px, 12vw, 52px);
-      }
-
-      .subcopy {
-        font-size: 22px;
-      }
-
-      .cta-row {
-        align-items: stretch;
-      }
-
-      .cta-button {
-        width: 100%;
-      }
-
-      .cta-note {
-        max-width: none;
-      }
-
-      .proof li {
-        width: 100%;
-      }
-
-      .hero__image-wrap {
-        min-height: auto;
-      }
-
-      .hero__image-card {
-        min-height: 300px;
-      }
-
-      .hero__image {
-        min-height: 300px;
-        object-position: 62% center;
-      }
-
-      .floating-card {
-        position: relative;
-        inset: auto;
-        width: 100%;
-        margin-top: 12px;
-      }
-
-      .image-badge {
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
-        max-width: none;
-      }
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>社長の右腕AIを参謀に！｜株式会社HAYASHI CREATIVE</title>
+  <meta name="description" content="社長の頭の中を整理し、社員が同じ基準で動ける会社へ。AIを使ってマニュアル・チェックリスト・返信テンプレート・教育資料を作り、社員の判断・対応・教育の質を安定させます。" />
+  <meta property="og:title" content="社長の右腕AIを参謀に！" />
+  <meta property="og:description" content="社長の頭の中を整理し、社員が同じ基準で動ける会社に変えます。" />
+  <meta property="og:image" content="https://ai-business-lp.vercel.app/assets/hayashi-masaru.jpg" />
+  <meta property="og:url" content="https://ai-business-lp.vercel.app/" />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="hero" id="free-consultation">
-    <div class="hero__inner">
-      <section class="hero__copy" aria-label="AI導入支援サービスのファーストビュー">
-        <p class="eyebrow"><span class="eyebrow__dot" aria-hidden="true"></span>社員5〜50名の中小企業経営者向け｜岡山・地方企業にも対応</p>
-        <h1>経営者の雑務、<br>年間500時間失ってます。</h1>
-        <p class="subcopy">社長が毎日やっているその仕事、<br>AI（Artificial Intelligence、人工知能）社員に任せられます。</p>
-        <p class="bodycopy">
-          請求書の確認、メール返信、問い合わせ対応、議事録作成、日報整理、社内の確認作業。
-          本来、社長が抱えなくてもよい業務を棚卸しし、AI（Artificial Intelligence、人工知能）で任せられる仕事から小さく導入します。
-        </p>
-        <div class="cta-row">
-          <a class="cta-button" href="#free-consultation" aria-label="30分無料相談を申し込む">30分無料相談を申し込む</a>
-          <p class="cta-note">導入前提でなくても大丈夫です。まずは「任せられる業務があるか」だけ確認できます。</p>
-        </div>
-        <ul class="proof" aria-label="相談しやすい理由">
-          <li>IT（Information Technology、情報技術）担当者がいなくても相談可能</li>
-          <li>高額なシステム導入の前に業務を整理</li>
-          <li>PoC（Proof of Concept、概念実証）から定着まで伴走</li>
-        </ul>
-        <p class="time-note">※1日約2時間の確認・連絡・転記業務がある場合、年間約500時間規模の見直し余地になります。</p>
-      </section>
+  <header class="topbar">
+	    <a class="brand" href="#hero">社長の右腕AI</a>
+    <nav>
+      <a href="#results">実績</a>
+      <a href="#price">料金</a>
+      <a href="#team">誰がやるか</a>
+      <a class="nav-cta" href="#contact">日程候補を送る</a>
+    </nav>
+  </header>
 
-      <aside class="hero__image-wrap" aria-label="中小企業の業務整理を相談している写真">
-        <figure class="hero__image-card">
-          <img class="hero__image" src="assets/hero-ai-office.png" alt="書類が積まれた事務所で、中小企業の経営者が相談しながら業務を整理している様子" width="1672" height="941">
-          <figcaption class="image-badge">紙・電話・メールで止まっている業務を、社長の頭の中から一緒に棚卸しします。</figcaption>
-        </figure>
-        <div class="floating-card" aria-label="AI社員に任せやすい業務例">
-          <p class="floating-card__title">AI（Artificial Intelligence、人工知能）社員に任せやすい業務</p>
-          <ul class="floating-card__list">
-            <li>メール返信の下書き</li>
-            <li>問い合わせ内容の分類</li>
-            <li>日報・議事録の整理</li>
+  <main>
+    <section id="hero" class="section hero">
+      <div class="hero-copy">
+        <p class="eyebrow">知り合い経営者向け・30分診断から</p>
+	        <h1>社長の右腕AIを<br>参謀に！</h1>
+	        <h2>社長の頭の中を整理し、<br class="pc">社員が同じ基準で動ける会社に変えます。</h2>
+	        <p class="company-name">株式会社HAYASHI CREATIVE</p>
+        <p class="lead">社員からの質問、問い合わせ対応、新人教育、見積もり確認、経理確認、資料作成、毎回同じ説明。その仕事を社長が抱え続ける限り、会社は社長依存のままです。</p>
+        <div class="promise">
+          <strong>やることは明確です。</strong>
+          <span>社長の仕事を棚卸しし、社員が確認できるマニュアル・チェックリスト・返信テンプレート・教育資料を作ります。</span>
+        </div>
+        <p class="impact">その結果、社長への確認が減り、<strong>社員の判断・対応・教育の質が安定します。</strong></p>
+        <div class="cta-row">
+          <a class="button primary" href="#contact">30分の候補日を送る</a>
+          <a class="button secondary" href="#results">実績を見る</a>
+        </div>
+        <p class="microcopy">日程は、今月・来月のどこで調整しましょうか？候補日を2〜3つ送ってください。</p>
+      </div>
+      <div class="hero-card">
+        <img src="assets/hayashi-masaru.jpg" alt="林 勝のプロフィール写真" />
+        <div class="name-card">
+          <span>私がやります</span>
+          <strong>林 勝</strong>
+          <p>中小企業の現場を知る経営者として、AIを実務で使える形に落とし込みます。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section problem">
+      <div class="section-head">
+        <p class="eyebrow">社長依存の見える化</p>
+        <h2>社長が毎日2時間、雑務に追われる会社は、年間500時間を失っています。</h2>
+      </div>
+      <figure class="section-visual section-visual--right">
+        <img src="assets/visual-problem.jpg" alt="現場の確認、メール、書類、日程調整が社長に集まり、判断が滞っている様子" loading="lazy">
+      </figure>
+      <div class="calc-card">
+        <div><span>2時間</span><small>毎日の確認・返信・教育</small></div>
+        <div class="operator">×</div>
+        <div><span>250日</span><small>年間稼働日</small></div>
+        <div class="operator">=</div>
+        <div><span>500時間</span><small>年間の社長時間</small></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <h3>失っているのは、時間だけではありません。</h3>
+          <p>売上を伸ばす時間、幹部を育てる時間、採用を強くする時間、利益率を改善する時間、新規事業を考える時間、会社の未来を決める時間が、毎日の雑務に奪われています。</p>
+        </div>
+        <div class="highlight-box">
+          <h3>さらに大きな問題は、社員の質が安定しないことです。</h3>
+          <ul>
+            <li>同じ質問でも、答える人によって内容が違う</li>
+            <li>新人教育が担当者によってバラバラ</li>
+            <li>お客様対応の品質が人によって違う</li>
+            <li>社長がいないと判断が止まる</li>
           </ul>
         </div>
-      </aside>
-    </div>
+      </div>
+      <p class="big-message">社員の能力不足ではありません。<br><strong>判断基準と確認場所がないだけです。</strong></p>
+    </section>
+
+    <section id="results" class="section results">
+      <div class="section-head">
+        <p class="eyebrow">支援実績</p>
+        <h2>実際に、こういう業務改善を支援してきました。</h2>
+        <p>単にAIを入れたのではなく、毎日繰り返している仕事を整理し、確認すべき情報と判断基準をそろえた実績です。</p>
+      </div>
+      <div class="case-grid">
+        <article class="case-card">
+          <span>不動産会社</span>
+          <strong class="case-metric">年間約250〜500時間削減</strong>
+          <h3>毎朝1〜2時間のリサーチ・メール確認を、ほぼ確認だけに。</h3>
+          <p>全社員が出社時に行っていたリサーチ業務、メールチェック、メール返信を整理。必要情報を集約し、返信文のたたき台を作ることで、毎朝の作業を大幅に短縮。</p>
+        </article>
+        <article class="case-card">
+          <span>古美術商・買取業</span>
+          <strong class="case-metric">年間約250時間削減</strong>
+          <h3>毎日の相場チェック・サイト巡回1時間を、ほぼ自動整理へ。</h3>
+          <p>確認すべきサイト、見るべき指標、記録すべき内容を整理。相場確認を、毎日見に行く作業から、必要情報を確認する作業へ変更。</p>
+        </article>
+        <article class="case-card">
+          <span>建築・建設業</span>
+          <strong class="case-metric">年間約100時間削減</strong>
+          <h3>仮見積・概算・仮工程表を現場で作れる状態に。</h3>
+          <p>見積書のたたき台、概算、仮工程表、法令や注意点の事前チェックをAI化。現場で確認事項を整理でき、初動判断のスピードを改善。</p>
+        </article>
+        <article class="case-card">
+          <span>飲食店</span>
+          <strong class="case-metric">年間約120時間削減</strong>
+          <h3>人出予想で、原価管理とシフト管理を効率化。</h3>
+          <p>地域特性、曜日、天気、気温、イベント、過去売上を整理。感覚だけに頼らず、仕込み量・原価・シフトをデータで判断できる状態に。</p>
+        </article>
+        <article class="case-card">
+          <span>経理業務の効率化</span>
+          <strong class="case-metric">年間約60時間削減</strong>
+          <h3>請求書、領収書、入金確認の抜け漏れを見つけやすく。</h3>
+          <p>毎月の請求書確認、領収書整理、入金チェック、支払予定の確認項目を整理。担当者が迷わず確認できるチェックリストと社長確認用の要約を作りました。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section solution">
+      <div class="section-head">
+        <p class="eyebrow">解決策</p>
+        <h2>AIで、社長の頭の中を会社の資産に変えます。</h2>
+      </div>
+      <figure class="section-visual section-visual--right">
+        <img src="assets/visual-solution.jpg" alt="現場担当者とAI活用の流れを整理し、業務フローとチェックリストを共有している様子" loading="lazy">
+      </figure>
+      <div class="two-col align-start">
+        <div>
+          <p>多くの会社がAI導入で失敗する理由は、ChatGPTや便利ツールを入れるだけで終わるからです。AIは魔法ではありません。業務の設計図が間違っていれば、間違った仕事が速くなるだけです。</p>
+          <p><strong>必要なのは、AIを入れることではなく、社長の判断基準を整理し、社員が使える形に変えることです。</strong></p>
+        </div>
+        <div class="deliverables">
+          <h3>作るもの</h3>
+          <ul>
+            <li>社長業務の棚卸し</li>
+            <li>よくある質問集</li>
+            <li>社員向けチェックリスト</li>
+            <li>新人教育マニュアル</li>
+            <li>問い合わせ対応テンプレート</li>
+            <li>メール・LINE返信テンプレート</li>
+            <li>経理確認チェックリスト</li>
+            <li>社員教育の基準表</li>
+            <li>社内で使えるAI指示文</li>
+          </ul>
+        </div>
+      </div>
+      <figure class="section-visual section-visual--full">
+        <img src="assets/visual-before-after.jpg" alt="導入前の混乱した業務状態から、導入後に社員が同じ基準で前進する状態へ変わる様子" loading="lazy">
+      </figure>
+      <div class="before-after">
+        <div>
+          <h3>導入前</h3>
+          <p>社長が毎回説明する。社員が何度も聞く。新人教育が属人的。対応品質がバラバラ。社長がいないと判断が止まる。</p>
+        </div>
+        <div>
+          <h3>導入後</h3>
+          <p>社員が自分で確認できる。社長への質問が減る。新人教育が早くなる。社員の判断・対応・教育の質が安定する。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="team" class="section team">
+      <div class="section-head">
+        <p class="eyebrow">担当者と料金</p>
+        <h2>私たちがやります。</h2>
+      </div>
+      <div class="team-grid">
+        <article class="profile-card main-profile">
+          <img src="assets/hayashi-masaru-square.jpg" alt="林 勝の顔写真" />
+          <div>
+            <span>顧問</span>
+            <h3>林 勝</h3>
+            <p>飲食、物販、不動産、水上スポーツ、ビジネスコンサルなど5つのビジネスを立ち上げ、すべて利益をあげることに成功。現場で売上と利益を作ってきた経営者目線で、御社の業務改善を行います。</p>
+            <p>AIを活用して経営、社員の育成、管理を省力化するだけでなく、優れたビジネス感覚をもって、どこを仕組み化すれば利益につながるかまでサポートできます。</p>
+            <ul>
+              <li>5つの事業を立ち上げ、すべて利益化</li>
+              <li>経営、社員育成、管理の省力化を支援</li>
+              <li>AI活用とビジネス判断を組み合わせた顧問支援</li>
+              <li>東京大学大学院工学系研究科 松尾・岩澤研究室主宰「大規模言語モデル応用編 集中講義 2025」修了・最終審査合格</li>
+            </ul>
+          </div>
+        </article>
+        <article class="profile-card">
+          <img src="assets/brother-avatar.jpg" alt="AIとシステム設計を担当する人物の漫画風イラスト" />
+          <div>
+            <span>AI・システム目線で仕組みに落とし込む人</span>
+            <h3>私の兄</h3>
+            <p>システムエンジニアとして10年以上、業務システムの設計・開発・運用改善に携わってきました。現場で使われ続ける仕組みにするため、業務フローの整理、入力項目の設計、チェックリスト化、AIに渡す指示文の作成まで実務目線で組み立てます。</p>
+            <p>防衛省関連システムや選挙速報システムなど、止まることが許されない領域で開発を経験。ベンチャー企業では照合AIを一人で設計・開発し、要件整理から実装、精度改善まで担当しました。セキュリティ関連にも強く、情報の扱い、権限、入力してよいデータ・入れてはいけないデータの線引きまで含めて設計できます。</p>
+            <p>東京大学のAI関連講義に在籍講師として関わり、専門的なAIを中小企業の現場で使える形に翻訳できます。</p>
+            <ul>
+              <li>業務フロー整理</li>
+              <li>マニュアル・チェックリスト作成</li>
+              <li>AIに入力する指示文の設計</li>
+              <li>システム化できる業務の見極め</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+        <div id="price" class="pricing">
+        <div class="section-head small">
+          <p class="eyebrow">料金</p>
+          <h2>まずは30分無料診断。</h2>
+          <p>価格は、どこまでやるかで変わります。御社の業務を見てから、必要な範囲だけをご提案します。</p>
+        </div>
+        <div class="price-grid">
+          <article class="price-card">
+            <span>入口</span>
+            <h3>30分診断</h3>
+            <strong>0円</strong>
+            <p>社長がやらなくていい仕事を洗い出します。</p>
+          </article>
+	          <article class="price-card">
+	            <span>単発</span>
+	            <h3>業務整理パック</h3>
+	            <strong>198,000円〜</strong>
+	            <p>まず1つの業務を、社員が確認できる形に変えます。納品後1ヶ月の無料サポート付きです。</p>
+	          </article>
+	          <article class="price-card recommended">
+	            <span>本命</span>
+	            <h3>右腕AI構築パック</h3>
+	            <strong>498,000円〜</strong>
+	            <p>社長依存を本格的に減らし、社員が同じ基準で動ける状態を作ります。導入後1ヶ月は無料で伴走します。</p>
+	          </article>
+          <article class="price-card">
+            <span>継続</span>
+            <h3>AI参謀 半年クール</h3>
+            <strong>月額198,000円〜</strong>
+            <p>毎月、社長の判断を減らす仕組みを1つずつ。外注費ではなく、会社に残る資産づくりです。</p>
+          </article>
+        </div>
+	        <div class="value-proof">
+	          <strong>社長の時間が月20時間戻れば、月額費用はほぼ回収できます。</strong>
+	          <p>さらに、作ったチェックリスト、マニュアル、返信テンプレート、教育資料は会社に残ります。1ヶ月無料サポート付きなので、使い始めでつまずいて損をする不安も減らせます。</p>
+	        </div>
+        <p class="price-note">※月額は6ヶ月契約が基本です。合計1,188,000円〜。業務範囲、資料量、社員研修の有無、個別システム連携の有無により変動します。</p>
+      </div>
+    </section>
+
+    <section id="contact" class="section final-cta">
+      <p class="eyebrow">無料診断の申し込み</p>
+      <h2>まずは30分、御社の「社長がやらなくていい仕事」を洗い出します。</h2>
+	      <p>AIを入れる前に、業務整理だけで改善できる場合もあります。その場合は、正直にお伝えします。導入後1ヶ月の無料サポートも付けて、損したくない、失敗したくない不安に寄り添います。</p>
+	      <h3>まずはメールアドレスか電話番号だけ入力してください。</h3>
+	      <form class="contact-form" id="contact-form" action="/api/contact" method="post">
+	        <div class="form-grid">
+	          <label class="wide">メールアドレス または 電話番号<input type="text" name="contact" autocomplete="email tel" inputmode="text" placeholder="例：info@example.com または 09012345678" required></label>
+	          <div class="form-details wide" id="form-details" hidden>
+	            <label>相談の概略
+	              <select name="topic">
+	                <option value="">選択してください</option>
+	                <option value="経営者として、社長に確認が集まりすぎて困っている">経営者として、確認が自分に集まりすぎている</option>
+	                <option value="管理職として、社員教育や判断基準のばらつきに困っている">管理職として、社員教育や判断基準のばらつきに困っている</option>
+	                <option value="経理・事務担当として、確認や入力の抜け漏れに困っている">経理・事務担当として、確認や抜け漏れに困っている</option>
+	                <option value="営業・問い合わせ対応で、返信や見積確認を減らしたい">営業・問い合わせ対応を効率化したい</option>
+	                <option value="まず何をAI化できるか相談したい">まず何をAI化できるか相談したい</option>
+	              </select>
+	            </label>
+	            <label>お名前<input type="text" name="name" autocomplete="name" placeholder="例：林 勝"></label>
+	            <label>会社名 <span>任意</span><input type="text" name="company" autocomplete="organization" placeholder="例：株式会社HAYASHI CREATIVE"></label>
+	            <label class="wide">相談内容 <span>任意</span><textarea name="message" placeholder="例：社員からの質問対応、見積確認、新人教育を減らしたい"></textarea></label>
+	          </div>
+	        </div>
+	        <button class="button primary large" type="submit">30分無料診断を申し込む</button>
+	        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+	        <p class="microcopy">全角の＠や数字、スペースが混じっていても、送信時に補正して受け付けます。</p>
+	      </form>
+      <div class="line-fallback">
+        <div>
+          <span>フォームが送れない場合</span>
+          <strong>LINEから直接ご連絡ください。</strong>
+          <p>QRコードを読み取り、「30分診断希望」と送ってください。</p>
+        </div>
+        <img src="assets/line-qr.jpg" alt="LINE連絡用QRコード" loading="lazy" />
+      </div>
+    </section>
   </main>
+
+  <footer>
+	    <p>© 株式会社HAYASHI CREATIVE. All rights reserved.</p>
+  </footer>
+	  <script>
+	    (() => {
+	      const form = document.querySelector("#contact-form");
+	      if (!form) return;
+
+	      const status = document.querySelector("#form-status");
+	      const submitButton = form.querySelector('button[type="submit"]');
+	      const contactInput = form.querySelector('input[name="contact"]');
+	      const details = document.querySelector("#form-details");
+
+	      const normalizeContact = (value) => value
+	        .normalize("NFKC")
+	        .replace(/\s+/g, "")
+	        .replace(/[‐‑‒–—―ー−]/g, "-")
+	        .toLowerCase();
+
+	      const updateDetails = () => {
+	        const hasContact = normalizeContact(contactInput.value).length > 0;
+	        details.hidden = !hasContact;
+	      };
+
+	      contactInput.addEventListener("input", updateDetails);
+	      updateDetails();
+
+	      form.addEventListener("submit", async (event) => {
+	        event.preventDefault();
+
+	        const data = Object.fromEntries(new FormData(form).entries());
+	        data.contact = normalizeContact(data.contact || "");
+	        data.name = (data.name || "").trim();
+	        data.company = (data.company || "").trim();
+	        data.message = (data.message || "").trim();
+
+	        if (!data.contact) {
+	          status.textContent = "メールアドレスまたは電話番号を入力してください。";
+	          status.dataset.state = "error";
+	          contactInput.focus();
+	          return;
+	        }
+
+	        if (!data.name) {
+	          details.hidden = false;
+	          status.textContent = "お名前を入力してください。";
+	          status.dataset.state = "error";
+	          form.querySelector('input[name="name"]').focus();
+	          return;
+	        }
+
+	        status.textContent = "送信中です。";
+	        status.dataset.state = "";
+	        submitButton.disabled = true;
+
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
+          const result = await response.json().catch(() => ({}));
+
+          if (!response.ok) {
+            throw new Error(result.message || "送信できませんでした。時間をおいて再度お試しください。");
+          }
+
+	          form.reset();
+	          updateDetails();
+	          status.textContent = "送信しました。1〜2営業日以内にご連絡します。";
+	          status.dataset.state = "success";
+        } catch (error) {
+          status.textContent = `${error.message || "送信できませんでした。"} 送れない場合は、下のLINE QRからご連絡ください。`;
+          status.dataset.state = "error";
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

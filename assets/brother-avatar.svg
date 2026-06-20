@@ -1,0 +1,52 @@
+<svg width="520" height="520" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">漫画風のAI・システム担当者イラスト</title>
+  <desc id="desc">太い輪郭線、集中線、スクリーントーンを使った漫画風の男性エンジニアイラスト。</desc>
+  <defs>
+    <pattern id="tone" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.2" fill="#15324B" opacity=".16"/>
+      <circle cx="13" cy="13" r="1.8" fill="#15324B" opacity=".12"/>
+    </pattern>
+    <linearGradient id="bg" x1="80" y1="70" x2="450" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF4FB"/>
+      <stop offset="1" stop-color="#DDF8E8"/>
+    </linearGradient>
+  </defs>
+  <rect width="520" height="520" rx="72" fill="url(#bg)"/>
+  <rect width="520" height="520" rx="72" fill="url(#tone)"/>
+  <g stroke="#15324B" stroke-width="5" stroke-linecap="round" opacity=".22">
+    <path d="M262 42V6"/>
+    <path d="M262 514v-36"/>
+    <path d="M42 262H6"/>
+    <path d="M514 262h-36"/>
+    <path d="M106 106 72 72"/>
+    <path d="M414 106l34-34"/>
+    <path d="M106 414l-34 34"/>
+    <path d="M414 414l34 34"/>
+    <path d="M164 56l-14-36"/>
+    <path d="M356 56l14-36"/>
+    <path d="M164 464l-14 36"/>
+    <path d="M356 464l14 36"/>
+  </g>
+  <ellipse cx="260" cy="424" rx="150" ry="38" fill="#15324B" opacity=".12"/>
+  <path d="M130 420c18-86 73-134 130-134s112 48 130 134c-58 42-201 42-260 0Z" fill="#15324B" stroke="#0D2438" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M208 324h104l-52 62-52-62Z" fill="#FFFFFF" stroke="#0D2438" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M244 382h32l18 46h-68l18-46Z" fill="#FF7A00" stroke="#0D2438" stroke-width="7" stroke-linejoin="round"/>
+  <circle cx="260" cy="202" r="92" fill="#F4C7A1" stroke="#0D2438" stroke-width="10"/>
+  <path d="M156 194c0-76 45-128 108-128 68 0 109 45 111 124-26-20-54-29-89-30-40-2-86 8-130 34Z" fill="#15324B" stroke="#0D2438" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M177 184c20-26 56-42 99-40" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity=".35"/>
+  <path d="M196 201c15-13 35-13 50-1" stroke="#0D2438" stroke-width="8" stroke-linecap="round"/>
+  <path d="M274 200c16-12 36-12 51 1" stroke="#0D2438" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="224" cy="218" r="10" fill="#0D2438"/>
+  <circle cx="297" cy="218" r="10" fill="#0D2438"/>
+  <path d="M254 220c-5 20-9 33-15 44 11 7 28 7 40 0" stroke="#0D2438" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M224 276c23 22 53 22 75 0" stroke="#0D2438" stroke-width="8" stroke-linecap="round"/>
+  <path d="M142 260c-12-4-24-14-27-31 18-2 31 5 39 15" fill="#F4C7A1" stroke="#0D2438" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M378 260c12-4 24-14 27-31-18-2-31 5-39 15" fill="#F4C7A1" stroke="#0D2438" stroke-width="8" stroke-linejoin="round"/>
+  <g transform="translate(336 104)">
+    <path d="M28 0 13 34h32L22 82l64-63H51L70 0H28Z" fill="#22C55E" stroke="#0D2438" stroke-width="7" stroke-linejoin="round"/>
+  </g>
+  <g transform="translate(74 84)">
+    <rect x="0" y="0" width="92" height="64" rx="16" fill="#FFFFFF" stroke="#0D2438" stroke-width="7"/>
+    <path d="M20 22h52M20 42h35" stroke="#FF7A00" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>
