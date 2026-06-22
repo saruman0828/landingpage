@@ -16,10 +16,15 @@ const normalizeContact = (value) => clean(value, 200)
   .toLowerCase();
 
 const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-const isPhone = (value) => {
-  const digits = value.replace(/\D/g, "");
-  return digits.length >= 10 && digits.length <= 15 && /^[+()\d-]+$/.test(value);
-};
+
+const sendEmail = async (resendApiKey, payload) => fetch("https://api.resend.com/emails", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${resendApiKey}`,
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(payload)
+});
 
 module.exports = async (request, response) => {
   if (request.method !== "POST") {
@@ -48,18 +53,18 @@ module.exports = async (request, response) => {
 
   const contact = normalizeContact(body.contact || body.email || body.tel);
   const isContactEmail = isEmail(contact);
-  const isContactPhone = isPhone(contact);
   const company = clean(body.company, 120);
-  const name = clean(body.name, 80);
+  const suppliedName = clean(body.name, 80);
+  const name = suppliedName || "お申し込み者";
   const topic = clean(body.topic, 300);
   const message = clean(body.message, 2000);
 
-  if (!contact || !name) {
-    return json(response, 400, { message: "連絡先とお名前を入力してください。" });
+  if (!contact) {
+    return json(response, 400, { message: "メールアドレスを入力してください。" });
   }
 
-  if (!isContactEmail && !isContactPhone) {
-    return json(response, 400, { message: "メールアドレスまたは電話番号の形式を確認してください。" });
+  if (!isContactEmail) {
+    return json(response, 400, { message: "メールアドレスの形式を確認してください。" });
   }
 
   const subject = `30分診断の申し込み｜${company || name}`;
@@ -67,7 +72,7 @@ module.exports = async (request, response) => {
     "株式会社HAYASHI CREATIVEのLPから30分診断の申し込みがありました。",
     "",
     `連絡先：${contact}`,
-    `連絡先種別：${isContactEmail ? "メールアドレス" : "電話番号"}`,
+    "連絡先種別：メールアドレス",
     `お名前：${name}`,
     `会社名：${company || "未入力"}`,
     `相談の概略：${topic || "未選択"}`,
@@ -85,18 +90,9 @@ module.exports = async (request, response) => {
     text
   };
 
-  if (isContactEmail) {
-    resendPayload.reply_to = contact;
-  }
+  resendPayload.reply_to = contact;
 
-  const resendResponse = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${resendApiKey}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(resendPayload)
-  });
+  const resendResponse = await sendEmail(resendApiKey, resendPayload);
 
   if (!resendResponse.ok) {
     const errorText = await resendResponse.text().catch(() => "");
@@ -107,5 +103,47 @@ module.exports = async (request, response) => {
     return json(response, 502, { message: "メール送信に失敗しました。送信設定を確認してください。" });
   }
 
-  return json(response, 200, { ok: true });
+  let autoReplySent = false;
+
+  const autoReplyText = [
+    suppliedName ? `${suppliedName} 様` : "お申し込み者様",
+      "",
+      "株式会社HAYASHI CREATIVEです。",
+      "30分無料診断のお申し込みを受け付けました。",
+      "",
+      "内容を確認し、通常1〜2営業日以内にご連絡します。",
+      "",
+      "弊社からの返信が届くよう、迷惑メールフォルダの確認と、以下の差出人からの受信許可をお願いします。",
+      `差出人：${fromEmail}`,
+      "",
+      "ご相談内容：",
+      topic || "未選択",
+      "",
+      "補足：",
+      message || "未入力",
+      "",
+      "フォームから送信できない場合や返信が届かない場合は、ページ内のLINE QRコードから「30分診断希望」と送ってください。",
+      "",
+      "株式会社HAYASHI CREATIVE"
+  ].join("\n");
+
+  const autoReplyResponse = await sendEmail(resendApiKey, {
+    from: fromEmail,
+    to: [contact],
+    reply_to: toEmail,
+    subject: "30分無料診断のお申し込みを受け付けました",
+    text: autoReplyText
+  });
+
+  if (autoReplyResponse.ok) {
+    autoReplySent = true;
+  } else {
+    const errorText = await autoReplyResponse.text().catch(() => "");
+    console.error("Resend auto reply error", {
+      status: autoReplyResponse.status,
+      body: errorText
+    });
+  }
+
+  return json(response, 200, { ok: true, autoReplySent, autoReplyEligible: true });
 };
