@@ -26,6 +26,38 @@ const sendEmail = async (resendApiKey, payload) => fetch("https://api.resend.com
   body: JSON.stringify(payload)
 });
 
+const getRequestHeader = (request, headerName) => {
+  if (typeof request.headers?.get === "function") {
+    return request.headers.get(headerName) || "";
+  }
+
+  return request.headers?.[headerName] || request.headers?.[headerName.toLowerCase()] || "";
+};
+
+const parseContactRequestBody = (request) => {
+  if (typeof request.body === "object" && request.body) return request.body;
+  if (typeof request.body !== "string") return {};
+
+  const rawBody = request.body.trim();
+  if (!rawBody) return {};
+
+  const contentType = getRequestHeader(request, "content-type").toLowerCase();
+
+  if (contentType.includes("application/x-www-form-urlencoded")) {
+    return Object.fromEntries(new URLSearchParams(rawBody));
+  }
+
+  if (contentType.includes("application/json") || rawBody.startsWith("{")) {
+    return JSON.parse(rawBody);
+  }
+
+  if (rawBody.includes("=")) {
+    return Object.fromEntries(new URLSearchParams(rawBody));
+  }
+
+  return null;
+};
+
 module.exports = async (request, response) => {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -40,15 +72,15 @@ module.exports = async (request, response) => {
     return json(response, 500, { message: "送信設定が未完了です。" });
   }
 
-  let body = {};
-  if (typeof request.body === "string") {
-    try {
-      body = JSON.parse(request.body);
-    } catch {
-      return json(response, 400, { message: "送信内容を読み取れませんでした。" });
-    }
-  } else if (typeof request.body === "object" && request.body) {
-    body = request.body;
+  let body;
+  try {
+    body = parseContactRequestBody(request);
+  } catch {
+    return json(response, 400, { message: "送信内容を読み取れませんでした。" });
+  }
+
+  if (!body) {
+    return json(response, 400, { message: "送信内容を読み取れませんでした。" });
   }
 
   const contact = normalizeContact(body.contact || body.email || body.tel);
