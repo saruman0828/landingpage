@@ -32,6 +32,7 @@ h3{font-size:24px;line-height:1.35;color:var(--navy);margin:0 0 12px}
 .impact{font-size:22px;color:var(--navy)}
 .impact strong{background:linear-gradient(transparent 58%, rgba(34,197,94,.28) 0)}
 .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin:28px 0 10px}
+.cta-row.center{justify-content:center;margin-top:28px}
 .page-links{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0 0}
 .page-links.center{justify-content:center;margin-top:28px}
 .page-links a{display:inline-flex;align-items:center;gap:6px;padding:9px 13px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.82);color:var(--navy);font-size:14px;font-weight:900;box-shadow:0 8px 22px rgba(21,50,75,.08)}
