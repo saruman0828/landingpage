@@ -197,9 +197,9 @@
         <article class="profile-card">
           <img src="assets/brother-avatar.jpg" alt="AIとシステム設計を担当する人物の漫画風イラスト" />
           <div>
-            <span>AI・システム目線で仕組みに落とし込む人</span>
-            <h3>私の兄</h3>
-            <p>システムエンジニアとして10年以上、業務システムの設計・開発・運用改善に携わってきました。</p>
+            <span>AIをビジネスに応用、仕組み化するプロ</span>
+            <h3>私の兄 林 T</h3>
+            <p>東京にてシステムエンジニアとして10年以上、業務システムの設計・開発・運用改善に携わってきました。</p>
             <p>防衛省関連システムや選挙速報システムなど、高レベルのセキュリティと正確性が必要な領域で開発責任者を担当。ベンチャー企業では特許照合AIを1人で設計・開発し、要件整理から実装、精度改善までを一貫して担当しました。</p>
             <p>現在は東京大学のAI講義にて在籍講師をしながら、中小企業のAI（Artificial Intelligence、人工知能）活用による課題解決に取り組んでいます。</p>
             <ul>
@@ -277,11 +277,7 @@
 	      <p class="security-note">初回相談で機密資料の提出は不要です。必要に応じて秘密保持契約（NDA）に対応し、取り扱う情報・入力範囲・権限を事前に整理します。</p>
 	      <div id="contact-intake">
 	        <h3>まずはメールアドレスだけ入力してください。受付確認メールをお送りします。</h3>
-	        <form class="contact-form" action="https://formsubmit.co/0b239698323990ed50d174f1b83077b0" method="POST">
-	          <input type="hidden" name="_next" value="https://ai-business-lp.vercel.app/thanks.html">
-	          <input type="hidden" name="_subject" value="30分無料診断のお申し込み">
-	          <input type="hidden" name="_autoresponse" value="株式会社HAYASHI CREATIVEです。30分無料診断のお申し込みを受け付けました。内容を確認のうえ、通常1〜2営業日以内にご連絡します。">
-	          <input type="hidden" name="_template" value="table">
+	        <form class="contact-form" id="contact-form" novalidate>
 	        <div class="form-grid">
 	          <label class="wide">メールアドレス <span>受付確認メールをお送りします</span><input type="email" name="email" autocomplete="email" inputmode="email" placeholder="例：info@example.com" required></label>
 	          <div class="form-details wide">
@@ -318,5 +314,99 @@
   <footer>
 	    <p>© 株式会社HAYASHI CREATIVE. All rights reserved.</p>
   </footer>
+  <script>
+    (() => {
+      const form = document.getElementById("contact-form");
+      const status = document.getElementById("form-status");
+      if (!form || !status) return;
+
+      const sendFallbackAutoReply = async (payload) => {
+        const name = payload.name || "お申し込み者";
+        await fetch("https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            email: payload.email,
+            name,
+            _subject: "30分無料診断のお申し込み",
+            _template: "table",
+            _autoresponse: [
+              `${name} 様`,
+              "",
+              "株式会社HAYASHI CREATIVEです。",
+              "30分無料診断のお申し込みを受け付けました。",
+              "",
+              "内容を確認し、通常1〜2営業日以内にご連絡します。",
+              "",
+              "ご相談内容：",
+              payload.topic || "未選択",
+              "",
+              "補足：",
+              payload.message || "未入力",
+              "",
+              "株式会社HAYASHI CREATIVE"
+            ].join("\n"),
+            message: [
+              "受付確認メールの補助送信です。",
+              "",
+              `お名前：${name}`,
+              `メールアドレス：${payload.email}`,
+              `相談の概略：${payload.topic || "未選択"}`,
+              "",
+              "補足：",
+              payload.message || "未入力"
+            ].join("\n")
+          }),
+        }).catch(() => null);
+      };
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!form.reportValidity()) return;
+
+        const button = form.querySelector('button[type="submit"]');
+        const originalText = button ? button.textContent : "";
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+
+        status.dataset.state = "";
+        status.textContent = "送信中です。";
+        if (button) {
+          button.disabled = true;
+          button.textContent = "送信中...";
+        }
+
+        try {
+          const response = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            throw new Error("submit_failed");
+          }
+
+          const result = await response.json().catch(() => ({ autoReplySent: false }));
+          if (!result.autoReplySent && payload.email) {
+            await sendFallbackAutoReply(payload);
+          }
+
+          window.location.href = "/thanks.html";
+        } catch (error) {
+          status.dataset.state = "error";
+          status.textContent = "送信できませんでした。時間をおいて再度お試しください。お急ぎの場合はLINEからご連絡ください。";
+          if (button) {
+            button.disabled = false;
+            button.textContent = originalText;
+          }
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
