@@ -1,3 +1,5 @@
+const { randomUUID } = require("crypto");
+
 const json = (response, statusCode, body) => {
   response.statusCode = statusCode;
   response.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -21,61 +23,43 @@ const hasSmtpConfig = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_US
 const fallbackAutoReplyUrl =
   process.env.FALLBACK_AUTOREPLY_URL || "https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0";
 
+const createLogId = () => randomUUID().slice(0, 8);
+
+const cleanLogError = (value) => {
+  if (value === undefined || value === null || value === "") return undefined;
+
+  return String(value instanceof Error ? value.message : value)
+    .replace(/[^\s@]+@[^\s@]+\.[^\s@]+/g, "[email]")
+    .replace(/\+?\d[\d\s().-]{8,}\d/g, "[phone]")
+    .slice(0, 240);
+};
+
+const logContactEvent = ({ id, startedAt, step, ok, provider, status, error }) => {
+  const payload = {
+    id,
+    step,
+    ok,
+    elapsedMs: Date.now() - startedAt
+  };
+  const cleanedError = cleanLogError(error);
+
+  if (provider) payload.provider = provider;
+  if (status !== undefined) payload.status = status;
+  if (cleanedError) payload.error = cleanedError;
+
+  if (ok) {
+    console.info("contact_event", JSON.stringify(payload));
+  } else {
+    console.error("contact_event", JSON.stringify(payload));
+  }
+};
+
 const normalizePhone = (value) => clean(value, 80)
   .normalize("NFKC")
   .replace(/[‐‑‒–—―ー−－ｰ]/g, "")
   .replace(/[^\d+]/g, "");
 
-const toE164JapanPhone = (value) => {
-  const phone = normalizePhone(value);
-  if (!phone) return "";
-  if (phone.startsWith("+")) return phone;
-  if (phone.startsWith("81")) return `+${phone}`;
-  if (phone.startsWith("0")) return `+81${phone.slice(1)}`;
-  return phone;
-};
-
 const isValidPhone = (value) => /^\+?\d{10,15}$/.test(normalizePhone(value));
-
-const hasSmsConfig = () => Boolean(
-  process.env.TWILIO_ACCOUNT_SID &&
-  process.env.TWILIO_AUTH_TOKEN &&
-  process.env.TWILIO_FROM_NUMBER
-);
-
-const sendSms = async ({ to, body }) => {
-  if (!hasSmsConfig()) {
-    return { ok: false, skipped: true, reason: "sms_config_missing" };
-  }
-
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const fromNumber = process.env.TWILIO_FROM_NUMBER;
-  const auth = Buffer.from(`${accountSid}:${authToken}`).toString("base64");
-  const params = new URLSearchParams({
-    To: toE164JapanPhone(to),
-    From: fromNumber,
-    Body: body
-  });
-
-  const smsResponse = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${auth}`,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
-    body: params
-  });
-
-  if (smsResponse.ok) return { ok: true, provider: "twilio" };
-
-  return {
-    ok: false,
-    provider: "twilio",
-    status: smsResponse.status,
-    body: await smsResponse.text().catch(() => "")
-  };
-};
 
 const sendEmail = async (resendApiKey, payload) => fetch("https://api.resend.com/emails", {
   method: "POST",
@@ -180,22 +164,32 @@ const sendFallbackAutoReply = async ({ email, name, subject, text, summary }) =>
     return { ok: false, provider: "formsubmit", status: 400, body: "fallback_not_configured" };
   }
 
-  const response = await fetch(fallbackAutoReplyUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    },
-    body: JSON.stringify({
-      email,
-      name,
-      _subject: subject,
-      _template: "table",
-      _captcha: "false",
-      _autoresponse: text,
-      message: summary || text
-    })
-  });
+  let response;
+  try {
+    response = await fetch(fallbackAutoReplyUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify({
+        email,
+        name,
+        _subject: subject,
+        _template: "table",
+        _captcha: "false",
+        _autoresponse: text,
+        message: summary || text
+      })
+    });
+  } catch (error) {
+    return {
+      ok: false,
+      provider: "formsubmit",
+      status: 500,
+      body: error instanceof Error ? error.message : String(error)
+    };
+  }
 
   if (response.ok) {
     return { ok: true, provider: "formsubmit" };
@@ -210,8 +204,13 @@ const sendFallbackAutoReply = async ({ email, name, subject, text, summary }) =>
 };
 
 module.exports = async (request, response) => {
+  const startedAt = Date.now();
+  const id = createLogId();
+  logContactEvent({ id, startedAt, step: "received", ok: true });
+
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
+    logContactEvent({ id, startedAt, step: "validate", ok: false, status: 405, error: "method_not_allowed" });
     return json(response, 405, { message: "POSTのみ対応しています。" });
   }
 
@@ -226,10 +225,12 @@ module.exports = async (request, response) => {
   try {
     body = parseContactRequestBody(request);
   } catch {
+    logContactEvent({ id, startedAt, step: "validate", ok: false, status: 400, error: "invalid_body" });
     return json(response, 400, { message: "送信内容を読み取れませんでした。" });
   }
 
   if (!body) {
+    logContactEvent({ id, startedAt, step: "validate", ok: false, status: 400, error: "invalid_body" });
     return json(response, 400, { message: "送信内容を読み取れませんでした。" });
   }
 
@@ -250,16 +251,21 @@ module.exports = async (request, response) => {
   const currentUrl = clean(body.current_url, 400);
 
   if (!contact) {
+    logContactEvent({ id, startedAt, step: "validate", ok: false, status: 400, error: "missing_email" });
     return json(response, 400, { message: "メールアドレスを入力してください。" });
   }
 
   if (!isContactEmail) {
+    logContactEvent({ id, startedAt, step: "validate", ok: false, status: 400, error: "invalid_email" });
     return json(response, 400, { message: "メールアドレスの形式を確認してください。" });
   }
 
   if (phone && !isValidPhone(phone)) {
+    logContactEvent({ id, startedAt, step: "validate", ok: false, status: 400, error: "invalid_phone" });
     return json(response, 400, { message: "電話番号の形式を確認してください。" });
   }
+
+  logContactEvent({ id, startedAt, step: "validate", ok: true });
 
   const subjectPrefix = campaign || "30分診断";
   const subject = `${subjectPrefix}の申し込み｜${company || name}`;
@@ -326,12 +332,23 @@ module.exports = async (request, response) => {
     const resendResponse = await sendTransactionalEmail(resendPayload);
 
     if (resendResponse.ok) {
+      logContactEvent({
+        id,
+        startedAt,
+        step: "admin_email",
+        ok: true,
+        provider: resendResponse.provider
+      });
       contactEmailSent = true;
     } else {
-      console.error("Contact email error", {
+      logContactEvent({
+        id,
+        startedAt,
+        step: "admin_email",
+        ok: false,
         provider: resendResponse.provider,
         status: resendResponse.status,
-        body: resendResponse.body
+        error: resendResponse.body
       });
     }
   }
@@ -346,13 +363,24 @@ module.exports = async (request, response) => {
     });
 
     if (fallbackContactResponse.ok) {
+      logContactEvent({
+        id,
+        startedAt,
+        step: "fallback",
+        ok: true,
+        provider: fallbackContactResponse.provider
+      });
       contactEmailSent = true;
       autoReplySent = true;
     } else {
-      console.error("Fallback contact email error", {
+      logContactEvent({
+        id,
+        startedAt,
+        step: "fallback",
+        ok: false,
         provider: fallbackContactResponse.provider,
         status: fallbackContactResponse.status,
-        body: fallbackContactResponse.body
+        error: fallbackContactResponse.body
       });
       return json(response, 502, { message: "メール送信に失敗しました。送信設定を確認してください。" });
     }
@@ -368,13 +396,24 @@ module.exports = async (request, response) => {
     });
 
     if (autoReplyResponse.ok) {
+      logContactEvent({
+        id,
+        startedAt,
+        step: "auto_reply",
+        ok: true,
+        provider: autoReplyResponse.provider
+      });
       autoReplySent = true;
     } else {
       const errorText = autoReplyResponse.body || "";
-      console.error("Auto reply email error", {
+      logContactEvent({
+        id,
+        startedAt,
+        step: "auto_reply",
+        ok: false,
         provider: autoReplyResponse.provider,
         status: autoReplyResponse.status,
-        body: errorText
+        error: errorText
       });
 
       const fallbackResponse = await sendFallbackAutoReply({
@@ -396,12 +435,23 @@ module.exports = async (request, response) => {
       });
 
       if (fallbackResponse.ok) {
+        logContactEvent({
+          id,
+          startedAt,
+          step: "fallback",
+          ok: true,
+          provider: fallbackResponse.provider
+        });
         autoReplySent = true;
       } else {
-        console.error("Fallback auto reply email error", {
+        logContactEvent({
+          id,
+          startedAt,
+          step: "fallback",
+          ok: false,
           provider: fallbackResponse.provider,
           status: fallbackResponse.status,
-          body: fallbackResponse.body
+          error: fallbackResponse.body
         });
       }
 
@@ -429,11 +479,12 @@ module.exports = async (request, response) => {
           errorText || "詳細なし"
         ].join("\n")
       }).catch((error) => {
-        console.error("Auto reply fallback notice error", error);
+        logContactEvent({ id, startedAt, step: "auto_reply_notice", ok: false, error });
       });
     }
   }
 
+  logContactEvent({ id, startedAt, step: "completed", ok: true });
   return json(response, 200, {
     ok: true,
     autoReplySent,

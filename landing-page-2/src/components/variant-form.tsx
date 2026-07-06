@@ -13,56 +13,6 @@ const sourcePageLabels: Record<string, string> = {
 
 const thanksPath = "/thanks";
 
-const sendFallbackAutoReply = async (payload: Record<string, FormDataEntryValue | string>) => {
-  const email = String(payload.email || "");
-  if (!email) return;
-
-  const name = String(payload.name || "お申し込み者");
-  await fetch("https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      email,
-      name,
-      _subject: "最短2日AI集中キャンプのお申し込み",
-      _template: "table",
-      _autoresponse: [
-        `${name} 様`,
-        "",
-        "株式会社HAYASHI CREATIVEです。",
-        "最短2日AI集中キャンプのお申し込みを受け付けました。",
-        "",
-        "内容を確認し、通常1〜2営業日以内にご連絡します。",
-        "",
-        "お申し込み内容：",
-        `会社名：${String(payload.company || "未入力")}`,
-        `役職：${String(payload.role || "未入力")}`,
-        `従業員数：${String(payload.employees || "未入力")}`,
-        `電話番号：${String(payload.phone || "未入力")}`,
-        "",
-        "相談内容：",
-        String(payload.issue || "未入力"),
-        "",
-        "株式会社HAYASHI CREATIVE",
-      ].join("\n"),
-      message: [
-        "受付確認メールの補助送信です。",
-        "",
-        `会社名：${String(payload.company || "未入力")}`,
-        `氏名：${name}`,
-        `メールアドレス：${email}`,
-        `申込元：${String(payload.sourcePage || "最短2日AI集中キャンプ")}`,
-        "",
-        "相談内容：",
-        String(payload.issue || "未入力"),
-      ].join("\n"),
-    }),
-  }).catch(() => null);
-};
-
 type VariantFormProps = {
   variant: string;
   leadText: string;
@@ -110,10 +60,7 @@ export function VariantForm({
     try {
       trackEvent("form_submit_attempt", { form: "ai_implementation", variant });
 
-      const result = await submitLeadForm(payload);
-      if (!result.autoReplySent) {
-        await sendFallbackAutoReply(payload);
-      }
+      await submitLeadForm(payload);
 
       trackEvent("form_submit", { form: "ai_implementation", variant });
       trackEvent("form_submit_success", { form: "ai_implementation", variant });

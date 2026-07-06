@@ -148,51 +148,6 @@
     return message.slice(0, 160);
   };
 
-  const sendFallbackAutoReply = async (payload, fallback) => {
-    if (!fallback || !fallback.url) return;
-
-    const name = payload.name || "お申し込み者";
-    await fetch(fallback.url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        email: payload.email,
-        name,
-        _subject: fallback.subject || "30分無料診断のお申し込み",
-        _template: "table",
-        _autoresponse: [
-          `${name} 様`,
-          "",
-          "株式会社HAYASHI CREATIVEです。",
-          "お申し込みを受け付けました。",
-          "",
-          "内容を確認し、通常1〜2営業日以内にご連絡します。",
-          "",
-          "ご相談内容：",
-          payload.topic || "未選択",
-          "",
-          "補足：",
-          payload.message || "未入力",
-          "",
-          "株式会社HAYASHI CREATIVE"
-        ].join("\n"),
-        message: [
-          "受付確認メールの補助送信です。",
-          "",
-          `お名前：${name}`,
-          `メールアドレス：${payload.email}`,
-          `相談の概略：${payload.topic || "未選択"}`,
-          "",
-          "補足：",
-          payload.message || "未入力"
-        ].join("\n")
-      })
-    }).catch(() => null);
-  };
-
   const mount = (target, config = {}) => {
     const root = typeof target === "string" ? document.querySelector(target) : target;
     if (!root) return;
@@ -260,10 +215,7 @@
           throw new SubmitError(await readErrorMessage(response, config.errorText));
         }
 
-        const result = await response.json().catch(() => ({ autoReplySent: false }));
-        if (!result.autoReplySent && payload.email) {
-          await sendFallbackAutoReply(payload, config.fallbackAutoReply);
-        }
+        await response.json().catch(() => ({}));
 
         if (typeof config.onSubmitSuccess === "function") {
           config.onSubmitSuccess(payload);

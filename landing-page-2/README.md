@@ -9,6 +9,13 @@ pnpm install
 pnpm dev
 ```
 
+`pnpm` が使えない環境では、次で確認できます。
+
+```bash
+npm install
+npm run dev
+```
+
 確認URL:
 
 - 社長の右腕AI・参謀LP: http://localhost:3000
@@ -17,6 +24,30 @@ pnpm dev
 - A 現場改善型: http://localhost:3000/variant-a
 - B案の旧URLからの転送: http://localhost:3000/variant-b
 - C 経営者解放・仕組み継承型: http://localhost:3000/variant-c
+
+## 問い合わせログ確認
+
+ローカルでもVercelでも、問い合わせAPIは同じ形式のログを出します。顧客向け画面には表示しません。
+
+- Next.js側: `diagnosis_event`
+- 静的LP互換API側: `contact_event`
+
+- `id`: 1回の送信を追うための短いID
+- `step`: `received`, `validate`, `notify_webhook`, `admin_email`, `auto_reply`, `proxy_contact_api`, `fallback`, `completed`
+- `ok`: 成功/失敗
+- `provider`: `smtp`, `resend`, `main_contact_api`, `formsubmit`
+
+ローカルでは、`npm run dev` または `pnpm dev` を実行しているターミナルで確認します。
+
+Vercelでは、次のように確認します。
+
+```bash
+vercel logs --since 24h --query diagnosis_event
+vercel logs --since 24h --query contact_event
+vercel logs --since 24h --level error
+```
+
+見方は、同じ `id` のログを上から追います。`admin_email` が失敗していれば管理者通知、`auto_reply` が失敗していれば自動返信、`fallback` が失敗していれば代替送信を確認します。
 
 ## 統合方針
 

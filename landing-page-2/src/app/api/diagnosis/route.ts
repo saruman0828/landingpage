@@ -1,12 +1,62 @@
+import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { leadLabels, normalizeLeadPayload, validateLeadPayload } from "@/lib/lead-form";
+
+export const runtime = "nodejs";
 
 const mainContactApi = "https://ai-business-lp.vercel.app/api/contact";
 
 const hasSmtpConfig = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
 const fallbackAutoReplyUrl =
   process.env.FALLBACK_AUTOREPLY_URL || "https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0";
+
+const createLogId = () => randomUUID().slice(0, 8);
+
+const cleanLogError = (value: unknown) => {
+  if (value === undefined || value === null || value === "") return undefined;
+
+  return String(value instanceof Error ? value.message : value)
+    .replace(/[^\s@]+@[^\s@]+\.[^\s@]+/g, "[email]")
+    .replace(/\+?\d[\d\s().-]{8,}\d/g, "[phone]")
+    .slice(0, 240);
+};
+
+const logDiagnosisEvent = ({
+  id,
+  startedAt,
+  step,
+  ok,
+  provider,
+  status,
+  error,
+}: {
+  id: string;
+  startedAt: number;
+  step: string;
+  ok: boolean;
+  provider?: string;
+  status?: number | string;
+  error?: unknown;
+}) => {
+  const payload: Record<string, string | number | boolean> = {
+    id,
+    step,
+    ok,
+    elapsedMs: Date.now() - startedAt,
+  };
+  const cleanedError = cleanLogError(error);
+
+  if (provider) payload.provider = provider;
+  if (status !== undefined) payload.status = status;
+  if (cleanedError) payload.error = cleanedError;
+
+  if (ok) {
+    console.info("diagnosis_event", JSON.stringify(payload));
+  } else {
+    console.error("diagnosis_event", JSON.stringify(payload));
+  }
+};
 
 type EmailPayload = {
   from: string;
@@ -109,22 +159,32 @@ const sendFallbackAutoReply = async ({
     return { ok: false, provider: "formsubmit", status: 400, body: "fallback_not_configured" };
   }
 
-  const response = await fetch(fallbackAutoReplyUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      email,
-      name,
-      _subject: subject,
-      _template: "table",
-      _captcha: "false",
-      _autoresponse: text,
-      message: summary,
-    }),
-  });
+  let response: Response;
+  try {
+    response = await fetch(fallbackAutoReplyUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        name,
+        _subject: subject,
+        _template: "table",
+        _captcha: "false",
+        _autoresponse: text,
+        message: summary,
+      }),
+    });
+  } catch (error: unknown) {
+    return {
+      ok: false,
+      provider: "formsubmit",
+      status: 500,
+      body: error instanceof Error ? error.message : String(error),
+    };
+  }
 
   if (response.ok) {
     return { ok: true, provider: "formsubmit" };
@@ -139,14 +199,20 @@ const sendFallbackAutoReply = async ({
 };
 
 export async function POST(request: Request) {
+  const startedAt = Date.now();
+  const id = createLogId();
+  logDiagnosisEvent({ id, startedAt, step: "received", ok: true });
+
   const body = (await request.json().catch(() => null)) as Record<string, unknown> | null;
 
   if (!body) {
+    logDiagnosisEvent({ id, startedAt, step: "validate", ok: false, error: "invalid_json" });
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
 
   const validation = validateLeadPayload(body);
   if (!validation.ok) {
+    logDiagnosisEvent({ id, startedAt, step: "validate", ok: false, error: validation.error });
     return NextResponse.json(
       { ok: false, error: validation.error, missing: validation.missing },
       { status: 400 },
@@ -160,23 +226,31 @@ export async function POST(request: Request) {
   };
   const receivedAt = new Date().toISOString();
 
-  console.info("diagnosis_lead", {
-    ...lead,
-    receivedAt,
-  });
+  logDiagnosisEvent({ id, startedAt, step: "validate", ok: true });
 
   if (process.env.DIAGNOSIS_NOTIFY_WEBHOOK) {
-    await fetch(process.env.DIAGNOSIS_NOTIFY_WEBHOOK, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        event: "diagnosis_lead",
-        lead,
-        receivedAt,
-      }),
-    }).catch((error: unknown) => {
-      console.error("diagnosis_webhook_failed", error);
-    });
+    try {
+      const webhookResponse = await fetch(process.env.DIAGNOSIS_NOTIFY_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          event: "diagnosis_lead",
+          lead,
+          receivedAt,
+        }),
+      });
+
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "notify_webhook",
+        ok: webhookResponse.ok,
+        status: webhookResponse.status,
+        error: webhookResponse.ok ? undefined : "webhook_http_error",
+      });
+    } catch (error: unknown) {
+      logDiagnosisEvent({ id, startedAt, step: "notify_webhook", ok: false, error });
+    }
   }
 
   const topic =
@@ -253,14 +327,26 @@ export async function POST(request: Request) {
     });
 
     if (!adminResponse.ok) {
-      console.error("diagnosis_admin_email_failed", {
-        status: adminResponse.status,
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "admin_email",
+        ok: false,
         provider: adminResponse.provider,
-        body: adminResponse.body,
+        status: adminResponse.status,
+        error: adminResponse.body,
       });
 
       const fallbackResponse = await sendFormSubmitFallback();
       if (fallbackResponse.ok) {
+        logDiagnosisEvent({
+          id,
+          startedAt,
+          step: "fallback",
+          ok: true,
+          provider: fallbackResponse.provider,
+        });
+        logDiagnosisEvent({ id, startedAt, step: "completed", ok: true });
         return NextResponse.json({
           ok: true,
           provider: "formsubmit",
@@ -270,13 +356,25 @@ export async function POST(request: Request) {
         });
       }
 
-      console.error("diagnosis_fallback_contact_failed", {
-        status: fallbackResponse.status,
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "fallback",
+        ok: false,
         provider: fallbackResponse.provider,
-        body: fallbackResponse.body,
+        status: fallbackResponse.status,
+        error: fallbackResponse.body,
       });
       return NextResponse.json({ ok: false, error: "email_failed" }, { status: 502 });
     }
+
+    logDiagnosisEvent({
+      id,
+      startedAt,
+      step: "admin_email",
+      ok: true,
+      provider: adminResponse.provider,
+    });
 
     const autoReplyResponse = await sendTransactionalEmail({
       from: fromEmail,
@@ -289,10 +387,14 @@ export async function POST(request: Request) {
     let autoReplySent = false;
 
     if (!autoReplyResponse.ok) {
-      console.error("diagnosis_auto_reply_failed", {
-        status: autoReplyResponse.status,
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "auto_reply",
+        ok: false,
         provider: autoReplyResponse.provider,
-        body: autoReplyResponse.body,
+        status: autoReplyResponse.status,
+        error: autoReplyResponse.body,
       });
 
       const fallbackResponse = await sendFallbackAutoReply({
@@ -304,12 +406,23 @@ export async function POST(request: Request) {
       });
 
       if (fallbackResponse.ok) {
+        logDiagnosisEvent({
+          id,
+          startedAt,
+          step: "fallback",
+          ok: true,
+          provider: fallbackResponse.provider,
+        });
         autoReplySent = true;
       } else {
-        console.error("diagnosis_fallback_auto_reply_failed", {
-          status: fallbackResponse.status,
+        logDiagnosisEvent({
+          id,
+          startedAt,
+          step: "fallback",
+          ok: false,
           provider: fallbackResponse.provider,
-          body: fallbackResponse.body,
+          status: fallbackResponse.status,
+          error: fallbackResponse.body,
         });
       }
 
@@ -332,12 +445,20 @@ export async function POST(request: Request) {
           autoReplyResponse.body || "詳細なし",
         ].join("\n"),
       }).catch((error: unknown) => {
-        console.error("diagnosis_auto_reply_fallback_notice_failed", error);
+        logDiagnosisEvent({ id, startedAt, step: "auto_reply_notice", ok: false, error });
       });
     } else {
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "auto_reply",
+        ok: true,
+        provider: autoReplyResponse.provider,
+      });
       autoReplySent = true;
     }
 
+    logDiagnosisEvent({ id, startedAt, step: "completed", ok: true });
     return NextResponse.json({
       ok: true,
       autoReplySent,
@@ -363,13 +484,26 @@ export async function POST(request: Request) {
 
     if (!response.ok) {
       const responseBody = await response.text().catch(() => "");
-      console.error("diagnosis_proxy_failed", {
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "proxy_contact_api",
+        ok: false,
+        provider: "main_contact_api",
         status: response.status,
-        body: responseBody,
+        error: responseBody,
       });
 
       const fallbackResponse = await sendFormSubmitFallback();
       if (fallbackResponse.ok) {
+        logDiagnosisEvent({
+          id,
+          startedAt,
+          step: "fallback",
+          ok: true,
+          provider: fallbackResponse.provider,
+        });
+        logDiagnosisEvent({ id, startedAt, step: "completed", ok: true });
         return NextResponse.json({
           ok: true,
           provider: "formsubmit",
@@ -379,23 +513,86 @@ export async function POST(request: Request) {
         });
       }
 
-      console.error("diagnosis_proxy_fallback_failed", {
-        status: fallbackResponse.status,
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "fallback",
+        ok: false,
         provider: fallbackResponse.provider,
-        body: fallbackResponse.body,
+        status: fallbackResponse.status,
+        error: fallbackResponse.body,
       });
       return NextResponse.json({ ok: false, error: "email_failed" }, { status: 502 });
     }
 
+    logDiagnosisEvent({
+      id,
+      startedAt,
+      step: "proxy_contact_api",
+      ok: true,
+      provider: "main_contact_api",
+      status: response.status,
+    });
+
     const result = await response.json().catch(() => ({ ok: true }));
 
     if (!result.autoReplySent) {
-      console.error("diagnosis_proxy_auto_reply_failed", {
-        reason: "proxied_api_did_not_confirm_auto_reply",
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "auto_reply",
+        ok: false,
+        provider: "main_contact_api",
+        error: "proxied_api_did_not_confirm_auto_reply",
+      });
+
+      const fallbackResponse = await sendFallbackAutoReply({
+        email: lead.email,
+        name: lead.name,
+        subject: "最短2日AI集中キャンプのお申し込みを受け付けました",
+        text: autoReplyText,
+        summary: fallbackSummary,
+      });
+
+      if (fallbackResponse.ok) {
+        logDiagnosisEvent({
+          id,
+          startedAt,
+          step: "fallback",
+          ok: true,
+          provider: fallbackResponse.provider,
+        });
+        logDiagnosisEvent({ id, startedAt, step: "completed", ok: true });
+        return NextResponse.json({
+          ok: true,
+          proxied: true,
+          provider: "formsubmit",
+          autoReplySent: true,
+          smsAutoReplySent: false,
+          smsAutoReplySkipped: true,
+        });
+      }
+
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "fallback",
+        ok: false,
+        provider: fallbackResponse.provider,
+        status: fallbackResponse.status,
+        error: fallbackResponse.body,
       });
       return NextResponse.json({ ok: true, proxied: true, autoReplySent: false });
     }
 
+    logDiagnosisEvent({
+      id,
+      startedAt,
+      step: "auto_reply",
+      ok: true,
+      provider: "main_contact_api",
+    });
+    logDiagnosisEvent({ id, startedAt, step: "completed", ok: true });
     return NextResponse.json({
       ok: true,
       proxied: true,
@@ -404,9 +601,24 @@ export async function POST(request: Request) {
       smsAutoReplySkipped: Boolean(result.smsAutoReplySkipped),
     });
   } catch (error: unknown) {
-    console.error("diagnosis_proxy_error", error);
+    logDiagnosisEvent({
+      id,
+      startedAt,
+      step: "proxy_contact_api",
+      ok: false,
+      provider: "main_contact_api",
+      error,
+    });
     const fallbackResponse = await sendFormSubmitFallback();
     if (fallbackResponse.ok) {
+      logDiagnosisEvent({
+        id,
+        startedAt,
+        step: "fallback",
+        ok: true,
+        provider: fallbackResponse.provider,
+      });
+      logDiagnosisEvent({ id, startedAt, step: "completed", ok: true });
       return NextResponse.json({
         ok: true,
         provider: "formsubmit",
@@ -416,10 +628,14 @@ export async function POST(request: Request) {
       });
     }
 
-    console.error("diagnosis_proxy_error_fallback_failed", {
-      status: fallbackResponse.status,
+    logDiagnosisEvent({
+      id,
+      startedAt,
+      step: "fallback",
+      ok: false,
       provider: fallbackResponse.provider,
-      body: fallbackResponse.body,
+      status: fallbackResponse.status,
+      error: fallbackResponse.body,
     });
     return NextResponse.json({ ok: false, error: "email_failed" }, { status: 502 });
   }
