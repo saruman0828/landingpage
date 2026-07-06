@@ -2,8 +2,9 @@
 
 import { FormEvent, useState } from "react";
 import { trackEvent } from "./cta-link";
+import { EmployeeSelect, Field } from "./form-controls";
+import { formDataToLeadPayload, getLeadSubmitErrorMessage, submitLeadForm } from "@/lib/lead-form";
 
-const employeeOptions = ["5名未満", "5〜10名", "11〜30名", "31〜50名", "51名以上"];
 const calendarUrl = process.env.NEXT_PUBLIC_CALENDAR_URL;
 
 export function ContactForm() {
@@ -21,33 +22,27 @@ export function ContactForm() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (isSubmitting) return;
     setIsSubmitting(true);
     setErrorMessage("");
     const form = event.currentTarget;
-    const formData = new FormData(form);
+    const payload = formDataToLeadPayload(form, {
+      sourcePage: "社長業務AI化診断",
+      pagePath: window.location.href,
+    });
 
     try {
       trackEvent("form_submit_attempt", { form: "diagnosis" });
 
-      const response = await fetch("/api/diagnosis", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(formData.entries())),
-      });
-
-      if (!response.ok) {
-        throw new Error("submit_failed");
-      }
+      await submitLeadForm(payload);
 
       trackEvent("form_submit", { form: "diagnosis" });
       trackEvent("form_submit_success", { form: "diagnosis" });
       setSubmitted(true);
       form.reset();
-    } catch {
+    } catch (error) {
       trackEvent("form_submit_error", { form: "diagnosis" });
-      setErrorMessage(
-        "送信できませんでした。時間をおいて再度お試しください。お急ぎの場合は直接ご連絡ください。",
-      );
+      setErrorMessage(getLeadSubmitErrorMessage(error));
     } finally {
       setIsSubmitting(false);
     }
@@ -77,17 +72,7 @@ export function ContactForm() {
         <Field label="氏名" name="name" required />
         <Field label="役職（任意）" name="role" />
         <Field label="連絡先（メールアドレス）" name="email" type="email" required />
-        <label className="block">
-          <span className="form-label">従業員数（任意）</span>
-          <select name="employees" className="form-input">
-            <option value="">選択してください</option>
-            {employeeOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </label>
+        <EmployeeSelect label="従業員数" />
         <label className="block">
           <span className="form-label">現在もっとも困っている業務</span>
           <textarea
@@ -143,24 +128,5 @@ export function ContactForm() {
         </div>
       ) : null}
     </section>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  required = false,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  required?: boolean;
-}) {
-  return (
-    <label className="block">
-      <span className="form-label">{label}</span>
-      <input name={name} type={type} required={required} className="form-input" />
-    </label>
   );
 }

@@ -10,6 +10,20 @@
 
   const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
+  const normalizePhone = (value) => String(value || "")
+    .normalize("NFKC")
+    .replace(/[‐‑‒–—―ー−－ｰ]/g, "")
+    .replace(/[^\d+]/g, "");
+
+  const isPhone = (value) => /^\+?\d{10,15}$/.test(normalizePhone(value));
+
+  class SubmitError extends Error {
+    constructor(message) {
+      super(message || "submit_failed");
+      this.name = "SubmitError";
+    }
+  }
+
   const createElement = (tagName, attributes = {}, children = []) => {
     const element = document.createElement(tagName);
 
@@ -101,6 +115,39 @@
     return true;
   };
 
+  const preparePhoneInput = (form) => {
+    const phoneInput = form.elements.phone || form.elements.tel;
+    if (!phoneInput) return true;
+
+    phoneInput.value = normalizePhone(phoneInput.value);
+    phoneInput.setCustomValidity("");
+
+    if (phoneInput.value && !isPhone(phoneInput.value)) {
+      phoneInput.setCustomValidity("電話番号の形式を確認してください。電話番号は任意です。空欄でも送信できます。");
+      return false;
+    }
+
+    return true;
+  };
+
+  const readErrorMessage = async (response, fallback) => {
+    const fallbackMessage = fallback || "送信できませんでした。時間をおいて再度お試しください。";
+    const contentType = response.headers.get("content-type") || "";
+
+    if (contentType.includes("application/json")) {
+      const body = await response.json().catch(() => null);
+      return body && typeof body.message === "string" ? body.message : fallbackMessage;
+    }
+
+    const text = await response.text().catch(() => "");
+    const message = text.trim();
+    if (!message || /<\s*!doctype|<\s*html|<\s*body|<\s*h1/i.test(message)) {
+      return fallbackMessage;
+    }
+
+    return message.slice(0, 160);
+  };
+
   const sendFallbackAutoReply = async (payload, fallback) => {
     if (!fallback || !fallback.url) return;
 
@@ -182,8 +229,8 @@
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      prepareEmailInput(form);
-      if (!form.reportValidity()) return;
+      const isValid = prepareEmailInput(form) && preparePhoneInput(form);
+      if (!isValid || !form.reportValidity()) return;
 
       const originalText = button.textContent;
       const payload = Object.fromEntries(new FormData(form).entries());
@@ -209,7 +256,9 @@
           body: JSON.stringify(payload)
         });
 
-        if (!response.ok) throw new Error("submit_failed");
+        if (!response.ok) {
+          throw new SubmitError(await readErrorMessage(response, config.errorText));
+        }
 
         const result = await response.json().catch(() => ({ autoReplySent: false }));
         if (!result.autoReplySent && payload.email) {
@@ -225,7 +274,10 @@
           config.onSubmitError(payload, error);
         }
         status.dataset.state = "error";
-        status.textContent = config.errorText || "送信できませんでした。時間をおいて再度お試しください。";
+        status.textContent =
+          error instanceof SubmitError
+            ? error.message
+            : (config.errorText || "送信できませんでした。時間をおいて再度お試しください。");
         button.disabled = false;
         button.textContent = originalText;
       }

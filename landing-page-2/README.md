@@ -74,9 +74,13 @@ URL: `/variant-c`
 - CTA文言: `AIマスター集中キャンプの相談を予約する`
 - 固定CTA: iPhone表示で画面下に表示
 - 計測イベント:
+  - `page_view`
   - `cta_click`
+  - `nav_click`
   - `form_start`
-  - `form_submit`
+  - `form_submit_attempt`
+  - `form_submit_success`
+  - `form_submit_error`
   - `calendar_open`
   - `calendar_booked`（`?booked=1` で発火）
 - 禁止表現:

@@ -2,6 +2,9 @@
   "name": "ai-business-lp",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dev": "node scripts/local-dev-server.js"
+  },
   "dependencies": {
     "nodemailer": "^6.9.16"
   }

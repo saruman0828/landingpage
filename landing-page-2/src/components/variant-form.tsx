@@ -2,8 +2,8 @@
 
 import { FormEvent, useState } from "react";
 import { trackEvent } from "./cta-link";
-
-const employeeOptions = ["5名未満", "5〜10名", "11〜30名", "31〜50名", "51名以上"];
+import { EmployeeSelect, Field } from "./form-controls";
+import { formDataToLeadPayload, getLeadSubmitErrorMessage, submitLeadForm } from "@/lib/lead-form";
 
 const sourcePageLabels: Record<string, string> = {
   a: "A案LP：現場改善型",
@@ -97,31 +97,20 @@ export function VariantForm({
     const form = event.currentTarget;
 
     event.preventDefault();
+    if (isSubmitting) return;
     setIsSubmitting(true);
     setErrorMessage("");
 
-    const formData = new FormData(form);
-    const payload = {
-      ...Object.fromEntries(formData.entries()),
+    const payload = formDataToLeadPayload(form, {
       variant,
       sourcePage: sourcePageLabels[variant] ?? "AI実装LP",
       pagePath: window.location.href,
-    };
+    });
 
     try {
       trackEvent("form_submit_attempt", { form: "ai_implementation", variant });
 
-      const response = await fetch("/api/diagnosis", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        throw new Error("submit_failed");
-      }
-
-      const result = await response.json().catch(() => ({ autoReplySent: false }));
+      const result = await submitLeadForm(payload);
       if (!result.autoReplySent) {
         await sendFallbackAutoReply(payload);
       }
@@ -130,11 +119,9 @@ export function VariantForm({
       trackEvent("form_submit_success", { form: "ai_implementation", variant });
       form.reset();
       window.location.href = `${thanksPath}?source=${encodeURIComponent(sourcePageLabels[variant] ?? "AI実装LP")}`;
-    } catch {
+    } catch (error) {
       trackEvent("form_submit_error", { form: "ai_implementation", variant });
-      setErrorMessage(
-        "送信できませんでした。受付確認メールを送る設定を確認しています。お急ぎの場合は直接ご連絡ください。",
-      );
+      setErrorMessage(getLeadSubmitErrorMessage(error));
     } finally {
       setIsSubmitting(false);
     }
@@ -187,20 +174,7 @@ export function VariantForm({
             placeholder="例：info@example.com"
             required
           />
-          <label className="block">
-            <span className="form-label">
-              従業員数
-              <span className="ml-2 text-sm font-bold text-[#6B7D8F]">任意</span>
-            </span>
-            <select name="employees" className="form-input">
-              <option value="">選択してください</option>
-              {employeeOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </label>
+          <EmployeeSelect />
           <Field
             label="電話番号"
             note="任意"
@@ -240,43 +214,5 @@ export function VariantForm({
         </div>
       ) : null}
     </section>
-  );
-}
-
-function Field({
-  label,
-  note,
-  name,
-  type = "text",
-  autoComplete,
-  inputMode,
-  placeholder,
-  required = false,
-}: {
-  label: string;
-  note?: string;
-  name: string;
-  type?: string;
-  autoComplete?: string;
-  inputMode?: "email" | "tel" | "text" | "url" | "none" | "numeric" | "decimal" | "search";
-  placeholder?: string;
-  required?: boolean;
-}) {
-  return (
-    <label className="block">
-      <span className="form-label">
-        {label}
-        {note ? <span className="ml-2 text-sm font-bold text-[#6B7D8F]">{note}</span> : null}
-      </span>
-      <input
-        name={name}
-        type={type}
-        autoComplete={autoComplete}
-        inputMode={inputMode}
-        placeholder={placeholder}
-        required={required}
-        className="form-input"
-      />
-    </label>
   );
 }

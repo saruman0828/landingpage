@@ -19,6 +19,7 @@ type Counts = {
   form_submit_attempt: number;
   form_submit_success: number;
   form_submit_error: number;
+  calendar_open: number;
   calendar_booked: number;
 };
 
@@ -40,6 +41,7 @@ const emptyCounts: Counts = {
   form_submit_attempt: 0,
   form_submit_success: 0,
   form_submit_error: 0,
+  calendar_open: 0,
   calendar_booked: 0,
 };
 

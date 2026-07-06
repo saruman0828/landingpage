@@ -9,6 +9,7 @@
 - `form_submit_attempt`: フォーム送信ボタン押下
 - `form_submit_success`: 送信成功
 - `form_submit_error`: 送信失敗
+- `calendar_open`: 日程予約リンクのクリック
 - `calendar_booked`: 予約完了URLから戻った場合
 
 ## 主な分析指標

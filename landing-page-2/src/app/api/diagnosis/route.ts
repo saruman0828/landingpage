@@ -1,39 +1,12 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { leadLabels, normalizeLeadPayload, validateLeadPayload } from "@/lib/lead-form";
 
-const requiredFields = ["company", "name", "email"];
 const mainContactApi = "https://ai-business-lp.vercel.app/api/contact";
-
-const clean = (value: unknown, maxLength = 1200) => {
-  if (typeof value !== "string") return "";
-  return value.trim().slice(0, maxLength);
-};
-
-const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const hasSmtpConfig = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
 const fallbackAutoReplyUrl =
   process.env.FALLBACK_AUTOREPLY_URL || "https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0";
-
-const normalizePhone = (value: unknown) =>
-  clean(value, 80)
-    .normalize("NFKC")
-    .replace(/[^\d+]/g, "");
-
-const isValidPhone = (value: string) => /^\+?\d{10,15}$/.test(normalizePhone(value));
-
-const labels: Record<string, string> = {
-  company: "会社名",
-  name: "氏名",
-  role: "役職",
-  email: "メールアドレス",
-  employees: "従業員数",
-  issue: "相談内容",
-  phone: "電話番号",
-  variant: "LP種別",
-  sourcePage: "送信元ページ",
-  pagePath: "送信元URL",
-};
 
 type EmailPayload = {
   from: string;
@@ -95,7 +68,17 @@ const sendTransactionalEmail = async (payload: EmailPayload) => {
     return { ok: false, provider: "none", status: 500, body: "送信設定が未完了です。" };
   }
 
-  const response = await sendEmail(resendApiKey, payload);
+  let response: Response;
+  try {
+    response = await sendEmail(resendApiKey, payload);
+  } catch (error: unknown) {
+    return {
+      ok: false,
+      provider: "resend",
+      status: 500,
+      body: error instanceof Error ? error.message : String(error),
+    };
+  }
 
   if (response.ok) {
     return { ok: true, provider: "resend" };
@@ -162,34 +145,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
 
-  const missing = requiredFields.filter((field) => !String(body[field] ?? "").trim());
-  if (missing.length > 0) {
-    return NextResponse.json({ ok: false, error: "missing_fields", missing }, { status: 400 });
+  const validation = validateLeadPayload(body);
+  if (!validation.ok) {
+    return NextResponse.json(
+      { ok: false, error: validation.error, missing: validation.missing },
+      { status: 400 },
+    );
   }
 
-  const email = clean(body.email, 200).normalize("NFKC").replace(/\s+/g, "").toLowerCase();
-
-  if (!isEmail(email)) {
-    return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
-  }
-
-  const normalizedPhone = normalizePhone(body.phone);
-
-  if (normalizedPhone && !isValidPhone(normalizedPhone)) {
-    return NextResponse.json({ ok: false, error: "invalid_phone" }, { status: 400 });
-  }
-
+  const normalizedLead = normalizeLeadPayload(body);
   const lead = {
-    company: clean(body.company, 120),
-    name: clean(body.name, 80),
-    role: clean(body.role, 80),
-    email,
-    employees: clean(body.employees, 80),
-    issue: clean(body.issue, 2000),
-    phone: normalizedPhone,
-    variant: clean(body.variant, 80) || "unknown",
-    sourcePage: clean(body.sourcePage, 120) || "不明",
-    pagePath: clean(body.pagePath, 300) || request.headers.get("referer") || "不明",
+    ...normalizedLead,
+    pagePath: normalizedLead.pagePath || request.headers.get("referer") || "不明",
   };
   const receivedAt = new Date().toISOString();
 
@@ -222,7 +189,7 @@ export async function POST(request: Request) {
     "LPから問い合わせがありました。",
     `申込元: ${topic}`,
     "",
-    ...Object.entries(lead).map(([key, value]) => `${labels[key] ?? key}: ${value || "未入力"}`),
+    ...Object.entries(lead).map(([key, value]) => `${leadLabels[key] ?? key}: ${value || "未入力"}`),
     "",
     `受信日時: ${receivedAt}`,
   ].join("\n");
@@ -234,6 +201,47 @@ export async function POST(request: Request) {
     process.env.CONTACT_FROM_EMAIL ||
     "株式会社HAYASHI CREATIVE <onboarding@resend.dev>";
   const hasEmailConfig = Boolean(toEmail && (resendApiKey || hasSmtpConfig()));
+  const autoReplyText = [
+    `${lead.name} 様`,
+    "",
+    "株式会社HAYASHI CREATIVEです。",
+    "最短2日AI集中キャンプのお申し込みを受け付けました。",
+    "",
+    "内容を確認し、通常1〜2営業日以内にご連絡します。",
+    "",
+    "お申し込み内容：",
+    `会社名：${lead.company}`,
+    `氏名：${lead.name}`,
+    `役職：${lead.role || "未入力"}`,
+    `従業員数：${lead.employees || "未入力"}`,
+    `電話番号：${lead.phone || "未入力"}`,
+    "",
+    "相談内容：",
+    lead.issue || "未入力",
+    "",
+    "このメールにお心当たりがない場合は、そのまま破棄してください。",
+    "",
+    "株式会社HAYASHI CREATIVE",
+  ].join("\n");
+  const fallbackSummary = [
+    "受付確認メールの補助送信です。",
+    "",
+    `会社名：${lead.company}`,
+    `氏名：${lead.name}`,
+    `メールアドレス：${lead.email}`,
+    `申込元：${lead.sourcePage}`,
+    "",
+    "相談内容：",
+    lead.issue || "未入力",
+  ].join("\n");
+  const sendFormSubmitFallback = () =>
+    sendFallbackAutoReply({
+      email: lead.email,
+      name: lead.name,
+      subject: adminSubject,
+      text: autoReplyText,
+      summary: message,
+    });
 
   if (hasEmailConfig && toEmail) {
     const adminResponse = await sendTransactionalEmail({
@@ -250,31 +258,25 @@ export async function POST(request: Request) {
         provider: adminResponse.provider,
         body: adminResponse.body,
       });
+
+      const fallbackResponse = await sendFormSubmitFallback();
+      if (fallbackResponse.ok) {
+        return NextResponse.json({
+          ok: true,
+          provider: "formsubmit",
+          autoReplySent: true,
+          smsAutoReplySent: false,
+          smsAutoReplySkipped: true,
+        });
+      }
+
+      console.error("diagnosis_fallback_contact_failed", {
+        status: fallbackResponse.status,
+        provider: fallbackResponse.provider,
+        body: fallbackResponse.body,
+      });
       return NextResponse.json({ ok: false, error: "email_failed" }, { status: 502 });
     }
-
-    const autoReplyText = [
-      `${lead.name} 様`,
-      "",
-      "株式会社HAYASHI CREATIVEです。",
-      "最短2日AI集中キャンプのお申し込みを受け付けました。",
-      "",
-      "内容を確認し、通常1〜2営業日以内にご連絡します。",
-      "",
-      "お申し込み内容：",
-      `会社名：${lead.company}`,
-      `氏名：${lead.name}`,
-      `役職：${lead.role || "未入力"}`,
-      `従業員数：${lead.employees || "未入力"}`,
-      `電話番号：${lead.phone || "未入力"}`,
-      "",
-      "相談内容：",
-      lead.issue || "未入力",
-      "",
-      "このメールにお心当たりがない場合は、そのまま破棄してください。",
-      "",
-      "株式会社HAYASHI CREATIVE",
-    ].join("\n");
 
     const autoReplyResponse = await sendTransactionalEmail({
       from: fromEmail,
@@ -298,17 +300,7 @@ export async function POST(request: Request) {
         name: lead.name,
         subject: "最短2日AI集中キャンプのお申し込みを受け付けました",
         text: autoReplyText,
-        summary: [
-          "受付確認メールの補助送信です。",
-          "",
-          `会社名：${lead.company}`,
-          `氏名：${lead.name}`,
-          `メールアドレス：${lead.email}`,
-          `申込元：${lead.sourcePage}`,
-          "",
-          "相談内容：",
-          lead.issue || "未入力",
-        ].join("\n"),
+        summary: fallbackSummary,
       });
 
       if (fallbackResponse.ok) {
@@ -332,7 +324,7 @@ export async function POST(request: Request) {
           "",
           "この申込者には手動で受付完了の連絡をしてください。",
           "",
-          ...Object.entries(lead).map(([key, value]) => `${labels[key] ?? key}: ${value || "未入力"}`),
+          ...Object.entries(lead).map(([key, value]) => `${leadLabels[key] ?? key}: ${value || "未入力"}`),
           "",
           "自動返信エラー：",
           `status: ${autoReplyResponse.status}`,
@@ -375,6 +367,23 @@ export async function POST(request: Request) {
         status: response.status,
         body: responseBody,
       });
+
+      const fallbackResponse = await sendFormSubmitFallback();
+      if (fallbackResponse.ok) {
+        return NextResponse.json({
+          ok: true,
+          provider: "formsubmit",
+          autoReplySent: true,
+          smsAutoReplySent: false,
+          smsAutoReplySkipped: true,
+        });
+      }
+
+      console.error("diagnosis_proxy_fallback_failed", {
+        status: fallbackResponse.status,
+        provider: fallbackResponse.provider,
+        body: fallbackResponse.body,
+      });
       return NextResponse.json({ ok: false, error: "email_failed" }, { status: 502 });
     }
 
@@ -396,6 +405,22 @@ export async function POST(request: Request) {
     });
   } catch (error: unknown) {
     console.error("diagnosis_proxy_error", error);
+    const fallbackResponse = await sendFormSubmitFallback();
+    if (fallbackResponse.ok) {
+      return NextResponse.json({
+        ok: true,
+        provider: "formsubmit",
+        autoReplySent: true,
+        smsAutoReplySent: false,
+        smsAutoReplySkipped: true,
+      });
+    }
+
+    console.error("diagnosis_proxy_error_fallback_failed", {
+      status: fallbackResponse.status,
+      provider: fallbackResponse.provider,
+      body: fallbackResponse.body,
+    });
     return NextResponse.json({ ok: false, error: "email_failed" }, { status: 502 });
   }
 }

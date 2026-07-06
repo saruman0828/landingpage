@@ -23,6 +23,7 @@ const fallbackAutoReplyUrl =
 
 const normalizePhone = (value) => clean(value, 80)
   .normalize("NFKC")
+  .replace(/[‐‑‒–—―ー−－ｰ]/g, "")
   .replace(/[^\d+]/g, "");
 
 const toE164JapanPhone = (value) => {
@@ -221,10 +222,6 @@ module.exports = async (request, response) => {
     process.env.CONTACT_FROM_EMAIL ||
     "株式会社HAYASHI CREATIVE <onboarding@resend.dev>";
 
-  if (!toEmail || (!resendApiKey && !hasSmtpConfig())) {
-    return json(response, 500, { message: "送信設定が未完了です。" });
-  }
-
   let body;
   try {
     body = parseContactRequestBody(request);
@@ -291,28 +288,7 @@ module.exports = async (request, response) => {
     `希望：${topic || campaign || "30分無料診断"}`
   ].join("\n");
 
-  const resendPayload = {
-    from: fromEmail,
-    to: [toEmail],
-    subject,
-    text
-  };
-
-  resendPayload.reply_to = contact;
-
-  const resendResponse = await sendTransactionalEmail(resendPayload);
-
-  if (!resendResponse.ok) {
-    console.error("Contact email error", {
-      provider: resendResponse.provider,
-      status: resendResponse.status,
-      body: resendResponse.body
-    });
-    return json(response, 502, { message: "メール送信に失敗しました。送信設定を確認してください。" });
-  }
-
   let autoReplySent = false;
-
   const autoReplyText = [
     suppliedName ? `${suppliedName} 様` : "お申し込み者様",
       "",
@@ -335,78 +311,127 @@ module.exports = async (request, response) => {
       "株式会社HAYASHI CREATIVE"
   ].join("\n");
 
-  const autoReplyResponse = await sendTransactionalEmail({
-    from: fromEmail,
-    to: [contact],
-    reply_to: toEmail,
-    subject: "30分無料診断のお申し込みを受け付けました",
-    text: autoReplyText
-  });
+  const canSendTransactionalEmail = Boolean(toEmail && (resendApiKey || hasSmtpConfig()));
+  let contactEmailSent = false;
 
-  if (autoReplyResponse.ok) {
-    autoReplySent = true;
-  } else {
-    const errorText = autoReplyResponse.body || "";
-    console.error("Auto reply email error", {
-      provider: autoReplyResponse.provider,
-      status: autoReplyResponse.status,
-      body: errorText
-    });
-
-    const fallbackResponse = await sendFallbackAutoReply({
-      email: contact,
-      name,
-      subject: "30分無料診断のお申し込みを受け付けました",
-      text: autoReplyText,
-      summary: [
-        "受付確認メールの補助送信です。",
-        "",
-        `お名前：${name}`,
-        `メールアドレス：${contact}`,
-        `会社名：${company || "未入力"}`,
-        `相談の概略：${topic || "未選択"}`,
-        "",
-        "相談したい内容：",
-        message || "未入力"
-      ].join("\n")
-    });
-
-    if (fallbackResponse.ok) {
-      autoReplySent = true;
-    } else {
-      console.error("Fallback auto reply email error", {
-        provider: fallbackResponse.provider,
-        status: fallbackResponse.status,
-        body: fallbackResponse.body
-      });
-    }
-
-    if (!autoReplySent) await sendTransactionalEmail({
+  if (canSendTransactionalEmail) {
+    const resendPayload = {
       from: fromEmail,
       to: [toEmail],
-      reply_to: contact,
-      subject: `要対応：申込者への受付確認メール未送信｜${company || name}`,
-      text: [
-        "申込者への受付確認メールが送信できませんでした。",
-        "Resendの送信制限、送信元ドメイン未認証、または宛先側の制限が原因の可能性があります。",
-        "",
-        "この申込者には手動で受付完了の連絡をしてください。",
-        "",
-        `連絡先：${contact}`,
-        `お名前：${name}`,
-        `会社名：${company || "未入力"}`,
-        `相談の概略：${topic || "未選択"}`,
-        "",
-        "相談したい内容：",
-        message || "未入力",
-        "",
-        "自動返信エラー：",
-        `status: ${autoReplyResponse.status}`,
-        errorText || "詳細なし"
-      ].join("\n")
-    }).catch((error) => {
-      console.error("Auto reply fallback notice error", error);
+      subject,
+      text,
+      reply_to: contact
+    };
+
+    const resendResponse = await sendTransactionalEmail(resendPayload);
+
+    if (resendResponse.ok) {
+      contactEmailSent = true;
+    } else {
+      console.error("Contact email error", {
+        provider: resendResponse.provider,
+        status: resendResponse.status,
+        body: resendResponse.body
+      });
+    }
+  }
+
+  if (!contactEmailSent) {
+    const fallbackContactResponse = await sendFallbackAutoReply({
+      email: contact,
+      name,
+      subject,
+      text: autoReplyText,
+      summary: text
     });
+
+    if (fallbackContactResponse.ok) {
+      contactEmailSent = true;
+      autoReplySent = true;
+    } else {
+      console.error("Fallback contact email error", {
+        provider: fallbackContactResponse.provider,
+        status: fallbackContactResponse.status,
+        body: fallbackContactResponse.body
+      });
+      return json(response, 502, { message: "メール送信に失敗しました。送信設定を確認してください。" });
+    }
+  }
+
+  if (canSendTransactionalEmail && !autoReplySent) {
+    const autoReplyResponse = await sendTransactionalEmail({
+      from: fromEmail,
+      to: [contact],
+      reply_to: toEmail,
+      subject: "30分無料診断のお申し込みを受け付けました",
+      text: autoReplyText
+    });
+
+    if (autoReplyResponse.ok) {
+      autoReplySent = true;
+    } else {
+      const errorText = autoReplyResponse.body || "";
+      console.error("Auto reply email error", {
+        provider: autoReplyResponse.provider,
+        status: autoReplyResponse.status,
+        body: errorText
+      });
+
+      const fallbackResponse = await sendFallbackAutoReply({
+        email: contact,
+        name,
+        subject: "30分無料診断のお申し込みを受け付けました",
+        text: autoReplyText,
+        summary: [
+          "受付確認メールの補助送信です。",
+          "",
+          `お名前：${name}`,
+          `メールアドレス：${contact}`,
+          `会社名：${company || "未入力"}`,
+          `相談の概略：${topic || "未選択"}`,
+          "",
+          "相談したい内容：",
+          message || "未入力"
+        ].join("\n")
+      });
+
+      if (fallbackResponse.ok) {
+        autoReplySent = true;
+      } else {
+        console.error("Fallback auto reply email error", {
+          provider: fallbackResponse.provider,
+          status: fallbackResponse.status,
+          body: fallbackResponse.body
+        });
+      }
+
+      if (!autoReplySent) await sendTransactionalEmail({
+        from: fromEmail,
+        to: [toEmail],
+        reply_to: contact,
+        subject: `要対応：申込者への受付確認メール未送信｜${company || name}`,
+        text: [
+          "申込者への受付確認メールが送信できませんでした。",
+          "Resendの送信制限、送信元ドメイン未認証、または宛先側の制限が原因の可能性があります。",
+          "",
+          "この申込者には手動で受付完了の連絡をしてください。",
+          "",
+          `連絡先：${contact}`,
+          `お名前：${name}`,
+          `会社名：${company || "未入力"}`,
+          `相談の概略：${topic || "未選択"}`,
+          "",
+          "相談したい内容：",
+          message || "未入力",
+          "",
+          "自動返信エラー：",
+          `status: ${autoReplyResponse.status}`,
+          errorText || "詳細なし"
+        ].join("\n")
+      }).catch((error) => {
+        console.error("Auto reply fallback notice error", error);
+      });
+    }
   }
 
   return json(response, 200, {

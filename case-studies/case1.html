@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>建築業AI実務レポート｜外出中にAI事務員が仕事を進める仕組み</title>
+  <meta name="description" content="建築業の実例をもとに、スマホからAIへ作業を渡し、メール要約、Slack確認、点検報告書、台風アラートまで進める実務フローを見やすく整理しました。" />
+  <meta property="og:title" content="建築業AI実務レポート｜外出中にAI事務員が仕事を進める仕組み" />
+  <meta property="og:description" content="AIに質問するのではなく、AIへ作業を渡す。建築業の1日ルーティンから実務導入の考え方を整理します。" />
+  <meta property="og:image" content="construction-ai-case-assets/01_construction_ai_mobile_dispatch.png" />
+  <meta property="og:type" content="article" />
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="../index.html#hero">社長の右腕AI</a>
+    <nav>
+      <a href="../diagnosis.html">困りごと</a>
+      <a href="../cases.html">改善事例</a>
+      <a href="../training.html">AIキャンプ</a>
+      <a href="../index.html#results">実績</a>
+      <a href="../index.html#price">料金</a>
+      <a href="../index.html#team">誰がやるか</a>
+      <a class="nav-cta" href="../index.html#contact">30分無料診断</a>
+    </nav>
+  </header>
+
+  <main>
+    <article class="blog-article">
+      <header class="section blog-hero">
+        <div class="blog-hero__copy">
+          <p class="eyebrow">建築業のAI実務レポート / テストページ</p>
+          <h1>現場に出ている間に、AI事務員がメール・報告書・連絡文を進める。</h1>
+          <p class="lead">建築業の実例動画をもとに、何が実務で使えるのか、どこを自社でも真似できるのかを整理しました。</p>
+          <div class="blog-meta">
+            <span>要点: AIは相談相手ではなく作業担当</span>
+            <span>対象: 建築業・点検業・現場型ビジネス</span>
+            <span>使い道: 導入前の業務分解</span>
+          </div>
+        </div>
+        <figure class="blog-hero__media">
+          <img src="construction-ai-case-assets/01_construction_ai_mobile_dispatch.png" alt="スマホからAIへ建築業務を指示するイメージ" loading="eager" />
+          <figcaption>外出先からAIへ作業を渡し、事務作業を先に進める流れを整理した事例です。</figcaption>
+        </figure>
+      </header>
+
+      <section class="section blog-body">
+        <aside class="blog-toc">
+          <span>目次</span>
+          <a href="#conclusion">先に結論</a>
+          <a href="#video">動画の見どころ</a>
+          <a href="#routine">1日の流れ</a>
+          <a href="#aha">実務のポイント</a>
+          <a href="#roles">AIと人の分担</a>
+          <a href="#adoption">自社で真似する順番</a>
+          <a href="#cautions">注意点</a>
+        </aside>
+
+        <div class="blog-content">
+          <section id="conclusion" class="blog-section">
+            <p class="eyebrow">先に結論</p>
+            <h2>この事例の本質は「AIに聞く」ではなく「AIに渡す」です。</h2>
+            <p>動画で起きていることは、ChatGPTに文章を相談するだけの使い方ではありません。現場に出る前にAIが動ける環境を用意し、外出先からスマホで指示を出し、メール確認・チャット整理・報告書の下書き・協力業者への連絡準備まで進めています。</p>
+            <div class="blog-aha-card">
+              <strong>ここが重要です。</strong>
+              <span>社長や現場責任者がPCを触れない時間を、AIの作業時間に変えている。だから「時短」ではなく「仕事の並列化」になっています。</span>
+            </div>
+            <div class="blog-takeaway-grid">
+              <article>
+                <span>01</span>
+                <h3>入口はスマホ</h3>
+                <p>移動中・現場中でも、思いついたタイミングでAIへ作業を投げられます。</p>
+              </article>
+              <article>
+                <span>02</span>
+                <h3>作業場所は別PC</h3>
+                <p>自宅や事務所のPCでAIが作業するため、本人のメイン作業を止めません。</p>
+              </article>
+              <article>
+                <span>03</span>
+                <h3>判断は人が持つ</h3>
+                <p>AIは下書き・整理・通知文作成まで。劣化判断や顧客対応は人が確認します。</p>
+              </article>
+            </div>
+          </section>
+
+          <section id="video" class="blog-video-card">
+            <div>
+              <p class="eyebrow">動画の見どころ</p>
+              <h2>動画を見ると、AI活用が「現場の1日」に入っていることが分かります。</h2>
+              <p>近隣への挨拶文、Gmail要約、Slack確認、現地調査、点検写真のアップロード、報告書の下書き、台風アラートまで、細かい事務作業が1日の中でつながっています。</p>
+              <a class="button secondary" href="https://www.youtube.com/watch?v=z9fQ_mldipA" target="_blank" rel="noopener">元動画を開く</a>
+            </div>
+            <figure class="blog-video-preview">
+              <img src="construction-ai-case-assets/06_email_calendar_digest.png" alt="メール要約と予定確認をAIが整理するイメージ" loading="eager" />
+              <figcaption>動画内の流れを、実務導入の観点で整理しています。元動画はボタンから確認できます。</figcaption>
+            </figure>
+          </section>
+
+          <figure class="blog-figure">
+            <img src="construction-ai-case-assets/10_exterior_inspection_photo_capture.png" alt="建築現場で外壁点検の写真を撮影するイメージ" loading="eager" />
+            <figcaption>現場で人が集めた写真や情報を、AIが報告書づくりに使える材料として整理します。</figcaption>
+          </figure>
+
+          <section id="routine" class="blog-section">
+            <p class="eyebrow">1日の流れ</p>
+            <h2>AIは「空き時間」ではなく「手が離せない時間」に働いています。</h2>
+            <p>建築業では、現場確認・移動・電話・協力業者対応が続きます。その間、メール確認や書類作成は後回しになりがちです。この事例では、その後回しになりやすい事務作業をAIが先に進めています。</p>
+            <div class="blog-timeline">
+              <div><time>出発前</time><strong>AI用PCを待機させる</strong><p>自宅や事務所のMac miniでClaudeを動かし、スマホから指示できる状態にしておきます。</p></div>
+              <div><time>朝</time><strong>近隣向けの挨拶文・案内文を作る</strong><p>Wi-Fi復旧や工事案内のような文章をAIが下書きし、PDF化して配布しやすい形にします。</p></div>
+              <div><time>移動中</time><strong>Gmailを要約してLINEで受け取る</strong><p>前日分のメールから重要な依頼を拾い、現地調査や点検依頼は予定に反映しやすくします。</p></div>
+              <div><time>休憩中</time><strong>Slackのメンションを整理する</strong><p>協力業者やチームからの連絡を要約し、当日対応すべきことを短時間で把握します。</p></div>
+              <div><time>現場</time><strong>点検と写真撮影は人が行う</strong><p>屋根・外壁・周辺状況など、現場でしか判断できない材料を人が集めます。</p></div>
+              <div><time>現場後</time><strong>写真をクラウドへ上げる</strong><p>物件ごとに写真を整理し、AIが報告書作成に使える材料を渡します。</p></div>
+              <div><time>昼食中</time><strong>報告書のたたき台を作らせる</strong><p>AIが写真配置や文章のベースを作るため、ゼロから報告書を作る負担が減ります。</p></div>
+              <div><time>夕方前</time><strong>人が確認し、必要箇所を直す</strong><p>劣化判断・指摘事項・顧客へ出す内容は人が見て、品質を担保します。</p></div>
+            </div>
+          </section>
+
+          <section id="aha" class="blog-section">
+            <p class="eyebrow">実務のポイント</p>
+            <h2>AI活用がうまく見える理由は、作業の渡し方が具体的だからです。</h2>
+            <div class="blog-insight-grid">
+              <article>
+                <img src="construction-ai-case-assets/02_always_on_ai_workstation.png" alt="AI作業用のPC環境イメージ" loading="eager" />
+                <div>
+                  <span>ポイント 1</span>
+                  <h3>AIが動く場所を用意している</h3>
+                  <p>その場でPCを開かなくても、別のPC上でAIが作業できます。これにより、移動中や現場中も事務作業が止まりません。</p>
+                </div>
+              </article>
+              <article>
+                <img src="construction-ai-case-assets/03_field_photo_cloud_upload.png" alt="現場写真をクラウドへアップロードするイメージ" loading="eager" />
+                <div>
+                  <span>ポイント 2</span>
+                  <h3>AIが使う材料を先に集めている</h3>
+                  <p>写真、メール、チャット、カレンダーがバラバラだとAIは動きにくくなります。材料の置き場所を決めることが、AI活用の土台です。</p>
+                </div>
+              </article>
+              <article>
+                <img src="construction-ai-case-assets/04_inspection_report_draft.png" alt="点検報告書の下書きを作るイメージ" loading="eager" />
+                <div>
+                  <span>ポイント 3</span>
+                  <h3>完成品ではなく下書きを作らせている</h3>
+                  <p>報告書の写真配置、文章の骨子、通知文の下書きまでをAIに任せ、人が最後に直す。ここが安全で現実的です。</p>
+                </div>
+              </article>
+            </div>
+            <div class="blog-aha-card">
+              <strong>AI導入で最初に決めるべきこと。</strong>
+              <span>「どのAIを使うか」より先に、「何を材料にして、どこへ出力し、誰が承認するか」を決めることです。</span>
+            </div>
+          </section>
+
+          <section id="roles" class="blog-section">
+            <p class="eyebrow">AIと人の分担</p>
+            <h2>任せる仕事と、任せてはいけない判断を分ける。</h2>
+            <p>この事例が参考になるのは、AIに全部を丸投げしていない点です。AIは事務作業を先に進めますが、現場判断・顧客対応・最終品質は人が持っています。</p>
+            <div class="blog-role-grid">
+              <article>
+                <h3>AIに渡しやすい作業</h3>
+                <ul>
+                  <li>メール・Slackの要約</li>
+                  <li>挨拶文、謝罪文、案内文の下書き</li>
+                  <li>点検写真の整理と報告書の骨子作成</li>
+                  <li>台風情報の確認と注意喚起文の下書き</li>
+                  <li>予定登録やチェックリスト化の補助</li>
+                </ul>
+              </article>
+              <article>
+                <h3>人が見るべき判断</h3>
+                <ul>
+                  <li>劣化状況や危険度の判断</li>
+                  <li>見積金額、契約条件、工事範囲</li>
+                  <li>顧客・入居者・協力業者への最終送信</li>
+                  <li>クレームや事故につながる表現</li>
+                  <li>個人情報や現場写真の取り扱い</li>
+                </ul>
+              </article>
+            </div>
+          </section>
+
+          <div class="image-pair">
+            <figure>
+              <img src="construction-ai-case-assets/construction-field-approval-problem.jpg" alt="現場で電話確認と書類確認に追われている建築業担当者" loading="eager" />
+              <figcaption>導入前: 現場対応と事務作業が同じ人に集中し、夕方以降に作業が残りやすい</figcaption>
+            </figure>
+            <figure>
+              <img src="construction-ai-case-assets/09_before_after_ai_workflow.png" alt="AI導入前後の業務フロー比較イメージ" loading="eager" />
+              <figcaption>導入後: AIが下準備を進め、人は確認と判断に時間を使える</figcaption>
+            </figure>
+          </div>
+
+          <section id="adoption" class="blog-section">
+            <p class="eyebrow">自社で真似する順番</p>
+            <h2>最初から全部やらない。まず「毎日止まる1作業」だけ選ぶ。</h2>
+            <p>動画と同じ仕組みを丸ごと再現する必要はありません。中小企業で始めるなら、社長や現場責任者がPCを触れない時間に止まっている作業を1つだけ選ぶのが現実的です。</p>
+            <div class="blog-adoption-steps">
+              <div><span>Step 1</span><strong>止まっている時間を見つける</strong><p>移動中、現場中、接客中、会議中など、本人が処理できない時間帯を洗い出します。</p></div>
+              <div><span>Step 2</span><strong>止まっている事務作業を1つ選ぶ</strong><p>メール要約、チャット確認、写真整理、報告書下書き、連絡文作成などから始めます。</p></div>
+              <div><span>Step 3</span><strong>AIが見る材料の置き場所を決める</strong><p>写真はクラウド、連絡はメールやチャット、予定はカレンダーというように入口を整理します。</p></div>
+              <div><span>Step 4</span><strong>受け取り方を決める</strong><p>LINE通知、Slack投稿、Googleドキュメント、PDF、チェックリストなど、確認しやすい形にします。</p></div>
+              <div><span>Step 5</span><strong>人の承認ポイントを決める</strong><p>外部送信、金額、契約、クレーム、現場判断は必ず人が確認するルールにします。</p></div>
+            </div>
+          </section>
+
+          <figure class="blog-figure">
+            <img src="construction-ai-case-assets/05_cafe_report_review.png" alt="カフェでAIが作った報告書を確認するイメージ" loading="eager" />
+            <figcaption>AIに任せるほど、人の役割はなくなるのではなく、確認・判断・改善に寄っていきます。</figcaption>
+          </figure>
+
+          <section id="cautions" class="blog-section">
+            <p class="eyebrow">注意点</p>
+            <h2>便利にするほど、ルールが必要です。</h2>
+            <p>AIがメール、チャット、クラウドストレージ、カレンダーに触れるほど、実務効果は大きくなります。一方で、個人情報・顧客情報・現場写真・外部送信の扱いは慎重に設計する必要があります。</p>
+            <div class="blog-caution-list">
+              <div><strong>送信前確認</strong><span>顧客、入居者、協力業者へ送る文章は、最初は必ず人が確認する。</span></div>
+              <div><strong>権限管理</strong><span>AIが見られるフォルダ、メール、チャット範囲を必要最小限にする。</span></div>
+              <div><strong>判断の線引き</strong><span>劣化判断、見積金額、契約条件、クレーム対応は人が責任を持つ。</span></div>
+              <div><strong>ログを残す</strong><span>AIが何を見て、何を作り、誰が確認したかを後から追えるようにする。</span></div>
+            </div>
+            <div class="blog-highlight">
+              <strong>結論: AIは「全部自動でやる魔法」ではなく、仕事を先に進める実務担当です。</strong>
+              <span>人が判断する前の整理を任せるだけでも、社長や現場責任者の時間は大きく戻ります。</span>
+            </div>
+          </section>
+
+          <section class="blog-cta">
+            <p class="eyebrow">自社に置き換える</p>
+            <h2>御社なら、どの作業をAI事務員に渡せるか。</h2>
+            <p>メール確認、チャット要約、報告書作成、写真整理、協力業者への連絡など、まず1業務から現実的な導入範囲を整理します。</p>
+            <a class="button primary large" href="../index.html#contact">30分無料診断を申し込む</a>
+          </section>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <p>© 株式会社HAYASHI CREATIVE. All rights reserved.</p>
+  </footer>
+</body>
+</html>

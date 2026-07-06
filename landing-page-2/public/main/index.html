@@ -304,7 +304,7 @@
 	              <option value="51名以上">51名以上</option>
 	            </select>
 	          </label>
-	          <label>電話番号 <span>必須</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="例：090-0000-0000" required></label>
+	          <label>電話番号 <span>任意</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="例：090-0000-0000"></label>
 	          <label class="wide">相談内容 <span>任意</span><textarea name="issue" placeholder="例：社員からの質問対応、見積確認、新人教育を減らしたい"></textarea></label>
 	        </div>
 	        <button class="button primary large" type="submit">30分無料診断を申し込む</button>
@@ -400,6 +400,25 @@
 
     if (contactForm && formStatus) {
       let formStarted = false;
+      let isSubmitting = false;
+      const normalizePhone = (value) => String(value || "").normalize("NFKC").replace(/[‐‑‒–—―ー−－ｰ]/g, "").replace(/[^\d+]/g, "");
+      const isPhone = (value) => /^\+?\d{10,15}$/.test(normalizePhone(value));
+      const errorMessages = {
+        invalid_json: "送信内容を読み取れませんでした。ページを再読み込みして再度お試しください。",
+        invalid_email: "メールアドレスの形式を確認してください。",
+        invalid_phone: "電話番号の形式を確認してください。電話番号は任意です。空欄でも送信できます。",
+        missing_fields: "必須項目を入力してください。",
+        email_failed: "メール送信に失敗しました。時間をおいて再度お試しください。"
+      };
+      const readErrorMessage = async (response) => {
+        const body = await response.json().catch(() => null);
+        if (!body || typeof body !== "object") return "送信できませんでした。時間をおいて再度お試しください。";
+        if (Array.isArray(body.missing) && body.missing.length) {
+          const labels = { company: "会社名", name: "氏名", email: "メールアドレス" };
+          return `${body.missing.map((field) => labels[field] || field).join("、")}を入力してください。`;
+        }
+        return errorMessages[body.error] || "送信できませんでした。時間をおいて再度お試しください。";
+      };
 
       contactForm.addEventListener("focusin", () => {
         if (formStarted) return;
@@ -412,6 +431,15 @@
 
       contactForm.addEventListener("submit", async (event) => {
         event.preventDefault();
+        if (isSubmitting) return;
+        const phoneInput = contactForm.elements.phone;
+        if (phoneInput) {
+          phoneInput.value = normalizePhone(phoneInput.value);
+          phoneInput.setCustomValidity("");
+          if (phoneInput.value && !isPhone(phoneInput.value)) {
+            phoneInput.setCustomValidity(errorMessages.invalid_phone);
+          }
+        }
         if (!contactForm.reportValidity()) return;
 
         const submitButton = contactForm.querySelector("button[type='submit']");
@@ -429,6 +457,7 @@
 
         formStatus.textContent = "";
         formStatus.dataset.state = "";
+        isSubmitting = true;
         if (submitButton) {
           submitButton.disabled = true;
           submitButton.textContent = "送信中...";
@@ -442,7 +471,7 @@
           });
 
           if (!response.ok) {
-            throw new Error("submit_failed");
+            throw new Error(await readErrorMessage(response));
           }
 
           contactForm.reset();
@@ -451,14 +480,15 @@
             sourcePage: "メインページ"
           });
           window.location.href = "/thanks";
-        } catch {
+        } catch (error) {
           trackLpEvent("form_submit_error", {
             form: "main_contact",
             sourcePage: "メインページ"
           });
           formStatus.dataset.state = "error";
-          formStatus.textContent = "送信できませんでした。時間をおいて再度お試しください。";
+          formStatus.textContent = error instanceof Error ? error.message : "送信できませんでした。時間をおいて再度お試しください。";
         } finally {
+          isSubmitting = false;
           if (submitButton) {
             submitButton.disabled = false;
             submitButton.textContent = "30分無料診断を申し込む";

@@ -12,6 +12,7 @@ const eventNames = [
   "form_submit_attempt",
   "form_submit_success",
   "form_submit_error",
+  "calendar_open",
   "calendar_booked"
 ];
 
