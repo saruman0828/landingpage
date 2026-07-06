@@ -216,30 +216,7 @@
           <h2>まずは30分、減らせる仕事を一緒に確認します。</h2>
           <p>導入前提でなくても構いません。AI化すべき仕事、まだ人がやるべき仕事、最初に触るべき業務を整理します。</p>
         </div>
-        <form class="contact-form" action="https://formsubmit.co/0b239698323990ed50d174f1b83077b0" method="POST">
-          <input type="hidden" name="_next" value="https://ai-business-lp.vercel.app/thanks.html">
-          <input type="hidden" name="_subject" value="ホームページからの無料相談申し込み">
-          <input type="hidden" name="_template" value="table">
-          <label>メールアドレス
-            <input type="email" name="email" autocomplete="email" placeholder="返信先のメールアドレス" required>
-          </label>
-          <label>お名前
-            <input type="text" name="name" autocomplete="name" placeholder="林 勝">
-          </label>
-          <label>相談したい内容
-            <select name="topic">
-              <option value="">選択してください</option>
-              <option>生成AI研修を相談したい</option>
-              <option>AI体験会を開催したい</option>
-              <option>社内業務を効率化したい</option>
-              <option>まず何ができるか知りたい</option>
-            </select>
-          </label>
-          <label>補足
-            <textarea name="message" placeholder="例：社員からの質問対応、見積確認、資料作成を減らしたい"></textarea>
-          </label>
-          <button class="button button--primary" type="submit">無料相談を送信する</button>
-        </form>
+        <div id="homepage-contact-form-root"></div>
       </div>
     </section>
   </main>
@@ -247,5 +224,23 @@
   <footer class="site-footer">
     <p>© 株式会社HAYASHI CREATIVE. All rights reserved.</p>
   </footer>
+  <script src="assets/contact-form.js"></script>
+  <script>
+    window.ContactForm.mount("#homepage-contact-form-root", {
+      id: "homepage-contact-form",
+      submitClass: "button button--primary",
+      submitText: "無料相談を送信する",
+      hidden: {
+        source_page: "homepage.html",
+        source_label: "旧ホームページ"
+      },
+      fields: [
+        { type: "email", name: "email", label: "メールアドレス", autocomplete: "email", placeholder: "返信先のメールアドレス", required: true },
+        { type: "text", name: "name", label: "お名前", autocomplete: "name", placeholder: "林 勝" },
+        { type: "select", name: "topic", label: "相談したい内容", emptyLabel: "選択してください", options: ["生成AI研修を相談したい", "AI体験会を開催したい", "社内業務を効率化したい", "まず何ができるか知りたい"] },
+        { type: "textarea", name: "message", label: "補足", placeholder: "例：社員からの質問対応、見積確認、資料作成を減らしたい" }
+      ]
+    });
+  </script>
 </body>
 </html>

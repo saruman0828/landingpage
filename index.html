@@ -279,28 +279,7 @@
 	      <p class="security-note">初回相談で機密資料の提出は不要です。必要に応じて秘密保持契約（NDA）に対応し、取り扱う情報・入力範囲・権限を事前に整理します。</p>
 	      <div id="contact-intake">
 	        <h3>まずはメールアドレスだけ入力してください。受付確認メールをお送りします。</h3>
-	        <form class="contact-form" id="contact-form" novalidate>
-	        <div class="form-grid">
-	          <label class="wide">メールアドレス <span>受付確認メールをお送りします</span><input type="email" name="email" autocomplete="email" inputmode="email" placeholder="例：info@example.com" required></label>
-	          <div class="form-details wide">
-	            <label>相談の概略
-	              <select name="topic">
-	                <option value="">選択してください</option>
-	                <option value="経営者として、社長に確認が集まりすぎて困っている">経営者として、確認が自分に集まりすぎている</option>
-	                <option value="管理職として、社員教育や判断基準のばらつきに困っている">管理職として、社員教育や判断基準のばらつきに困っている</option>
-	                <option value="経理・事務担当として、確認や入力の抜け漏れに困っている">経理・事務担当として、確認や抜け漏れに困っている</option>
-	                <option value="営業・問い合わせ対応で、返信や見積確認を減らしたい">営業・問い合わせ対応を効率化したい</option>
-	                <option value="まず何をAI化できるか相談したい">まず何をAI化できるか相談したい</option>
-	              </select>
-	            </label>
-	            <label>お名前<input type="text" name="name" autocomplete="name" placeholder="例：林 勝"></label>
-	            <label>会社名 <span>任意</span><input type="text" name="company" autocomplete="organization" placeholder="例：株式会社HAYASHI CREATIVE"></label>
-	            <label class="wide">相談内容 <span>任意</span><textarea name="message" placeholder="例：社員からの質問対応、見積確認、新人教育を減らしたい"></textarea></label>
-	          </div>
-	        </div>
-	        <button class="button primary large" type="submit">30分無料診断を申し込む</button>
-	        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-        </form>
+	        <div id="contact-form-root"></div>
         <div class="line-fallback">
           <div>
             <span>フォームが送れない場合</span>
@@ -316,99 +295,38 @@
   <footer>
 	    <p>© 株式会社HAYASHI CREATIVE. All rights reserved.</p>
   </footer>
+  <script src="assets/contact-form.js"></script>
   <script>
-    (() => {
-      const form = document.getElementById("contact-form");
-      const status = document.getElementById("form-status");
-      if (!form || !status) return;
-
-      const sendFallbackAutoReply = async (payload) => {
-        const name = payload.name || "お申し込み者";
-        await fetch("https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            email: payload.email,
-            name,
-            _subject: "30分無料診断のお申し込み",
-            _template: "table",
-            _autoresponse: [
-              `${name} 様`,
-              "",
-              "株式会社HAYASHI CREATIVEです。",
-              "30分無料診断のお申し込みを受け付けました。",
-              "",
-              "内容を確認し、通常1〜2営業日以内にご連絡します。",
-              "",
-              "ご相談内容：",
-              payload.topic || "未選択",
-              "",
-              "補足：",
-              payload.message || "未入力",
-              "",
-              "株式会社HAYASHI CREATIVE"
-            ].join("\n"),
-            message: [
-              "受付確認メールの補助送信です。",
-              "",
-              `お名前：${name}`,
-              `メールアドレス：${payload.email}`,
-              `相談の概略：${payload.topic || "未選択"}`,
-              "",
-              "補足：",
-              payload.message || "未入力"
-            ].join("\n")
-          }),
-        }).catch(() => null);
-      };
-
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        if (!form.reportValidity()) return;
-
-        const button = form.querySelector('button[type="submit"]');
-        const originalText = button ? button.textContent : "";
-        const formData = new FormData(form);
-        const payload = Object.fromEntries(formData.entries());
-
-        status.dataset.state = "";
-        status.textContent = "送信中です。";
-        if (button) {
-          button.disabled = true;
-          button.textContent = "送信中...";
-        }
-
-        try {
-          const response = await fetch("/api/contact", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          });
-
-          if (!response.ok) {
-            throw new Error("submit_failed");
-          }
-
-          const result = await response.json().catch(() => ({ autoReplySent: false }));
-          if (!result.autoReplySent && payload.email) {
-            await sendFallbackAutoReply(payload);
-          }
-
-          window.location.href = "/thanks.html";
-        } catch (error) {
-          status.dataset.state = "error";
-          status.textContent = "送信できませんでした。時間をおいて再度お試しください。お急ぎの場合はLINEからご連絡ください。";
-          if (button) {
-            button.disabled = false;
-            button.textContent = originalText;
-          }
-        }
-      });
-    })();
+    window.ContactForm.mount("#contact-form-root", {
+      id: "contact-form",
+      statusId: "form-status",
+      submitText: "30分無料診断を申し込む",
+      errorText: "送信できませんでした。時間をおいて再度お試しください。お急ぎの場合はLINEからご連絡ください。",
+      fallbackAutoReply: {
+        url: "https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0",
+        subject: "30分無料診断のお申し込み"
+      },
+      fields: [
+        { type: "email", name: "email", label: "メールアドレス", note: "受付確認メールをお送りします", autocomplete: "email", placeholder: "例：info@example.com", required: true, wide: true },
+        {
+          type: "select",
+          name: "topic",
+          label: "相談の概略",
+          note: "任意",
+          emptyLabel: "選択しない",
+          options: [
+            { value: "経営者として、社長に確認が集まりすぎて困っている", label: "経営者として、確認が自分に集まりすぎている" },
+            { value: "管理職として、社員教育や判断基準のばらつきに困っている", label: "管理職として、社員教育や判断基準のばらつきに困っている" },
+            { value: "経理・事務担当として、確認や入力の抜け漏れに困っている", label: "経理・事務担当として、確認や抜け漏れに困っている" },
+            { value: "営業・問い合わせ対応で、返信や見積確認を減らしたい", label: "営業・問い合わせ対応を効率化したい" },
+            { value: "まず何をAI化できるか相談したい", label: "まず何をAI化できるか相談したい" }
+          ]
+        },
+        { type: "text", name: "name", label: "お名前", autocomplete: "name", placeholder: "例：お名前" },
+        { type: "text", name: "company", label: "会社名", note: "任意", autocomplete: "organization", placeholder: "例：〇〇株式会社" },
+        { type: "textarea", name: "message", label: "相談内容", note: "任意", placeholder: "例：社員からの質問対応、見積確認、新人教育を減らしたい", wide: true }
+      ]
+    });
   </script>
 </body>
 </html>

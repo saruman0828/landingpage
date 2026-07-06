@@ -1,11 +1,65 @@
-.DS_Store
-.git
+# VCS / Vercel local state
+.git/
 .gitignore
+.vercel/
+.vercel-cli-home/
 .vercelignore
-first-view.html
-second-view.html
-codex_handoff_ai_business_complete
-sales_marketing_reference_2026-06-12
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment variables / local secrets
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Dependencies and package manager caches
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+
+# Logs
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local tooling / test output
+.playwright-cli/
+playwright-report/
+test-results/
+coverage/
+output/
+
+# Build artifacts not used as source for this static deployment
+dist/
+build/
+.next/
+out/
+
+# Internal instructions and working documents
+AGENTS.md
+*.md
+*.tsv
+*.csv
+_config.yml
+figma_fixed_lp_preview.html
+figma_lp_improvement_prompt.md
+codex_handoff_ai_business_complete/
+sales_marketing_reference_2026-06-12/
+資料/
+イメージ候補/
+
+# Unused source assets
 assets/brother-avatar-source.png
 assets/brother-avatar.svg
-assets/hero-ai-office.png
