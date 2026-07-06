@@ -2,3 +2,6 @@
 .vercel-cli-home/
 .vercel
 .playwright-cli/
+node_modules/
+.next/
+*.log
