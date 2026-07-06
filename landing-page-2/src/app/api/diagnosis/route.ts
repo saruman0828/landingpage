@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-const requiredFields = ["company", "name", "email", "phone"];
+const requiredFields = ["company", "name", "email"];
 const mainContactApi = "https://ai-business-lp.vercel.app/api/contact";
 
 const clean = (value: unknown, maxLength = 1200) => {
@@ -175,7 +175,7 @@ export async function POST(request: Request) {
 
   const normalizedPhone = normalizePhone(body.phone);
 
-  if (!isValidPhone(normalizedPhone)) {
+  if (normalizedPhone && !isValidPhone(normalizedPhone)) {
     return NextResponse.json({ ok: false, error: "invalid_phone" }, { status: 400 });
   }
 

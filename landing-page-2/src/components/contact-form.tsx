@@ -97,7 +97,7 @@ export function ContactForm() {
             placeholder="例：見積確認、社員からの質問対応、メール返信、教育、日々の判断など"
           />
         </label>
-        <Field label="電話番号" name="phone" type="tel" required />
+        <Field label="電話番号（任意）" name="phone" type="tel" />
 
         <button
           type="submit"

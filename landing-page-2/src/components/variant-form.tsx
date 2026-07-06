@@ -203,13 +203,12 @@ export function VariantForm({
           </label>
           <Field
             label="電話番号"
-            note="必須"
+            note="任意"
             name="phone"
             type="tel"
             autoComplete="tel"
             inputMode="tel"
             placeholder="例：090-0000-0000"
-            required
           />
           <label className="block md:col-span-2">
             <span className="form-label">
