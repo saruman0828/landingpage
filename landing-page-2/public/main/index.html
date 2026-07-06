@@ -7,22 +7,24 @@
   <meta name="description" content="社長の頭の中を整理し、社員が同じ基準で動ける会社へ。AIを使ってマニュアル・チェックリスト・返信テンプレート・教育資料を作り、社員の判断・対応・教育の質を安定させます。" />
   <meta property="og:title" content="社長の右腕にAI参謀を！" />
   <meta property="og:description" content="社長の頭の中を整理し、社員が同じ基準で動ける会社に変えます。社長の時間をもっと重要なことに使えるようにします。" />
-  <meta property="og:image" content="https://ai-business-lp.vercel.app/assets/hayashi-masaru.jpg" />
-  <meta property="og:url" content="https://ai-business-lp.vercel.app/" />
+  <meta property="og:image" content="/main/assets/hayashi-masaru.jpg" />
+  <meta property="og:url" content="/" />
   <meta property="og:type" content="website" />
-  <link rel="stylesheet" href="style.css" />
+  <script>
+    if (window.location.protocol === "file:") {
+      window.location.replace("http://localhost:3000/");
+    }
+  </script>
+  <link rel="stylesheet" href="/main/style.css" />
 </head>
 <body>
   <header class="topbar">
 	    <a class="brand" href="#hero">社長の右腕AI</a>
     <nav>
-      <a href="diagnosis.html">困りごと</a>
-      <a href="cases.html">改善事例</a>
-      <a href="training.html">AI研修</a>
       <a href="#results">実績</a>
       <a href="#price">ご支援の進め方</a>
       <a href="#team">誰がやるか</a>
-      <a href="https://ai-keiei-implementation-2days-ab.vercel.app/two-days">最短2日AI集中キャンプはこちら</a>
+      <a href="/two-days">最短2日AI集中キャンプはこちら</a>
       <a class="nav-cta" href="#contact">日程候補を送る</a>
     </nav>
   </header>
@@ -43,12 +45,12 @@
         <div class="cta-row">
           <a class="button primary" href="#contact">30分の候補日を送る</a>
           <a class="button secondary" href="#results">実績を見る</a>
-          <a class="button secondary" href="https://ai-keiei-implementation-2days-ab.vercel.app/two-days">最短2日AI集中キャンプはこちら</a>
+          <a class="button secondary" href="/two-days">最短2日AI集中キャンプはこちら</a>
         </div>
         <p class="microcopy">日程は、今月・来月のどこで調整しましょうか？候補日を2〜3つ送ってください。</p>
       </div>
       <div class="hero-card">
-        <img src="assets/hayashi-masaru.jpg" alt="林 勝のプロフィール写真" />
+        <img src="/main/assets/hayashi-masaru.jpg" alt="林 勝のプロフィール写真" />
         <div class="name-card">
           <span>私達のチームがやります</span>
           <strong>代表　林　勝</strong>
@@ -63,7 +65,7 @@
         <h2>社長が毎日2時間を雑務に使うと、年間500時間になります。</h2>
       </div>
       <figure class="section-visual section-visual--right">
-        <img src="assets/visual-problem.jpg" alt="現場の確認、メール、書類、日程調整が社長に集まり、判断が滞っている様子" loading="lazy">
+        <img src="/main/assets/visual-problem.jpg" alt="現場の確認、メール、書類、日程調整が社長に集まり、判断が滞っている様子" loading="lazy">
       </figure>
       <div class="calc-card">
         <div><span>2時間</span><small>毎日の確認・返信・教育</small></div>
@@ -137,7 +139,7 @@
         <h2>AI秘書やAI社員が社長の負担を減らします。</h2>
       </div>
       <figure class="section-visual section-visual--right">
-        <img src="assets/visual-solution.jpg" alt="現場担当者とAI活用の流れを整理し、業務フローとチェックリストを共有している様子" loading="lazy">
+        <img src="/main/assets/visual-solution.jpg" alt="現場担当者とAI活用の流れを整理し、業務フローとチェックリストを共有している様子" loading="lazy">
       </figure>
       <div class="two-col align-start">
         <div>
@@ -147,7 +149,7 @@
           <p><strong>まずは、社長の判断基準と会社の業務を見える化した設計図を一緒に作りましょう。</strong></p>
         </div>
         <div class="deliverables">
-          <h3>作るもの（例）</h3>
+          <h3>作るもの</h3>
           <ul>
             <li>社長業務の棚卸し</li>
             <li>よくある質問集</li>
@@ -157,14 +159,12 @@
             <li>メール・LINE返信テンプレート</li>
             <li>経理確認チェックリスト</li>
             <li>社員教育の基準表</li>
-            <li>AIプロンプト集</li>
-            <li>在庫管理、発注確認</li>
-            <li>AIによるスケジュール管理、メール自動返信</li>
+            <li>社内で使えるAI指示文</li>
           </ul>
         </div>
       </div>
       <figure class="section-visual section-visual--full">
-        <img src="assets/visual-before-after.jpg" alt="導入前の混乱した業務状態から、導入後に社員が同じ基準で前進する状態へ変わる様子" loading="lazy">
+        <img src="/main/assets/visual-before-after.jpg" alt="導入前の混乱した業務状態から、導入後に社員が同じ基準で前進する状態へ変わる様子" loading="lazy">
       </figure>
       <div class="before-after">
         <div>
@@ -190,7 +190,7 @@
       </div>
       <div class="team-grid">
         <article class="profile-card main-profile">
-          <img src="assets/hayashi-masaru-square.jpg" alt="林 勝の顔写真" />
+          <img src="/main/assets/hayashi-masaru-square.jpg" alt="林 勝の顔写真" />
           <div>
             <span>代表</span>
             <h3>林 勝</h3>
@@ -205,9 +205,9 @@
           </div>
         </article>
         <article class="profile-card">
-          <img src="assets/brother-avatar.jpg" alt="AIとシステム設計を担当する人物の漫画風イラスト" />
+          <img src="/main/assets/brother-avatar.jpg" alt="AIとシステム設計を担当する人物の漫画風イラスト" />
           <div>
-            <span>AIをビジネスに応用、仕組み化するプロ</span>
+            <span>AI・システム目線で仕組みに落とし込む人</span>
             <h3>林　兄</h3>
             <p>岡山出身。東京にてシステムエンジニアとして10年以上、業務システムの設計・開発・運用改善に携わってきました。</p>
             <p>防衛省関連システムや選挙速報システムなど、高レベルのセキュリティと正確性が必要な領域で開発責任者を担当。ベンチャー企業では特許照合AIを1人で設計・開発し、要件整理から実装、精度改善までを一貫して担当しました。</p>
@@ -237,12 +237,12 @@
           <article>
             <span>Step 2</span>
             <h3>業務整理・試作</h3>
-            <p>業務を１つ選び、優先度の高い『人が毎日行う単純作業』、『繰り返し作業』を自動化し、最終的に『人がAIを使って仕事をする』を実感できるを目指します。</p>
+            <p>1つの業務を選び、社員が使えるチェックリスト、マニュアル、AI指示文まで形にします。まず変化を実感できるところから始めます。</p>
           </article>
           <article>
             <span>Step 3</span>
             <h3>本格導入・継続支援</h3>
-            <p>業務の効率化を本格化します。毎月１つずつAIで自動化する仕事を増やし、社内で自分たちでAIを自動化する文化を根付かせます。</p>
+            <p>成果が見えた企業様だけ、毎月1つずつ社長依存を減らす仕組みを増やします。社員が自分で動ける状態まで伴走します。</p>
           </article>
         </div>
         <div class="price-grid">
@@ -286,15 +286,37 @@
 	      </div>
 	      <p class="security-note">初回相談で機密資料の提出は不要です。必要に応じて秘密保持契約（NDA）に対応し、取り扱う情報・入力範囲・権限を事前に整理します。</p>
 	      <div id="contact-intake">
-	        <h3>まずはメールアドレスだけ入力してください。受付確認メールをお送りします。</h3>
-	        <div id="contact-form-root"></div>
+	        <h3>必要事項を入力してください。受付確認メールをお送りします。</h3>
+	        <form class="contact-form" action="/api/diagnosis" method="POST" data-source-page="メインページ：社長の右腕AI">
+	          <input type="hidden" name="variant" value="main">
+	        <div class="form-grid">
+	          <label>会社名<input type="text" name="company" autocomplete="organization" placeholder="例：株式会社HAYASHI CREATIVE" required></label>
+	          <label>氏名<input type="text" name="name" autocomplete="name" placeholder="例：林 勝" required></label>
+	          <label>役職 <span>任意</span><input type="text" name="role" autocomplete="organization-title" placeholder="例：代表取締役"></label>
+	          <label>連絡先 <span>受付確認メールをお送りします</span><input type="email" name="email" autocomplete="email" inputmode="email" placeholder="例：info@example.com" required></label>
+	          <label>従業員数 <span>任意</span>
+	            <select name="employees">
+	              <option value="">選択してください</option>
+	              <option value="5名未満">5名未満</option>
+	              <option value="5〜10名">5〜10名</option>
+	              <option value="11〜30名">11〜30名</option>
+	              <option value="31〜50名">31〜50名</option>
+	              <option value="51名以上">51名以上</option>
+	            </select>
+	          </label>
+	          <label>電話番号 <span>必須</span><input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="例：090-0000-0000" required></label>
+	          <label class="wide">相談内容 <span>任意</span><textarea name="issue" placeholder="例：社員からの質問対応、見積確認、新人教育を減らしたい"></textarea></label>
+	        </div>
+	        <button class="button primary large" type="submit">30分無料診断を申し込む</button>
+	        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
         <div class="line-fallback">
           <div>
             <span>フォームが送れない場合</span>
             <strong>LINEから直接ご連絡ください。</strong>
             <p>QRコードを読み取り、「30分診断希望」と送ってください。</p>
           </div>
-          <img src="assets/line-qr.jpg" alt="LINE連絡用QRコード" loading="lazy" />
+          <img src="/main/assets/line-qr.jpg" alt="LINE連絡用QRコード" loading="lazy" />
         </div>
       </div>
     </section>
@@ -303,146 +325,147 @@
   <footer>
 	    <p>© 株式会社HAYASHI CREATIVE. All rights reserved.</p>
   </footer>
-  <script src="assets/contact-form.js"></script>
   <script>
-    (() => {
-      const getSessionId = () => {
-        try {
-          const key = "lp_analytics_session_id";
-          const existing = window.sessionStorage.getItem(key);
-          if (existing) return existing;
-          const generated = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
-          window.sessionStorage.setItem(key, generated);
-          return generated;
-        } catch {
-          return "";
-        }
+    const getAnalyticsSessionId = () => {
+      try {
+        const key = "lp_analytics_session_id";
+        const existing = window.sessionStorage.getItem(key);
+        if (existing) return existing;
+        const generated = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+        window.sessionStorage.setItem(key, generated);
+        return generated;
+      } catch {
+        return "";
+      }
+    };
+
+    const trackLpEvent = (event, details = {}) => {
+      const payload = {
+        event,
+        page: "main_lp",
+        path: window.location.pathname,
+        title: document.title,
+        referrer: document.referrer || "",
+        sessionId: getAnalyticsSessionId(),
+        ...details
       };
 
-      const trackEvent = (event, details = {}) => {
-        const payload = {
-          event,
-          page: "main_lp",
-          path: window.location.pathname,
-          title: document.title,
-          referrer: document.referrer || "",
-          sessionId: getSessionId(),
-          ...details
-        };
-
-        if (typeof window.va === "function") {
-          window.va("event", event, details);
-        }
-
-        if (navigator.sendBeacon) {
-          const body = JSON.stringify(payload);
-          if (navigator.sendBeacon("/api/analytics", new Blob([body], { type: "application/json" }))) {
-            return;
-          }
-        }
-
-        fetch("/api/analytics", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-          keepalive: true
-        }).catch(() => null);
-      };
-
-      const bookedParams = new URLSearchParams(window.location.search);
-
-      trackEvent("page_view");
-      if (bookedParams.get("booked") === "1") {
-        trackEvent("calendar_booked", { sourcePage: "メインページ" });
+      if (typeof window.va === "function") {
+        window.va("event", event, details);
       }
 
-      document.addEventListener("click", (event) => {
-        const target = event.target instanceof Element ? event.target.closest("a, button") : null;
-        if (!target) return;
-
-        const href = target instanceof HTMLAnchorElement ? target.getAttribute("href") || "" : "";
-        const label = (target.textContent || "").replace(/\s+/g, " ").trim().slice(0, 120);
-        const section = target.closest("section")?.id || "";
-        const isNavigation = target.closest("nav") || target.classList.contains("nav-cta");
-        const isCta = target.classList.contains("button") || target.classList.contains("nav-cta") || href === "#contact";
-
-        if (isCta || isNavigation) {
-          trackEvent(isNavigation ? "nav_click" : "cta_click", {
-            location: section || "page",
-            label,
-            href
-          });
+      if (navigator.sendBeacon) {
+        const body = JSON.stringify(payload);
+        if (navigator.sendBeacon("/api/analytics", new Blob([body], { type: "application/json" }))) {
+          return;
         }
-      });
+      }
 
-      window.ContactForm.mount("#contact-form-root", {
-        id: "contact-form",
-        statusId: "form-status",
-        submitText: "30分無料診断を申し込む",
-        errorText: "送信できませんでした。時間をおいて再度お試しください。お急ぎの場合はLINEからご連絡ください。",
-        hidden: {
-          source_page: "メインページ：社長の右腕AI",
-          source_label: "メインページ",
-          campaign: "30分無料診断"
-        },
-        fallbackAutoReply: {
-          url: "https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0",
-          subject: "30分無料診断のお申し込み"
-        },
-        onSubmitAttempt: () => {
-          trackEvent("form_submit_attempt", {
-            form: "main_contact",
-            sourcePage: "メインページ"
-          });
-        },
-        onSubmitSuccess: () => {
-          trackEvent("form_submit_success", {
-            form: "main_contact",
-            sourcePage: "メインページ"
-          });
-        },
-        onSubmitError: () => {
-          trackEvent("form_submit_error", {
-            form: "main_contact",
-            sourcePage: "メインページ"
-          });
-        },
-        fields: [
-          { type: "email", name: "email", label: "メールアドレス", note: "受付確認メールをお送りします", autocomplete: "email", placeholder: "例：info@example.com", required: true, wide: true },
-          {
-            type: "select",
-            name: "topic",
-            label: "相談の概略",
-            note: "任意",
-            emptyLabel: "選択しない",
-            options: [
-              { value: "経営者として、社長に確認が集まりすぎて困っている", label: "経営者として、確認が自分に集まりすぎている" },
-              { value: "管理職として、社員教育や判断基準のばらつきに困っている", label: "管理職として、社員教育や判断基準のばらつきに困っている" },
-              { value: "経理・事務担当として、確認や入力の抜け漏れに困っている", label: "経理・事務担当として、確認や抜け漏れに困っている" },
-              { value: "営業・問い合わせ対応で、返信や見積確認を減らしたい", label: "営業・問い合わせ対応を効率化したい" },
-              { value: "まず何をAI化できるか相談したい", label: "まず何をAI化できるか相談したい" }
-            ]
-          },
-          { type: "text", name: "name", label: "お名前", autocomplete: "name", placeholder: "例：お名前" },
-          { type: "text", name: "company", label: "会社名", note: "任意", autocomplete: "organization", placeholder: "例：〇〇株式会社" },
-          { type: "textarea", name: "message", label: "相談内容", note: "任意", placeholder: "例：社員からの質問対応、見積確認、新人教育を減らしたい", wide: true }
-        ]
-      });
+      fetch("/api/analytics", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        keepalive: true
+      }).catch(() => null);
+    };
 
-      const form = document.getElementById("contact-form");
-      if (!form) return;
+    trackLpEvent("page_view");
 
+    const bookedParams = new URLSearchParams(window.location.search);
+    if (bookedParams.get("booked") === "1") {
+      trackLpEvent("calendar_booked", { sourcePage: "メインページ" });
+    }
+
+    document.addEventListener("click", (event) => {
+      const target = event.target instanceof Element ? event.target.closest("a, button") : null;
+      if (!target) return;
+
+      const href = target instanceof HTMLAnchorElement ? target.getAttribute("href") || "" : "";
+      const label = (target.textContent || "").replace(/\s+/g, " ").trim().slice(0, 120);
+      const section = target.closest("section")?.id || "";
+      const isNavigation = target.closest("nav") || target.classList.contains("nav-cta");
+      const isCta = target.classList.contains("button") || target.classList.contains("nav-cta") || href === "#contact";
+
+      if (isCta || isNavigation) {
+        trackLpEvent(isNavigation ? "nav_click" : "cta_click", {
+          location: section || "page",
+          label,
+          href
+        });
+      }
+    });
+
+    const contactForm = document.querySelector(".contact-form");
+    const formStatus = document.querySelector("#form-status");
+
+    if (contactForm && formStatus) {
       let formStarted = false;
 
-      form.addEventListener("focusin", () => {
+      contactForm.addEventListener("focusin", () => {
         if (formStarted) return;
         formStarted = true;
-        trackEvent("form_start", {
+        trackLpEvent("form_start", {
           form: "main_contact",
           sourcePage: "メインページ"
         });
       });
-    })();
+
+      contactForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!contactForm.reportValidity()) return;
+
+        const submitButton = contactForm.querySelector("button[type='submit']");
+        const formData = new FormData(contactForm);
+        const payload = {
+          ...Object.fromEntries(formData.entries()),
+          sourcePage: contactForm.dataset.sourcePage || "メインページ",
+          pagePath: window.location.href,
+        };
+
+        trackLpEvent("form_submit_attempt", {
+          form: "main_contact",
+          sourcePage: "メインページ"
+        });
+
+        formStatus.textContent = "";
+        formStatus.dataset.state = "";
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "送信中...";
+        }
+
+        try {
+          const response = await fetch("/api/diagnosis", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            throw new Error("submit_failed");
+          }
+
+          contactForm.reset();
+          trackLpEvent("form_submit_success", {
+            form: "main_contact",
+            sourcePage: "メインページ"
+          });
+          window.location.href = "/thanks";
+        } catch {
+          trackLpEvent("form_submit_error", {
+            form: "main_contact",
+            sourcePage: "メインページ"
+          });
+          formStatus.dataset.state = "error";
+          formStatus.textContent = "送信できませんでした。時間をおいて再度お試しください。";
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "30分無料診断を申し込む";
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>

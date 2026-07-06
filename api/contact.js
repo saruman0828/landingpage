@@ -19,6 +19,61 @@ const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const hasSmtpConfig = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
 
+const normalizePhone = (value) => clean(value, 80)
+  .normalize("NFKC")
+  .replace(/[^\d+]/g, "");
+
+const toE164JapanPhone = (value) => {
+  const phone = normalizePhone(value);
+  if (!phone) return "";
+  if (phone.startsWith("+")) return phone;
+  if (phone.startsWith("81")) return `+${phone}`;
+  if (phone.startsWith("0")) return `+81${phone.slice(1)}`;
+  return phone;
+};
+
+const isValidPhone = (value) => /^\+?\d{10,15}$/.test(normalizePhone(value));
+
+const hasSmsConfig = () => Boolean(
+  process.env.TWILIO_ACCOUNT_SID &&
+  process.env.TWILIO_AUTH_TOKEN &&
+  process.env.TWILIO_FROM_NUMBER
+);
+
+const sendSms = async ({ to, body }) => {
+  if (!hasSmsConfig()) {
+    return { ok: false, skipped: true, reason: "sms_config_missing" };
+  }
+
+  const accountSid = process.env.TWILIO_ACCOUNT_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
+  const fromNumber = process.env.TWILIO_FROM_NUMBER;
+  const auth = Buffer.from(`${accountSid}:${authToken}`).toString("base64");
+  const params = new URLSearchParams({
+    To: toE164JapanPhone(to),
+    From: fromNumber,
+    Body: body
+  });
+
+  const smsResponse = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${auth}`,
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: params
+  });
+
+  if (smsResponse.ok) return { ok: true, provider: "twilio" };
+
+  return {
+    ok: false,
+    provider: "twilio",
+    status: smsResponse.status,
+    body: await smsResponse.text().catch(() => "")
+  };
+};
+
 const sendEmail = async (resendApiKey, payload) => fetch("https://api.resend.com/emails", {
   method: "POST",
   headers: {
@@ -150,6 +205,7 @@ module.exports = async (request, response) => {
   const company = clean(body.company, 120);
   const suppliedName = clean(body.name, 80);
   const name = suppliedName || "お申し込み者";
+  const phone = normalizePhone(body.phone || body.tel);
   const topic = clean(body.topic, 300);
   const message = clean(body.message, 2000);
   const sourcePage = clean(body.source_page, 200);
@@ -168,6 +224,22 @@ module.exports = async (request, response) => {
     return json(response, 400, { message: "メールアドレスの形式を確認してください。" });
   }
 
+  if (!company) {
+    return json(response, 400, { message: "会社名を入力してください。" });
+  }
+
+  if (!suppliedName) {
+    return json(response, 400, { message: "お名前を入力してください。" });
+  }
+
+  if (!phone) {
+    return json(response, 400, { message: "電話番号を入力してください。" });
+  }
+
+  if (!isValidPhone(phone)) {
+    return json(response, 400, { message: "電話番号の形式を確認してください。" });
+  }
+
   const subjectPrefix = campaign || "30分診断";
   const subject = `${subjectPrefix}の申し込み｜${company || name}`;
   const text = [
@@ -175,6 +247,7 @@ module.exports = async (request, response) => {
     "",
     `連絡先：${contact}`,
     "連絡先種別：メールアドレス",
+    `電話番号：${phone}`,
     `お名前：${name}`,
     `会社名：${company || "未入力"}`,
     `相談の概略：${topic || "未選択"}`,
@@ -284,5 +357,38 @@ module.exports = async (request, response) => {
     });
   }
 
-  return json(response, 200, { ok: true, autoReplySent, autoReplyEligible: true });
+  let smsAutoReplySent = false;
+  let smsAutoReplySkipped = false;
+
+  const smsAutoReplyText = [
+    "株式会社HAYASHI CREATIVEです。",
+    "30分無料診断のお申し込みを受け付けました。",
+    "内容を確認し、通常1〜2営業日以内にご連絡します。"
+  ].join("\n");
+
+  const smsResponse = await sendSms({
+    to: phone,
+    body: smsAutoReplyText
+  });
+
+  if (smsResponse.ok) {
+    smsAutoReplySent = true;
+  } else if (smsResponse.skipped) {
+    smsAutoReplySkipped = true;
+    console.error("SMS auto reply skipped", { reason: smsResponse.reason });
+  } else {
+    console.error("SMS auto reply error", {
+      provider: smsResponse.provider,
+      status: smsResponse.status,
+      body: smsResponse.body
+    });
+  }
+
+  return json(response, 200, {
+    ok: true,
+    autoReplySent,
+    autoReplyEligible: true,
+    smsAutoReplySent,
+    smsAutoReplySkipped
+  });
 };

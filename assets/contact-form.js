@@ -193,6 +193,10 @@
         payload.current_url = window.location.href;
       }
 
+      if (typeof config.onSubmitAttempt === "function") {
+        config.onSubmitAttempt(payload);
+      }
+
       status.dataset.state = "";
       status.textContent = "送信中です。";
       button.disabled = true;
@@ -212,8 +216,14 @@
           await sendFallbackAutoReply(payload, config.fallbackAutoReply);
         }
 
+        if (typeof config.onSubmitSuccess === "function") {
+          config.onSubmitSuccess(payload);
+        }
         window.location.href = config.successUrl || DEFAULT_SUCCESS_URL;
       } catch (error) {
+        if (typeof config.onSubmitError === "function") {
+          config.onSubmitError(payload, error);
+        }
         status.dataset.state = "error";
         status.textContent = config.errorText || "送信できませんでした。時間をおいて再度お試しください。";
         button.disabled = false;
