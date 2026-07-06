@@ -12,25 +12,15 @@ const clean = (value: unknown, maxLength = 1200) => {
 const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const hasSmtpConfig = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+const fallbackAutoReplyUrl =
+  process.env.FALLBACK_AUTOREPLY_URL || "https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0";
 
 const normalizePhone = (value: unknown) =>
   clean(value, 80)
     .normalize("NFKC")
     .replace(/[^\d+]/g, "");
 
-const toE164JapanPhone = (value: string) => {
-  const phone = normalizePhone(value);
-  if (!phone) return "";
-  if (phone.startsWith("+")) return phone;
-  if (phone.startsWith("81")) return `+${phone}`;
-  if (phone.startsWith("0")) return `+81${phone.slice(1)}`;
-  return phone;
-};
-
 const isValidPhone = (value: string) => /^\+?\d{10,15}$/.test(normalizePhone(value));
-
-const hasSmsConfig = () =>
-  Boolean(process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_FROM_NUMBER);
 
 const labels: Record<string, string> = {
   company: "会社名",
@@ -119,37 +109,49 @@ const sendTransactionalEmail = async (payload: EmailPayload) => {
   };
 };
 
-const sendSms = async ({ to, body }: { to: string; body: string }) => {
-  if (!hasSmsConfig()) {
-    return { ok: false, skipped: true, reason: "sms_config_missing" };
+const sendFallbackAutoReply = async ({
+  email,
+  name,
+  subject,
+  text,
+  summary,
+}: {
+  email: string;
+  name: string;
+  subject: string;
+  text: string;
+  summary: string;
+}) => {
+  if (!fallbackAutoReplyUrl || !email) {
+    return { ok: false, provider: "formsubmit", status: 400, body: "fallback_not_configured" };
   }
 
-  const accountSid = process.env.TWILIO_ACCOUNT_SID as string;
-  const authToken = process.env.TWILIO_AUTH_TOKEN as string;
-  const fromNumber = process.env.TWILIO_FROM_NUMBER as string;
-  const auth = Buffer.from(`${accountSid}:${authToken}`).toString("base64");
-  const params = new URLSearchParams({
-    To: toE164JapanPhone(to),
-    From: fromNumber,
-    Body: body,
-  });
-
-  const smsResponse = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`, {
+  const response = await fetch(fallbackAutoReplyUrl, {
     method: "POST",
     headers: {
-      Authorization: `Basic ${auth}`,
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "application/json",
+      Accept: "application/json",
     },
-    body: params,
+    body: JSON.stringify({
+      email,
+      name,
+      _subject: subject,
+      _template: "table",
+      _captcha: "false",
+      _autoresponse: text,
+      message: summary,
+    }),
   });
 
-  if (smsResponse.ok) return { ok: true, provider: "twilio" };
+  if (response.ok) {
+    return { ok: true, provider: "formsubmit" };
+  }
 
   return {
     ok: false,
-    provider: "twilio",
-    status: smsResponse.status,
-    body: await smsResponse.text().catch(() => ""),
+    provider: "formsubmit",
+    status: response.status,
+    body: await response.text().catch(() => ""),
   };
 };
 
@@ -291,7 +293,35 @@ export async function POST(request: Request) {
         body: autoReplyResponse.body,
       });
 
-      await sendTransactionalEmail({
+      const fallbackResponse = await sendFallbackAutoReply({
+        email: lead.email,
+        name: lead.name,
+        subject: "最短2日AI集中キャンプのお申し込みを受け付けました",
+        text: autoReplyText,
+        summary: [
+          "受付確認メールの補助送信です。",
+          "",
+          `会社名：${lead.company}`,
+          `氏名：${lead.name}`,
+          `メールアドレス：${lead.email}`,
+          `申込元：${lead.sourcePage}`,
+          "",
+          "相談内容：",
+          lead.issue || "未入力",
+        ].join("\n"),
+      });
+
+      if (fallbackResponse.ok) {
+        autoReplySent = true;
+      } else {
+        console.error("diagnosis_fallback_auto_reply_failed", {
+          status: fallbackResponse.status,
+          provider: fallbackResponse.provider,
+          body: fallbackResponse.body,
+        });
+      }
+
+      if (!autoReplySent) await sendTransactionalEmail({
         from: fromEmail,
         to: [toEmail],
         reply_to: lead.email,
@@ -316,30 +346,11 @@ export async function POST(request: Request) {
       autoReplySent = true;
     }
 
-    const smsResponse = await sendSms({
-      to: lead.phone,
-      body: [
-        "株式会社HAYASHI CREATIVEです。",
-        "最短2日AI集中キャンプのお申し込みを受け付けました。",
-        "内容を確認し、通常1〜2営業日以内にご連絡します。",
-      ].join("\n"),
-    });
-
-    if (!smsResponse.ok) {
-      console.error("diagnosis_sms_auto_reply_failed", {
-        skipped: "skipped" in smsResponse ? smsResponse.skipped : false,
-        reason: "reason" in smsResponse ? smsResponse.reason : undefined,
-        provider: "provider" in smsResponse ? smsResponse.provider : undefined,
-        status: "status" in smsResponse ? smsResponse.status : undefined,
-        body: "body" in smsResponse ? smsResponse.body : undefined,
-      });
-    }
-
     return NextResponse.json({
       ok: true,
       autoReplySent,
-      smsAutoReplySent: smsResponse.ok,
-      smsAutoReplySkipped: "skipped" in smsResponse ? smsResponse.skipped : false,
+      smsAutoReplySent: false,
+      smsAutoReplySkipped: true,
     });
   }
 

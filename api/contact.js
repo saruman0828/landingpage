@@ -18,6 +18,8 @@ const normalizeContact = (value) => clean(value, 200)
 const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const hasSmtpConfig = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+const fallbackAutoReplyUrl =
+  process.env.FALLBACK_AUTOREPLY_URL || "https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0";
 
 const normalizePhone = (value) => clean(value, 80)
   .normalize("NFKC")
@@ -167,6 +169,40 @@ const sendTransactionalEmail = async (payload) => {
   return {
     ok: false,
     provider: "resend",
+    status: response.status,
+    body: await response.text().catch(() => "")
+  };
+};
+
+const sendFallbackAutoReply = async ({ email, name, subject, text, summary }) => {
+  if (!fallbackAutoReplyUrl || !email) {
+    return { ok: false, provider: "formsubmit", status: 400, body: "fallback_not_configured" };
+  }
+
+  const response = await fetch(fallbackAutoReplyUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json"
+    },
+    body: JSON.stringify({
+      email,
+      name,
+      _subject: subject,
+      _template: "table",
+      _captcha: "false",
+      _autoresponse: text,
+      message: summary || text
+    })
+  });
+
+  if (response.ok) {
+    return { ok: true, provider: "formsubmit" };
+  }
+
+  return {
+    ok: false,
+    provider: "formsubmit",
     status: response.status,
     body: await response.text().catch(() => "")
   };
@@ -329,6 +365,34 @@ module.exports = async (request, response) => {
       body: errorText
     });
 
+    const fallbackResponse = await sendFallbackAutoReply({
+      email: contact,
+      name,
+      subject: "30分無料診断のお申し込みを受け付けました",
+      text: autoReplyText,
+      summary: [
+        "受付確認メールの補助送信です。",
+        "",
+        `お名前：${name}`,
+        `メールアドレス：${contact}`,
+        `会社名：${company || "未入力"}`,
+        `相談の概略：${topic || "未選択"}`,
+        "",
+        "相談したい内容：",
+        message || "未入力"
+      ].join("\n")
+    });
+
+    if (fallbackResponse.ok) {
+      autoReplySent = true;
+    } else {
+      console.error("Fallback auto reply email error", {
+        provider: fallbackResponse.provider,
+        status: fallbackResponse.status,
+        body: fallbackResponse.body
+      });
+    }
+
     if (!autoReplySent) await sendTransactionalEmail({
       from: fromEmail,
       to: [toEmail],
@@ -357,38 +421,11 @@ module.exports = async (request, response) => {
     });
   }
 
-  let smsAutoReplySent = false;
-  let smsAutoReplySkipped = false;
-
-  const smsAutoReplyText = [
-    "株式会社HAYASHI CREATIVEです。",
-    "30分無料診断のお申し込みを受け付けました。",
-    "内容を確認し、通常1〜2営業日以内にご連絡します。"
-  ].join("\n");
-
-  const smsResponse = await sendSms({
-    to: phone,
-    body: smsAutoReplyText
-  });
-
-  if (smsResponse.ok) {
-    smsAutoReplySent = true;
-  } else if (smsResponse.skipped) {
-    smsAutoReplySkipped = true;
-    console.error("SMS auto reply skipped", { reason: smsResponse.reason });
-  } else {
-    console.error("SMS auto reply error", {
-      provider: smsResponse.provider,
-      status: smsResponse.status,
-      body: smsResponse.body
-    });
-  }
-
   return json(response, 200, {
     ok: true,
     autoReplySent,
     autoReplyEligible: true,
-    smsAutoReplySent,
-    smsAutoReplySkipped
+    smsAutoReplySent: false,
+    smsAutoReplySkipped: true
   });
 };
