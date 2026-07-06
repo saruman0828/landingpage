@@ -260,19 +260,7 @@ module.exports = async (request, response) => {
     return json(response, 400, { message: "メールアドレスの形式を確認してください。" });
   }
 
-  if (!company) {
-    return json(response, 400, { message: "会社名を入力してください。" });
-  }
-
-  if (!suppliedName) {
-    return json(response, 400, { message: "お名前を入力してください。" });
-  }
-
-  if (!phone) {
-    return json(response, 400, { message: "電話番号を入力してください。" });
-  }
-
-  if (!isValidPhone(phone)) {
+  if (phone && !isValidPhone(phone)) {
     return json(response, 400, { message: "電話番号の形式を確認してください。" });
   }
 
@@ -283,7 +271,7 @@ module.exports = async (request, response) => {
     "",
     `連絡先：${contact}`,
     "連絡先種別：メールアドレス",
-    `電話番号：${phone}`,
+    `電話番号：${phone || "未入力"}`,
     `お名前：${name}`,
     `会社名：${company || "未入力"}`,
     `相談の概略：${topic || "未選択"}`,
