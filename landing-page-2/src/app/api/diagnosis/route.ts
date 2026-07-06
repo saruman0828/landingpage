@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import nodemailer from "nodemailer";
 
 const requiredFields = ["company", "name", "email", "phone"];
 const mainContactApi = "https://ai-business-lp.vercel.app/api/contact";
@@ -9,6 +10,8 @@ const clean = (value: unknown, maxLength = 1200) => {
 };
 
 const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+const hasSmtpConfig = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
 
 const normalizePhone = (value: unknown) =>
   clean(value, 80)
@@ -42,16 +45,15 @@ const labels: Record<string, string> = {
   pagePath: "送信元URL",
 };
 
-const sendEmail = async (
-  resendApiKey: string,
-  payload: {
-    from: string;
-    to: string[];
-    subject: string;
-    text: string;
-    reply_to?: string;
-  },
-) =>
+type EmailPayload = {
+  from: string;
+  to: string[];
+  subject: string;
+  text: string;
+  reply_to?: string;
+};
+
+const sendEmail = async (resendApiKey: string, payload: EmailPayload) =>
   fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: {
@@ -60,6 +62,62 @@ const sendEmail = async (
     },
     body: JSON.stringify(payload),
   });
+
+const sendSmtpEmail = async (payload: EmailPayload) => {
+  const port = Number(process.env.SMTP_PORT || 465);
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port,
+    secure: port === 465,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+
+  await transporter.sendMail({
+    from: process.env.SMTP_FROM_EMAIL || process.env.CONTACT_FROM_EMAIL || process.env.SMTP_USER,
+    to: payload.to.join(","),
+    replyTo: payload.reply_to,
+    subject: payload.subject,
+    text: payload.text,
+  });
+};
+
+const sendTransactionalEmail = async (payload: EmailPayload) => {
+  if (hasSmtpConfig()) {
+    try {
+      await sendSmtpEmail(payload);
+      return { ok: true, provider: "smtp" };
+    } catch (error: unknown) {
+      return {
+        ok: false,
+        provider: "smtp",
+        status: 500,
+        body: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  const resendApiKey = process.env.RESEND_API_KEY;
+
+  if (!resendApiKey) {
+    return { ok: false, provider: "none", status: 500, body: "送信設定が未完了です。" };
+  }
+
+  const response = await sendEmail(resendApiKey, payload);
+
+  if (response.ok) {
+    return { ok: true, provider: "resend" };
+  }
+
+  return {
+    ok: false,
+    provider: "resend",
+    status: response.status,
+    body: await response.text().catch(() => ""),
+  };
+};
 
 const sendSms = async ({ to, body }: { to: string; body: string }) => {
   if (!hasSmsConfig()) {
@@ -169,10 +227,14 @@ export async function POST(request: Request) {
 
   const resendApiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.CONTACT_TO_EMAIL;
-  const fromEmail = process.env.CONTACT_FROM_EMAIL || "株式会社HAYASHI CREATIVE <onboarding@resend.dev>";
+  const fromEmail =
+    process.env.SMTP_FROM_EMAIL ||
+    process.env.CONTACT_FROM_EMAIL ||
+    "株式会社HAYASHI CREATIVE <onboarding@resend.dev>";
+  const hasEmailConfig = Boolean(toEmail && (resendApiKey || hasSmtpConfig()));
 
-  if (resendApiKey && toEmail) {
-    const adminResponse = await sendEmail(resendApiKey, {
+  if (hasEmailConfig && toEmail) {
+    const adminResponse = await sendTransactionalEmail({
       from: fromEmail,
       to: [toEmail],
       reply_to: lead.email,
@@ -181,10 +243,10 @@ export async function POST(request: Request) {
     });
 
     if (!adminResponse.ok) {
-      const responseBody = await adminResponse.text().catch(() => "");
       console.error("diagnosis_admin_email_failed", {
         status: adminResponse.status,
-        body: responseBody,
+        provider: adminResponse.provider,
+        body: adminResponse.body,
       });
       return NextResponse.json({ ok: false, error: "email_failed" }, { status: 502 });
     }
@@ -212,7 +274,7 @@ export async function POST(request: Request) {
       "株式会社HAYASHI CREATIVE",
     ].join("\n");
 
-    const autoReplyResponse = await sendEmail(resendApiKey, {
+    const autoReplyResponse = await sendTransactionalEmail({
       from: fromEmail,
       to: [lead.email],
       reply_to: toEmail,
@@ -220,14 +282,16 @@ export async function POST(request: Request) {
       text: autoReplyText,
     });
 
+    let autoReplySent = false;
+
     if (!autoReplyResponse.ok) {
-      const responseBody = await autoReplyResponse.text().catch(() => "");
       console.error("diagnosis_auto_reply_failed", {
         status: autoReplyResponse.status,
-        body: responseBody,
+        provider: autoReplyResponse.provider,
+        body: autoReplyResponse.body,
       });
 
-      await sendEmail(resendApiKey, {
+      await sendTransactionalEmail({
         from: fromEmail,
         to: [toEmail],
         reply_to: lead.email,
@@ -242,13 +306,14 @@ export async function POST(request: Request) {
           "",
           "自動返信エラー：",
           `status: ${autoReplyResponse.status}`,
-          responseBody || "詳細なし",
+          `provider: ${autoReplyResponse.provider}`,
+          autoReplyResponse.body || "詳細なし",
         ].join("\n"),
       }).catch((error: unknown) => {
         console.error("diagnosis_auto_reply_fallback_notice_failed", error);
       });
-
-      return NextResponse.json({ ok: true, autoReplySent: false, smsAutoReplySent: false });
+    } else {
+      autoReplySent = true;
     }
 
     const smsResponse = await sendSms({
@@ -272,7 +337,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       ok: true,
-      autoReplySent: true,
+      autoReplySent,
       smsAutoReplySent: smsResponse.ok,
       smsAutoReplySkipped: "skipped" in smsResponse ? smsResponse.skipped : false,
     });
