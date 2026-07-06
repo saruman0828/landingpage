@@ -236,7 +236,9 @@
       },
       fields: [
         { type: "email", name: "email", label: "メールアドレス", autocomplete: "email", placeholder: "返信先のメールアドレス", required: true },
-        { type: "text", name: "name", label: "お名前", autocomplete: "name", placeholder: "林 勝" },
+        { type: "text", name: "name", label: "お名前", note: "必須", autocomplete: "name", placeholder: "林 勝", required: true },
+        { type: "text", name: "company", label: "会社名", note: "必須", autocomplete: "organization", placeholder: "例：〇〇株式会社", required: true },
+        { type: "tel", name: "phone", label: "電話番号", note: "必須", autocomplete: "tel", inputmode: "tel", placeholder: "例：090-0000-0000", required: true },
         { type: "select", name: "topic", label: "相談したい内容", emptyLabel: "選択してください", options: ["生成AI研修を相談したい", "AI体験会を開催したい", "社内業務を効率化したい", "まず何ができるか知りたい"] },
         { type: "textarea", name: "message", label: "補足", placeholder: "例：社員からの質問対応、見積確認、資料作成を減らしたい" }
       ]
