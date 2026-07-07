@@ -25,7 +25,7 @@ CASES = [
         "file": "field-report.html",
         "category": "建築・点検・現場型",
         "title": "現場に出ている間に、AI事務員が報告書と連絡文を進める",
-        "lead": "写真、メール、社内チャット、予定をAIへ渡し、帰社後にゼロから作る報告書を「確認して直す仕事」へ変える他社の改善事例です。",
+        "lead": "写真、メール、社内チャット、予定をAIへ渡し、帰社後にゼロから作る報告書を「確認して直す仕事」へ変えます。",
         "meta": ["要点: 現場後の書類を前倒し", "対象: 工務店・点検業・設備業", "成果: 1案件45〜60分を確認15〜20分へ"],
         "image": "../images/270_improvement_construction_mobile_checklist.png",
         "alt": "建設現場でスマホのチェックリストを確認する様子",
@@ -68,13 +68,13 @@ CASES = [
         "file": "store-shift.html",
         "category": "小売・観光施設・飲食",
         "title": "3時間悩んでいたシフト表を、数分で確認できる状態にする",
-        "lead": "希望休、混雑予測、スタッフのスキル、人件費をAIが候補にまとめ、店長が売場と教育に戻るためのケースです。",
+        "lead": "希望休、混雑予測、スタッフが担当できる作業、人件費を候補にまとめ、店長が売場と教育に戻れる状態を作ります。",
         "meta": ["要点: 店長の勘を条件にする", "対象: 店舗・小売・観光", "成果: 月末の重い調整を数十分へ"],
         "image": "../images/193_seasonal_demand_forecast_store.jpg",
         "alt": "店舗の季節需要とシフトを確認する様子",
         "caption": "店長の頭の中にある条件を、AIが扱える表に変えます。",
         "card_metric": "シフト調整を候補確認へ",
-        "card_text": "希望休、ピーク時間、スキル、人件費をAIが見て、店長は公平性と現場感だけを直します。",
+        "card_text": "希望休、ピーク時間、担当できる作業、人件費をAIが見て、店長は公平性と現場感だけを直します。",
         "conclusion_h2": "この事例の本質は、店長の頭の中にある判断条件を、毎回使える条件に変えたことです。",
         "conclusion": [
             "店長は「この日は混む」「この新人はピークに一人で置けない」「ベテランばかり夜に寄せると不公平になる」といった条件を、無意識に同時処理しています。シフト表が重いのは、表作成ではなく、その判断を毎回やり直しているからです。",
@@ -111,7 +111,7 @@ CASES = [
         "file": "quote-flow.html",
         "category": "町工場・製造業",
         "title": "見積の前に消えていた毎日2時間を、ボタンひとつで進む作業に変える",
-        "lead": "図面、注文メール、過去単価、在庫、納期をAIが前処理し、社長や後継者が価格判断へ集中するケースです。",
+        "lead": "図面、注文メール、過去単価、在庫、納期を先に案件票へまとめ、社長や後継者が価格判断へ集中できる状態を作ります。",
         "meta": ["要点: 見積判断前の転記を減らす", "対象: 町工場・加工業", "成果: 毎日1〜2時間の前処理を圧縮"],
         "image": "../images/363_webref_metalworking_job_cards.png",
         "alt": "金属加工の作業カードと見積資料が整理された様子",
@@ -154,7 +154,7 @@ CASES = [
         "file": "shop-manual.html",
         "category": "店舗・多拠点・サービス業",
         "title": "店長に飛んでいた質問を、AIマニュアルが先に受け止める",
-        "lead": "紙のマニュアル、チャット、過去回答をAIが探せる知識に変え、スタッフが店長へ聞く前に自分で確認できるケースです。",
+        "lead": "紙のマニュアル、チャット、過去回答を探せる知識に変え、スタッフが店長へ聞く前に自分で確認できる状態を作ります。",
         "meta": ["要点: 質問を店長へ直行させない", "対象: 多店舗・サービス業", "成果: 教育と確認の割り込みを削減"],
         "image": "../images/288_improvement_employee_faq_relief.png",
         "alt": "スタッフの質問がFAQで整理されるイメージ",
@@ -197,7 +197,7 @@ CASES = [
         "file": "customer-support.html",
         "category": "EC・小売・食品製造",
         "title": "問い合わせの山を、AIが「返信できる順」に並べておく",
-        "lead": "メール、フォーム、SNS、注文情報をAIが分類し、返信下書きと例外リストを作ることで、担当者が重要対応へ集中するケースです。",
+        "lead": "メール、フォーム、SNS、注文情報を返信下書きと例外リストに分け、担当者が重要対応へ集中できる状態を作ります。",
         "meta": ["要点: 全部読むから例外確認へ", "対象: EC・小売・食品製造", "成果: 返信待ちと中断を減らす"],
         "image": "../images/256_improvement_customer_support_flow.jpg",
         "alt": "問い合わせ対応の流れが整理される様子",
@@ -244,7 +244,7 @@ CASES.extend([
         "file": "sales-follow.html",
         "category": "BtoB営業・不動産・士業",
         "title": "営業が本当にやるべき仕事以外を、AIが前後で進めておく",
-        "lead": "顧客調査、商談メモ、提案論点、フォローメールをAIが整え、営業担当が会話と関係づくりへ集中するケースです。",
+        "lead": "顧客調査、商談メモ、提案論点、フォローメールを先に整え、営業担当が会話と関係づくりへ集中できる状態を作ります。",
         "meta": ["要点: 商談前後の雑務を減らす", "対象: BtoB営業・不動産・士業", "成果: 週数時間の準備を商談へ戻す"],
         "image": "../images/281_improvement_sales_followup_pipeline.png",
         "alt": "営業フォローのパイプラインが整理された様子",
@@ -266,7 +266,7 @@ CASES.extend([
         "file": "manufacturing-quality.html",
         "category": "製造業・品質管理",
         "title": "検査後に散らばる不良写真を、翌朝の改善メモまで進めておく",
-        "lead": "検査写真、手書きメモ、ロット情報をAIが整理し、現場責任者が原因と対策を確認できる状態にするケースです。",
+        "lead": "検査写真、手書きメモ、ロット情報を一覧にし、現場責任者が原因と対策を確認できる状態にします。",
         "meta": ["要点: 不良情報を改善材料へ", "対象: 製造業・品質管理", "成果: 検査後の記録を会議資料へ"],
         "image": "../images/271_improvement_manufacturing_quality_hands.png",
         "alt": "製造現場の品質基準を手元で確認する様子",
@@ -288,7 +288,7 @@ CASES.extend([
         "file": "accounting-check.html",
         "category": "経理・支払い確認",
         "title": "支払い前の確認を、全部読む仕事から「差異だけ見る仕事」へ変える",
-        "lead": "請求書、発注、納品、支払い予定をAIが突き合わせ、経理担当と社長が承認すべき差異だけを見るケースです。",
+        "lead": "請求書、発注、納品、支払い予定を突き合わせ、経理担当と社長が承認すべき差異だけを見られる状態にします。",
         "meta": ["要点: 支払い判断前の照合", "対象: 経理・管理部門", "成果: 月末の確認負担を圧縮"],
         "image": "../images/263_improvement_accounting_monthly_check.jpg",
         "alt": "経理の月次確認が整理される様子",
@@ -314,13 +314,13 @@ def compact_case(file_name: str, category: str, title: str, lead: str, image: st
         "file": file_name,
         "category": category,
         "title": title,
-        "lead": lead,
+        "lead": f"{when}に重くなりがちな{task}を、{change}流れにします。AIは材料を先にそろえ、{role}は最後の判断と相手への伝え方を確認します。",
         "meta": [f"要点: {change}", f"対象: {category}", f"成果: {result}"],
         "image": image,
         "alt": f"{category}の業務改善イメージ",
         "caption": f"{task}を、作成ではなく確認から始められる状態にします。",
         "card_metric": result,
-        "card_text": lead,
+        "card_text": f"{role}が毎回探していた材料を、{task}で見る順番に並べます。最初から確認と判断に入れる状態を作ります。",
         "role": role,
         "when": when,
         "task": task,
@@ -333,29 +333,29 @@ def compact_case(file_name: str, category: str, title: str, lead: str, image: st
             f"{category}の現場では、{when}に{task}が一気に重くなります。{role}は目の前の対応をしながら、あとで確認する資料、返す連絡、抜けてはいけない注意点を頭の中に置き続けていました。",
             f"変えるのは、AIに丸投げすることではありません。メール、フォーム、写真、PDF、メモ、ExcelをAIへ渡し、{change}。人は最後に、個別事情、例外対応、外部送信、相手への伝え方を確認します。",
         ],
-        "aha": ("ポイントは、最後の判断を人に残すことです。", f"AIに任せるのは、{task}の材料を整え、迷いやすい箇所を見える化するところまでです。"),
+        "aha": ("最後の判断は、人に残します。", f"AIの役割は、{task}に必要な材料をそろえ、迷いやすい箇所を先に見えるようにすることです。"),
         "takeaways": [
             ("Before", "手元で止まる", f"{task}の材料が散らばり、{role}が毎回探して確認していました。"),
-            ("After", "AIが整える", f"AIが下書き、一覧、例外、確認点を作り、{role}は直すところから始めます。"),
+            ("After", "見る順に並ぶ", f"下書き、一覧、例外、確認点がそろい、{role}は直すところから始めます。"),
             ("Result", result, "短くなるのは作業時間だけではありません。未処理の仕事を頭の中で抱える負担が減ります。"),
         ],
         "narrative_title": narrative_title,
         "narrative": [
             f"{when}、{role}の前には{task}に関係する資料が並んでいました。電話や来客が入り、確認したいことは増えるのに、落ち着いて整理する時間はありません。",
-            "以前は、返信を一つずつ開き、紙のメモや過去の連絡を行ったり来たりしていました。手は動いているのに、全体が見えない。そこで疲れが溜まっていきます。",
+            "以前は、返信を一つずつ開き、紙のメモや過去の連絡を行ったり来たりしていました。手は動いているのに、全体が見えないまま時間だけが過ぎていきます。",
             f"改善後は、必要な材料をAIへ渡します。AIは不足、例外、期限、下書きをまとめ、{role}が見れば判断できる形にします。",
             f"最後に人が表現、送信先、個別事情、例外対応を確認します。{role}は作業に追われる人から、落ち着いて前へ進める人に戻れます。",
         ],
         "before": [
             ("材料が複数の場所に分かれている", "メール、チャット、紙、写真、PDF、Excelを人が行き来していました。"),
-            ("整理がいちばん忙しい時間に残る", "読む、探す、転記する仕事ほど、本来集中したい時間に割り込んでいました。"),
+            ("確認が忙しい時間に重なる", "読む、探す、転記する仕事ほど、接客や判断に集中したい時間へ割り込んでいました。"),
             ("担当者の記憶に頼っている", "確認漏れを防ぐため、管理者や社長への割り込みが増えていました。"),
         ],
         "flow": [
-            ("材料", "AIが見てよい範囲を決める", "フォルダ、メール条件、写真、入力項目を固定します。"),
-            ("整理", "案件別・期限別に分ける", "同じ仕事を毎回同じ型で受け取れるようにします。"),
-            ("下書き", "一覧・返信案・チェックリストにする", "完成品ではなく、人が直しやすい形で出します。"),
-            ("承認", "人が判断して外へ出す", "金額、契約、安全、個人情報、送信は人が見ます。"),
+            ("受け取り", "材料の置き場を決める", "フォルダ、メール条件、写真、入力項目を固定します。"),
+            ("見える化", f"{task}で見る順番に並べる", "担当者が最初に確認するもの、後でよいもの、例外だけを分けます。"),
+            ("下準備", "一覧・返信案・チェックリストにする", "完成品ではなく、人が直しやすい形で出します。"),
+            ("確認", "人が判断して外へ出す", "金額、契約、安全、個人情報、送信は人が見ます。"),
         ],
         "ai": ai,
         "human": human,
@@ -508,13 +508,14 @@ def enrich_cases() -> None:
             case["task"] = TASK_BY_FILE[case["file"]]
         if "empathy" not in case:
             first_before = case.get("before", [("材料が散らばる", "資料や連絡が分かれ、担当者が毎回探していました。")])[0]
-            case["empathy"] = f"{first_before[1]}この小さな探し物が積み重なると、担当者は本来見たい判断に入る前に疲れてしまいます。"
+            case["empathy"] = f"{first_before[1]}こうした確認が積み重なると、担当者は本来見たい判断に入る前に疲れてしまいます。"
         if "change_detail" not in case:
             ai_items = "、".join(case.get("ai", ["下書き", "一覧", "確認点"])[:3])
-            case["change_detail"] = f"AIには完成判断ではなく、{ai_items}を任せます。人が見るべき例外や確認点を先に出し、作業をゼロから作る状態から確認できる状態へ寄せます。"
+            human_items = "、".join(case.get("human", ["例外", "送信内容", "最終判断"])[:3])
+            case["change_detail"] = f"AIで先に進めるのは、{ai_items}までです。人は{human_items}を見て、必要なところだけ直します。"
         if "payoff_detail" not in case:
             result = case.get("takeaways", [("Result", "確認が早くなる", "人が判断に集中できます。")])[-1]
-            case["payoff_detail"] = f"{result[2]}戻った時間は、顧客対応、スタッフ教育、品質確認、次の営業活動など、人が直接価値を出す仕事へ戻せます。"
+            case["payoff_detail"] = f"{result[2]}その分、担当者は顧客対応、スタッフ教育、品質確認、次の営業活動など、人が直接見るべき仕事に時間を使えます。"
         case["conclusion_h2"] = NATURAL_HEADLINES.get(case["file"], case["conclusion_h2"])
         case["figure_caption"] = case.get("caption", "業務の材料を、人が確認しやすい形へ整えます。")
         if case["file"] in VISUALS_BY_FILE:
@@ -545,7 +546,7 @@ def render_visuals(case: dict) -> str:
         items.append(
             f"""              <article>
                 <img src="{e(image)}" alt="{e(alt)}" loading="lazy" />
-                <div><span>場面</span><h3>{e(heading)}</h3><p>{e(heading)}場面があると、改善後の働き方を読者が具体的に想像できます。</p></div>
+                <div><span>見るポイント</span><h3>{e(heading)}</h3><p>この画は「{e(heading)}」に近づいた状態を表しています。担当者が次に見るものを迷いにくくします。</p></div>
               </article>"""
         )
     return "\n".join(items)
@@ -554,9 +555,9 @@ def render_visuals(case: dict) -> str:
 def render_article(case: dict) -> str:
     title = f"{case['category']}AI事例｜{case['title']}"
     task = case.get("task", "判断前の準備")
-    result_heading = f"{task}を、作る時間から確認する時間へ寄せていきます。"
-    before_heading = f"導入前は、{task}の材料があちこちに散らばっていました。"
-    flow_heading = f"AIに任せるのは、{task}の下準備までです。"
+    result_heading = f"{task}を、最初から確認できる状態へ近づけます。"
+    before_heading = f"導入前は、{task}に必要な材料を人が探し集めていました。"
+    flow_heading = f"{task}では、AIが材料を整え、人が最後に判断します。"
     meta = "\n".join(f"            <span>{e(item)}</span>" for item in case["meta"])
     takeaways = "\n".join(
         f"""              <article>
@@ -629,8 +630,6 @@ def render_article(case: dict) -> str:
       </header>
 
       <section class="section blog-body">
-        <div data-case-study-toc></div>
-
         <div class="blog-content">
           <section class="blog-section">
             <p class="eyebrow">先に結論</p>
@@ -643,8 +642,8 @@ def render_article(case: dict) -> str:
           </section>
 
           <section class="blog-section">
-            <p class="eyebrow">読みどころ</p>
-            <h2>どこで詰まり、何を変え、何が楽になるのか。</h2>
+            <p class="eyebrow">仕事の変化</p>
+            <h2>現場で起きていたこと、変えたこと、残る判断を分けて見ます。</h2>
             <div class="blog-takeaway-grid">
 {sense_cards}
             </div>
@@ -657,18 +656,18 @@ def render_article(case: dict) -> str:
 {takeaways}
             </div>
             <div class="blog-highlight">
-              <strong>時間が戻るだけでなく、気持ちの重さが減ります。</strong>
-              <span>「まだ何も手を付けていない」状態から、「もう確認できる形になっている」状態へ変わることが、現場の安心につながります。</span>
+              <strong>短くなるのは、作業時間だけではありません。</strong>
+              <span>担当者が頭の中で抱えていた未確認事項が外に出るため、次に見るべきことが分かりやすくなります。</span>
             </div>
           </section>
 
           <section class="blog-section blog-section--narrative">
-            <p class="eyebrow">ある日のナラティブ</p>
+            <p class="eyebrow">現場の一場面</p>
             <h2>{e(case['narrative_title'])}</h2>
 {narrative}
             <div class="blog-aha-card">
-              <strong>このケースの良さは、仕事が消えることではありません。</strong>
-              <span>人が見るべき判断だけが残り、探す、並べる、書き出す作業が先に進んでいることです。</span>
+              <strong>変わるのは、担当者の仕事の始まり方です。</strong>
+              <span>探す、並べる、書き出す作業が先に進むと、人は判断と確認から入れます。</span>
             </div>
           </section>
 
@@ -678,8 +677,8 @@ def render_article(case: dict) -> str:
           </figure>
 
           <section class="blog-section">
-            <p class="eyebrow">画像で見る改善ポイント</p>
-            <h2>この仕事は、画面の中だけでなく現場の動き方が変わります。</h2>
+            <p class="eyebrow">改善のイメージ</p>
+            <h2>資料の集まり方が変わると、現場で次に見るものも変わります。</h2>
             <div class="blog-insight-grid">
 {visual_items}
             </div>
@@ -735,14 +734,13 @@ def render_article(case: dict) -> str:
 
 def render_index() -> str:
     cards = "\n".join(
-        f"""        <article class="case-card">
+        f"""        <a class="case-card" href="{e(case['file'])}">
           <img class="case-card__image" src="{e(case['image'])}" alt="{e(case['alt'])}" loading="lazy" />
           <span>{e(case['category'])}</span>
           <h3>{e(case['title'])}</h3>
           <p class="case-metric">{e(case['card_metric'])}</p>
           <p>{e(case['card_text'])}</p>
-          <p><a class="button secondary" href="{e(case['file'])}">記事を読む</a></p>
-        </article>"""
+        </a>"""
         for case in CASES
     )
     return f"""<!doctype html>
@@ -751,7 +749,7 @@ def render_index() -> str:
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>他社の改善事例まとめ｜社長の右腕AI</title>
-  <meta name="description" content="中小企業が真似しやすいAI活用・業務改善事例を、現場報告、店舗運営、製造、経理、採用、介護、EC、宿泊、物流などの他社の改善事例として紹介します" />
+  <meta name="description" content="現場、店舗、事務、営業、経理などの職場別に、AIで何が楽になり、どんな改善が残るかを中小企業向けの匿名改善ケースとして整理しました" />
   <meta property="og:title" content="他社の改善事例まとめ｜社長の右腕AI" />
   <meta property="og:description" content="中小企業が真似しやすいAI活用・業務改善事例を、毎日の困りごと別に整理しました" />
   <meta property="og:image" content="../images/338_webref_case_study_card_grid.png" />
@@ -766,10 +764,10 @@ def render_index() -> str:
     <section class="section sub-hero sharp-hero case-index-hero">
       <div class="sub-hero-copy">
         <p class="eyebrow">他社の改善事例</p>
-        <h1>AIで変わるのは、毎日だれかが抱えている小さな仕事です。</h1>
-        <p class="lead">公開されている改善パターンをもとに、社名や製品名を出さず、中小企業が自社へ置き換えやすい他社の改善事例として整理しました。読むポイントはツール名ではなく、「どの仕事をAIへ渡し、人がどこで判断するか」です。</p>
+        <h1>職場で止まっていた仕事が、確認して進める仕事に変わる。</h1>
+        <p class="lead">現場、店舗、事務、営業、経理などの毎週くり返す仕事を、社名や製品名を出さずに匿名の改善ケースとして整理しました。読むポイントはツール名ではなく、「どの職場で、何が楽になり、どんな改善が残るか」です。</p>
         <div class="cta-row">
-          <a class="button primary" href="../index.html#contact">自社の改善候補を相談する</a>
+          <a class="button primary" href="../index.html#contact">30分無料診断</a>
           <a class="button secondary" href="#cases">事例を見る</a>
         </div>
       </div>
@@ -780,22 +778,22 @@ def render_index() -> str:
 
     <section class="section sub-band">
       <div class="section-head">
-        <p class="eyebrow">共通する本質</p>
-        <h2>人が判断する前の、集める・読む・整える・下書きする仕事をAIへ渡す。</h2>
+        <p class="eyebrow">職場・メリット・できた改善</p>
+        <h2>業種より先に、「誰の仕事が軽くなり、何が会社に残るか」を見てください。</h2>
       </div>
       <div class="case-story-strip">
-        <div><span>Before</span><strong>現場や店長の手元で止まる</strong><p>写真、メール、紙、Excelが散らばり、夕方や月末にまとめて処理していました。</p></div>
-        <div><span>AI</span><strong>材料を読み、下書きと例外を出す</strong><p>AIは完成判断をせず、人が確認しやすい一覧、文面、チェックリストにします。</p></div>
-        <div><span>Human</span><strong>判断と外部送信を持つ</strong><p>金額、契約、安全、医療、個人情報、顧客感情は人が最後に見ます。</p></div>
-        <div><span>Result</span><strong>作成から確認へ変わる</strong><p>戻った時間を、顧客対応、教育、品質改善、営業、家族との時間に使えます。</p></div>
+        <div><span>職場</span><strong>現場・店舗・事務所の止まり仕事が見える</strong><p>帰社後、閉店後、月末、朝一番など、担当者が毎回抱えていた作業から探せます。</p></div>
+        <div><span>メリット</span><strong>社長と担当者が、判断に時間を使える</strong><p>探す、読む、並べる、下書きする作業を先に進め、最後の判断は人が持ちます。</p></div>
+        <div><span>できた改善</span><strong>作成から、確認して直す仕事へ変わる</strong><p>報告書、シフト、見積前処理、返信、照合を、ゼロから始めない状態にします。</p></div>
+        <div><span>残るスキル</span><strong>AIへの渡し方と確認基準が会社に残る</strong><p>資料の置き場、指示の型、例外条件を整えるため、担当者が変わっても使えます。</p></div>
       </div>
     </section>
 
     <section id="cases" class="section">
       <div class="section-head">
         <p class="eyebrow">他社の改善事例</p>
-        <h2>業種名より、「毎週止まっている仕事」で見てください。</h2>
-        <p>すべての事例で、AIは判断者ではなく準備担当です。読者が自社に置き換えやすいよう、日常の場面、感情、承認点を入れています。</p>
+        <h2>近い職場、近い悩み、近いメリットから読めます。</h2>
+        <p>すべての事例で、AIは判断者ではなく準備担当です。どの材料を渡し、何が下書きされ、人がどこを確認するかまで見えるようにしています。</p>
       </div>
       <div class="case-grid">
 {cards}
@@ -804,10 +802,10 @@ def render_index() -> str:
     </section>
 
     <section class="section page-cta">
-      <p class="eyebrow">まず1業務から</p>
-      <h2>御社で最初にAIへ渡すべき作業を確認します。</h2>
-      <p>現場、店舗、製造、営業、事務のどこに時間が消えているかを整理し、最も効果が見えやすい1業務を選びます。</p>
-      <a class="button primary large" href="../index.html#contact">30分無料診断を申し込む</a>
+      <p class="eyebrow">相談の入口</p>
+      <h2>毎週止まっている作業を、ひとつだけ見える化します。</h2>
+      <p>現場、店舗、製造、営業、事務の中から、最初に軽くする業務を一緒に選びます。</p>
+      <a class="button primary large" href="../index.html#contact">30分無料診断</a>
     </section>
   </main>
 

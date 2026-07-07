@@ -41,7 +41,7 @@ Before writing HTML, decide:
    - State the workflow redesign, not the tool.
    - Name the repeated job that used to stop.
    - Add a `blog-aha-card` with the key "なるほど" insight.
-3. 読みどころ
+3. 仕事の変化
    - Add three cards or short paragraphs for:
      - 現場で起きていたこと
      - 変えたこと
@@ -51,8 +51,9 @@ Before writing HTML, decide:
    - Add a `blog-takeaway-grid` with concrete before/after/result.
    - Use numbers carefully: `45〜60分`, `15〜20分`, `月40時間規模`, `週数時間`.
    - Explain why the result feels good, not only what got faster.
-5. ある日のナラティブ
+5. 現場の一場面
    - Add a scene-based narrative section before returning to analysis.
+   - Do not expose production terms such as `ナラティブ` in public headings.
    - Use a concrete time and place in the heading.
    - Show what is on the desk, phone, shop floor, vehicle, counter, reception desk, or meeting room.
    - Include the moment the human hands work to AI.
@@ -71,6 +72,13 @@ Before writing HTML, decide:
    - Decide materials, output format, approval point, and measurement.
 10. CTA
    - Link to `../index.html#contact`.
+   - Use a low-pressure consultation entry, not a hard sales prompt.
+   - Preferred visible copy:
+     - Eyebrow: `相談の入口`
+     - H2: `毎週止まっている作業を、ひとつだけ見える化します。`
+     - Body: `写真、メール、Excel、メモなど実際の材料を見ながら、AIに渡す準備と人が確認する判断を分けます。`
+     - Button: `30分無料診断`
+   - Avoid `御社なら、どの作業をAIへ渡せるか。`, `自社に置き換える`, `30分無料診断を申し込む`, and other wording that feels like pressuring the reader.
 
 ## Must-Have Specificity
 
@@ -112,6 +120,15 @@ Good narrative structure:
 - `AIで作業時間を削減`
 
 These are too generic unless followed by a concrete job and changed feeling.
+
+## Public Copy Guards
+
+Do not expose production/planning labels in public copy:
+
+- Avoid `ナラティブ`, `読みどころ`, `自社に置き換える`, `下準備までです`, `案件別・期限別に分ける`.
+- Replace with reader-facing labels such as `現場の一場面`, `仕事の変化`, `相談の入口`.
+- CTA button text should be `30分無料診断`, not `30分無料診断を申し込む`.
+- For bulk-generated pages, grep generated HTML and shared JS for banned phrases before finishing.
 
 ## Claim Handling
 
