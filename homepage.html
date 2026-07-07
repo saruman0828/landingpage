@@ -9,22 +9,11 @@
   <meta property="og:description" content="AIを入れるだけで終わらせず、現場の仕事が減るところまで伴走します。" />
   <meta property="og:image" content="assets/hero-ai-office.png" />
   <meta property="og:type" content="website" />
+  <link rel="icon" href="data:," />
   <link rel="stylesheet" href="homepage.css" />
 </head>
 <body>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="株式会社HAYASHI CREATIVE トップへ">
-      <span class="brand-mark">HC</span>
-      <span>HAYASHI CREATIVE</span>
-    </a>
-    <nav class="site-nav" aria-label="主要ナビゲーション">
-      <a href="#service">サービス</a>
-      <a href="#works">実績</a>
-      <a href="#flow">流れ</a>
-      <a href="#team">担当者</a>
-      <a class="nav-button" href="#contact">相談する</a>
-    </nav>
-  </header>
+  <div data-site-header="homepage"></div>
 
   <main id="top">
     <section class="hero">
@@ -221,9 +210,7 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <p>© 株式会社HAYASHI CREATIVE. All rights reserved.</p>
-  </footer>
+  <div data-site-footer="homepage"></div>
   <script src="assets/contact-form.js"></script>
   <script>
     window.ContactForm.mount("#homepage-contact-form-root", {
@@ -236,12 +223,13 @@
       },
       fields: [
         { type: "email", name: "email", label: "メールアドレス", autocomplete: "email", placeholder: "返信先のメールアドレス", required: true },
-        { type: "text", name: "name", label: "お名前", note: "必須", autocomplete: "name", placeholder: "林 勝", required: true },
-        { type: "text", name: "company", label: "会社名", note: "必須", autocomplete: "organization", placeholder: "例：〇〇株式会社", required: true },
+        { type: "text", name: "name", label: "お名前", autocomplete: "name", placeholder: "林 勝", required: true },
+        { type: "text", name: "company", label: "会社名", autocomplete: "organization", placeholder: "例：〇〇株式会社", required: true },
         { type: "select", name: "topic", label: "相談したい内容", emptyLabel: "選択してください", options: ["生成AI研修を相談したい", "AI体験会を開催したい", "社内業務を効率化したい", "まず何ができるか知りたい"] },
         { type: "textarea", name: "message", label: "補足", placeholder: "例：社員からの質問対応、見積確認、資料作成を減らしたい" }
       ]
     });
   </script>
+  <script src="assets/site-layout.js"></script>
 </body>
 </html>

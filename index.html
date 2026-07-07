@@ -14,18 +14,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="topbar">
-	    <a class="brand" href="#hero">社長の右腕AI</a>
-    <nav>
-      <a href="diagnosis.html">困りごと</a>
-      <a href="cases.html">改善事例</a>
-      <a class="mobile-priority" href="training.html">AI研修</a>
-      <a href="#results">実績</a>
-      <a href="#price">ご支援の進め方</a>
-      <a href="#team">誰がやるか</a>
-      <a class="nav-cta" href="#contact">日程候補を送る</a>
-    </nav>
-  </header>
+  <div data-site-header></div>
 
   <main>
     <section id="hero" class="section hero">
@@ -41,9 +30,8 @@
         </div>
         <p class="impact">その結果、社長への確認が減り、<strong>社員の判断・対応・教育の質が安定します。</strong></p>
         <div class="cta-row">
-          <a class="button primary" href="#contact">30分の候補日を送る</a>
+          <a class="button primary" href="#contact">30分無料診断</a>
           <a class="button secondary" href="#results">実績を見る</a>
-          <a class="button secondary" href="training.html">最短2日AI集中キャンプはこちら</a>
         </div>
         <p class="microcopy">日程は、今月・来月のどこで調整しましょうか？候補日を2〜3つ送ってください。</p>
       </div>
@@ -128,6 +116,10 @@
           <strong class="case-metric">年間約200時間削減</strong>
           <h3>請求書や領収書の仕訳、転記の自動化。入金確認の抜け漏れチェック</h3>
           <p>毎月の請求書確認、領収書整理、入金チェック、支払予定の確認項目を整理。経理データを読み込み、会計ソフトに自動的に渡せる形に。担当者が迷わず確認できるチェックリストと社長確認用の要約を作りました。</p>
+        </article>
+        <article class="case-card case-card--link">
+          <img class="case-card__image" src="イメージ候補/338_webref_case_study_card_grid.png" alt="他社の改善事例がカードで整理されたイメージ" loading="lazy" />
+          <p><a class="button secondary" href="case-studies/index.html">他社の改善事例を見る</a></p>
         </article>
       </div>
       <p class="case-note">※削減時間は、支援対象業務の作業時間をもとに算出した目安です。業務量や体制により変動するため、御社の削減余地は無料診断で確認します。</p>
@@ -292,10 +284,51 @@
 	        <div><strong>優先順位</strong><span>効果が出やすい順に、最初の一歩を決めます。</span></div>
 	        <div><strong>進め方</strong><span>御社に必要な支援だけを、分かりやすくご案内します。</span></div>
 	      </div>
-	      <p class="security-note">初回相談で機密資料の提出は不要です。必要に応じて秘密保持契約（NDA）に対応し、取り扱う情報・入力範囲・権限を事前に整理します。</p>
+	      <p class="security-note">初回相談で機密資料の提出は不要です。</p>
 	      <div id="contact-intake">
-	        <h3>必要事項を入力してください。電話番号は任意です。受付確認メールをお送りします。</h3>
-	        <div id="contact-form-root"></div>
+	        <div id="contact-form-root">
+	          <form class="contact-form" id="contact-form" action="/api/contact" method="post">
+	            <input type="hidden" name="source_page" value="メインページ：社長の右腕AI">
+	            <input type="hidden" name="source_label" value="メインページ">
+	            <input type="hidden" name="campaign" value="30分無料診断">
+	            <div class="form-grid">
+	              <label class="wide">
+	                <span class="field-label">メールアドレス<span class="form-required" aria-label="必須">*</span></span>
+	                <span class="field-note">受付確認メールをお送りします</span>
+	                <input type="email" name="email" autocomplete="email" inputmode="email" placeholder="例：info@example.com" required>
+	              </label>
+	              <label>
+	                <span class="field-label">相談の概略</span>
+	                <select name="topic">
+	                  <option value="">選択しない</option>
+	                  <option value="経営者として、社長に確認が集まりすぎて困っている">経営者として、確認が自分に集まりすぎている</option>
+	                  <option value="管理職として、社員教育や判断基準のばらつきに困っている">管理職として、社員教育や判断基準のばらつきに困っている</option>
+	                  <option value="経理・事務担当として、確認や入力の抜け漏れに困っている">経理・事務担当として、確認や抜け漏れに困っている</option>
+	                  <option value="営業・問い合わせ対応で、返信や見積確認を減らしたい">営業・問い合わせ対応を効率化したい</option>
+	                  <option value="まず何をAI化できるか相談したい">まず何をAI化できるか相談したい</option>
+	                </select>
+	              </label>
+	              <label>
+	                <span class="field-label">お名前<span class="form-required" aria-label="必須">*</span></span>
+	                <input type="text" name="name" autocomplete="name" placeholder="例：お名前" required>
+	              </label>
+	              <label>
+	                <span class="field-label">会社名<span class="form-required" aria-label="必須">*</span></span>
+	                <input type="text" name="company" autocomplete="organization" placeholder="例：〇〇株式会社" required>
+	              </label>
+	              <label>
+	                <span class="field-label">電話番号</span>
+	                <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="例：090-0000-0000">
+	              </label>
+	              <label class="wide">
+	                <span class="field-label">相談内容</span>
+	                <textarea name="message" placeholder="例：社員からの質問対応、見積確認、新人教育を減らしたい"></textarea>
+	              </label>
+	            </div>
+	            <button class="button primary large" type="submit">30分無料診断を申し込む</button>
+	            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+	          </form>
+	        </div>
         <div class="line-fallback">
           <div>
             <span>フォームが送れない場合</span>
@@ -308,9 +341,7 @@
     </section>
   </main>
 
-  <footer>
-	    <p>© 株式会社HAYASHI CREATIVE. All rights reserved.</p>
-  </footer>
+  <div data-site-footer></div>
   <script src="assets/contact-form.js"></script>
   <script>
     (() => {
@@ -383,7 +414,7 @@
         }
       });
 
-      window.ContactForm.mount("#contact-form-root", {
+      const contactFormOptions = {
         id: "contact-form",
         statusId: "form-status",
         submitText: "30分無料診断を申し込む",
@@ -417,7 +448,6 @@
             type: "select",
             name: "topic",
             label: "相談の概略",
-            note: "任意",
             emptyLabel: "選択しない",
             options: [
               { value: "経営者として、社長に確認が集まりすぎて困っている", label: "経営者として、確認が自分に集まりすぎている" },
@@ -427,12 +457,16 @@
               { value: "まず何をAI化できるか相談したい", label: "まず何をAI化できるか相談したい" }
             ]
           },
-          { type: "text", name: "name", label: "お名前", note: "必須", autocomplete: "name", placeholder: "例：お名前", required: true },
-          { type: "text", name: "company", label: "会社名", note: "必須", autocomplete: "organization", placeholder: "例：〇〇株式会社", required: true },
-          { type: "tel", name: "phone", label: "電話番号", note: "任意", autocomplete: "tel", inputmode: "tel", placeholder: "例：090-0000-0000" },
-          { type: "textarea", name: "message", label: "相談内容", note: "任意", placeholder: "例：社員からの質問対応、見積確認、新人教育を減らしたい", wide: true }
+          { type: "text", name: "name", label: "お名前", autocomplete: "name", placeholder: "例：お名前", required: true },
+          { type: "text", name: "company", label: "会社名", autocomplete: "organization", placeholder: "例：〇〇株式会社", required: true },
+          { type: "tel", name: "phone", label: "電話番号", autocomplete: "tel", inputmode: "tel", placeholder: "例：090-0000-0000" },
+          { type: "textarea", name: "message", label: "相談内容", placeholder: "例：社員からの質問対応、見積確認、新人教育を減らしたい", wide: true }
         ]
-      });
+      };
+
+      if (window.ContactForm && typeof window.ContactForm.mount === "function") {
+        window.ContactForm.mount("#contact-form-root", contactFormOptions);
+      }
 
       const form = document.getElementById("contact-form");
       if (!form) return;
@@ -449,5 +483,6 @@
       });
     })();
   </script>
+  <script src="assets/site-layout.js"></script>
 </body>
 </html>

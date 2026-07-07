@@ -48,12 +48,27 @@
     return element;
   };
 
+  const createFieldHeader = (field) => {
+    const header = createElement("span", { className: "field-label" });
+    header.appendChild(document.createTextNode(field.label || ""));
+
+    if (field.required) {
+      header.appendChild(createElement("span", {
+        className: "form-required",
+        text: "*",
+        "aria-label": "必須"
+      }));
+    }
+
+    return header;
+  };
+
   const createLabel = (field) => {
     const label = createElement("label", { className: field.wide ? "wide" : "" });
-    label.appendChild(document.createTextNode(field.label || ""));
+    label.appendChild(createFieldHeader(field));
 
-    if (field.note) {
-      label.appendChild(createElement("span", { text: field.note }));
+    if (field.note && field.note !== "必須" && field.note !== "任意") {
+      label.appendChild(createElement("span", { className: "field-note", text: field.note }));
     }
 
     if (field.type === "select") {
@@ -123,7 +138,7 @@
     phoneInput.setCustomValidity("");
 
     if (phoneInput.value && !isPhone(phoneInput.value)) {
-      phoneInput.setCustomValidity("電話番号の形式を確認してください。電話番号は任意です。空欄でも送信できます。");
+      phoneInput.setCustomValidity("電話番号の形式を確認してください。空欄でも送信できます。");
       return false;
     }
 
