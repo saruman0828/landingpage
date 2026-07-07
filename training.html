@@ -194,7 +194,6 @@
           <div class="form-grid">
             <label class="wide">
               <span class="field-label">メールアドレス<span class="form-required" aria-label="必須">*</span></span>
-              <span class="field-note">受付確認メールをお送りします</span>
               <input type="email" name="email" autocomplete="email" inputmode="email" placeholder="例：info@example.com" required>
             </label>
             <label>
@@ -338,7 +337,7 @@
             });
           },
           fields: [
-            { type: "email", name: "email", label: "メールアドレス", note: "受付確認メールをお送りします", autocomplete: "email", placeholder: "例：info@example.com", required: true, wide: true },
+            { type: "email", name: "email", label: "メールアドレス", autocomplete: "email", placeholder: "例：info@example.com", required: true, wide: true },
             {
               type: "select",
               name: "topic",
