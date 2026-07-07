@@ -4,7 +4,6 @@
   const rootPrefix = scriptSrc.includes("../assets/") ? "../" : "";
   const toRoot = (path) => `${rootPrefix}${path}`;
 
-  const isCaseStudy = window.location.pathname.includes("/case-studies/");
   const pageName = window.location.pathname.split("/").pop() || "index.html";
 
   const mainNav = [
@@ -21,9 +20,7 @@
   ];
 
   const inferActive = () => {
-    if (pageName === "diagnosis.html") return "diagnosis";
     if (pageName === "training.html") return "training";
-    if (pageName === "cases.html" || isCaseStudy) return "cases";
     return "";
   };
 
