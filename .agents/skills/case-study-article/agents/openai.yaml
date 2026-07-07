@@ -1,0 +1,4 @@
+interface:
+  display_name: "改善事例記事作成"
+  short_description: "公開事例を調査し、匿名化した改善事例記事として追加する。"
+  default_prompt: "改善事例を追加調査し、匿名化してcase-studiesの記事とまとめページに追加してください。"

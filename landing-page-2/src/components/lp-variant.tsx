@@ -467,13 +467,13 @@ export function LandingVariant({ config }: { config: VariantConfig }) {
                     <p className="section-kicker mb-2">AIをビジネスに応用、仕組み化するプロ</p>
                     <h3 className="text-2xl font-black leading-tight sm:text-3xl">林　兄</h3>
                     <p className="mt-4 break-words leading-8 text-[#27445C] [overflow-wrap:anywhere]">
-                      岡山出身。東京にてシステムエンジニアとして10年以上、業務システムの設計・開発・運用改善に携わってきました。
+                      東京でシステムエンジニアとして20年以上、AI活用スタートアップのCTOを務めています。
                     </p>
                     <p className="mt-3 break-words leading-8 text-[#27445C] [overflow-wrap:anywhere]">
-                      防衛省関連システムや選挙速報システムなど、高レベルのセキュリティと正確性が必要な領域で開発責任者を担当。ベンチャー企業では特許照合AIを1人で設計・開発し、要件整理から実装、精度改善までを一貫して担当しました。
+                      防衛庁システムの開発や、高レベルのセキュリティと正確性が必要な領域で開発責任者を担当。ベンチャー企業ではフルスタックCTOとして設計・開発、精度改善まで一貫して担当し、GoogleのAIスタートアップ支援に正式採択されました。
                     </p>
                     <p className="mt-3 break-words leading-8 text-[#27445C] [overflow-wrap:anywhere]">
-                      現在は東京大学のAI講義にて在籍講師をしながら、中小企業のAI（Artificial Intelligence、人工知能）活用による課題解決に取り組んでいます。
+                      現在は東京大学のAI講義にて在籍講師をしながら、中小企業のAI（Artificial Intelligence、人工知能）活用による社会課題解決に取り組んでいます。
                     </p>
                     <ul className="mt-4 list-disc space-y-2 break-words pl-5 leading-7 text-[#27445C] [overflow-wrap:anywhere]">
                       <li>業務フロー整理</li>
