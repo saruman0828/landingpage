@@ -3479,16 +3479,54 @@ def list_items(items: list[str]) -> str:
     return "\n".join(f"                  <li>{e(item)}</li>" for item in items)
 
 
+def safe_image_alt(label: str) -> str:
+    cleaned = (
+        label.replace("AI事例", "")
+        .replace("の様子", "")
+        .replace("している様子", "")
+        .replace("確認している", "確認")
+        .replace("確認する場面", "確認")
+        .replace("場面", "")
+        .replace("画面", "")
+        .replace("物撮り", "")
+        .replace("肩越し", "")
+        .replace("俯瞰", "")
+        .strip("、。 ")
+    )
+    if not cleaned:
+        cleaned = "業務改善"
+    if cleaned.endswith("イメージ"):
+        return cleaned
+    return f"{cleaned}の業務改善イメージ"
+
+
+def safe_visual_text(text: str) -> str:
+    replacements = {
+        "場面です。": "状態を表します。",
+        "場面です": "状態を表します",
+        "確認している場面": "確認する流れ",
+        "確認する場面": "確認の流れ",
+        "分けている場面": "分ける流れ",
+        "している様子": "する流れ",
+        "確認している様子": "確認する流れ",
+        "肩越しに見る様子": "整理するイメージ",
+        "同じ机で確認": "同じ場所で確認",
+    }
+    for old, new in replacements.items():
+        text = text.replace(old, new)
+    return text
+
+
 def render_visuals(case: dict) -> str:
     items = []
-    visual_label = case.get("visual_label", "改善後に見えるもの")
+    visual_label = case.get("visual_label", "整理後の材料")
     default_visual_text = case.get("default_visual_text", "人が判断する前に、必要な材料と例外が同じ場所で見えることです。")
     for visual in case["visuals"]:
         image, alt, heading = visual[:3]
-        text = visual[3] if len(visual) > 3 else default_visual_text
+        text = safe_visual_text(visual[3] if len(visual) > 3 else default_visual_text)
         items.append(
             f"""              <article>
-                <img src="{e(image)}" alt="{e(alt)}" loading="lazy" />
+                <img src="{e(image)}" alt="{e(safe_image_alt(heading))}" loading="lazy" />
                 <div><span>{e(visual_label)}</span><h3>{e(heading)}</h3><p>{e(text)}</p></div>
               </article>"""
         )
@@ -3575,7 +3613,7 @@ def render_article(case: dict) -> str:
           </div>
         </div>
         <figure class="blog-hero__media">
-          <img src="{e(case['image'])}" alt="{e(case['alt'])}" loading="eager" />
+          <img src="{e(case['image'])}" alt="{e(safe_image_alt(case['category']))}" loading="eager" />
           <figcaption>{e(case['caption'])}</figcaption>
         </figure>
       </header>
@@ -3623,7 +3661,7 @@ def render_article(case: dict) -> str:
           </section>
 
           <figure class="blog-figure">
-            <img src="{e(case['image'])}" alt="{e(case['alt'])}" loading="lazy" />
+            <img src="{e(case['image'])}" alt="{e(safe_image_alt(case['category']))}" loading="lazy" />
             <figcaption>{e(case['figure_caption'])}</figcaption>
           </figure>
 
@@ -3686,7 +3724,7 @@ def render_article(case: dict) -> str:
 def render_index() -> str:
     cards = "\n".join(
         f"""        <a class="case-card" href="{e(case['file'])}">
-          <img class="case-card__image" src="{e(case['image'])}" alt="{e(case['alt'])}" loading="lazy" />
+          <img class="case-card__image" src="{e(case['image'])}" alt="{e(safe_image_alt(case['category']))}" loading="lazy" />
           <span>{e(case['category'])}</span>
           <h3>{e(case['title'])}</h3>
           <p class="case-metric">{e(case['card_metric'])}</p>
