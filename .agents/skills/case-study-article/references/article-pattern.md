@@ -74,8 +74,8 @@ Before writing HTML, decide:
    - Link to `../index.html#contact`.
    - Use a low-pressure consultation entry, not a hard sales prompt.
    - Preferred visible copy:
-     - Eyebrow: `相談の入口`
-     - H2: `毎週止まっている作業を、ひとつだけ見える化します。`
+     - Eyebrow: `相談`
+     - H2: `自社業務を自動化する`
      - Body: `写真、メール、Excel、メモなど実際の材料を見ながら、AIに渡す準備と人が確認する判断を分けます。`
      - Button: `30分無料診断`
    - Avoid `御社なら、どの作業をAIへ渡せるか。`, `自社に置き換える`, `30分無料診断を申し込む`, and other wording that feels like pressuring the reader.
@@ -149,7 +149,7 @@ These are too generic unless followed by a concrete job and changed feeling.
 Do not expose production/planning labels in public copy:
 
 - Avoid `ナラティブ`, `読みどころ`, `自社に置き換える`, `下準備までです`, `案件別・期限別に分ける`.
-- Replace with reader-facing labels such as `現場の一場面`, `仕事の変化`, `相談の入口`.
+- Replace with reader-facing labels such as `現場の一場面`, `仕事の変化`, `相談`.
 - CTA button text should be `30分無料診断`, not `30分無料診断を申し込む`.
 - For bulk-generated pages, grep generated HTML and shared JS for banned phrases before finishing.
 

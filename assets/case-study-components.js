@@ -13,8 +13,8 @@
 
   const renderCaseCta = () => `
     <section class="blog-cta">
-      <p class="eyebrow">相談の入口</p>
-      <h2>毎週止まっている作業を、ひとつだけ見える化します。</h2>
+      <p class="eyebrow">相談</p>
+      <h2>自社業務を自動化する</h2>
       <p>写真、メール、Excel、メモなど実際の材料を見ながら、AIに渡す準備と人が確認する判断を分けます。</p>
       <a class="button primary large" href="../index.html#contact">30分無料診断</a>
     </section>`;
