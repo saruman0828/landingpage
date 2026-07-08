@@ -83,7 +83,6 @@ These sections are a flexible article pattern, not a schema. Keep the emotional 
    - Preferred visible copy:
      - Eyebrow: `相談`
      - H2: `自社業務を自動化する`
-     - Body: `写真、メール、Excel、メモなど実際の材料を見ながら、AIに渡す準備と人が確認する判断を分けます。`
      - Button: `30分無料診断`
    - Avoid `御社なら、どの作業をAIへ渡せるか。`, `自社に置き換える`, `30分無料診断を申し込む`, and other wording that feels like pressuring the reader.
 
