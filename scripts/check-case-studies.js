@@ -20,6 +20,7 @@ const bannedImageCopy = [
 ];
 
 const bannedPublicCopy = [
+  "TODO_CASE_STUDY",
   "ある日のナラティブ",
   "読みどころ",
   "御社なら、どの作業をAIへ渡せるか。",
@@ -29,11 +30,13 @@ const bannedPublicCopy = [
 
 const htmlFiles = fs
   .readdirSync(caseStudiesDir)
-  .filter((fileName) => fileName.endsWith(".html"))
+  .filter((fileName) => fileName.endsWith(".html") && !fileName.startsWith("_"))
   .map((fileName) => path.join(caseStudiesDir, fileName))
   .sort();
 
 const errors = [];
+const indexPath = path.join(caseStudiesDir, "index.html");
+const indexHtml = fs.readFileSync(indexPath, "utf8");
 
 const lineNumberForIndex = (text, index) => text.slice(0, index).split(/\r?\n/).length;
 
@@ -50,6 +53,11 @@ const existsRelativeTo = (filePath, reference) => {
 for (const filePath of htmlFiles) {
   const html = fs.readFileSync(filePath, "utf8");
   const lines = html.split(/\r?\n/);
+  const fileName = path.basename(filePath);
+
+  if (fileName !== "index.html" && !indexHtml.includes(`href="${fileName}"`)) {
+    report(indexPath, 1, `一覧ページから記事へリンクしてください: ${fileName}`);
+  }
 
   lines.forEach((line, index) => {
     const lineNumber = index + 1;

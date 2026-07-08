@@ -2,6 +2,10 @@
 
 Use this pattern for `case-studies/*.html` pages.
 
+`case-studies/*.html` files are the source of truth. Use a nearby existing HTML article as the template, then adapt sections, headings, images, and body copy to the case. Do not force articles into fixed data fields such as `title`, `lead`, `meta`, `image`, `caption`, `narrative`, `before`, `flow`, `ai`, or `human`.
+
+Create new draft files with `npm run new:case-study -- <slug>`. Use `--from <existing-case.html>` only when an existing article is a closer structural starting point than `_template.html`. The helper creates files only; it does not write article copy or update the index card.
+
 ## Page Requirements
 
 - Use `../style.css`.
@@ -31,6 +35,8 @@ Before writing HTML, decide:
 - Image role
 
 ## Recommended Sections
+
+These sections are a flexible article pattern, not a schema. Keep the emotional and operational arc, but change section count, headings, and layout when the case reads better that way.
 
 1. Hero
    - Eyebrow: `他社の改善事例 / 業種・用途`
@@ -152,7 +158,7 @@ Do not expose production/planning labels in public copy:
 - Avoid `ナラティブ`, `読みどころ`, `自社に置き換える`, `下準備までです`, `案件別・期限別に分ける`.
 - Replace with reader-facing labels such as `現場の一場面`, `仕事の変化`, `相談`.
 - CTA button text should be `30分無料診断`, not `30分無料診断を申し込む`.
-- For bulk-generated pages, grep generated HTML and shared JS for banned phrases before finishing.
+- Before finishing, grep edited HTML and shared JS for banned phrases.
 - For image-adjacent copy, avoid `場面です`, `見せます`, `写っています`, `〜している様子`, and detailed location/device claims such as `レジ横の端末で`. Use `業務改善イメージ` for alt text and describe the workflow state in nearby text.
 
 ## Claim Handling

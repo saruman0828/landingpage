@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node scripts/local-dev-server.js",
+    "new:case-study": "node scripts/new-case-study.js",
     "check:case-studies": "node scripts/check-case-studies.js"
   },
   "dependencies": {
