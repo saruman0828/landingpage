@@ -38,3 +38,5 @@ coverage/
 playwright-report/
 test-results/
 output/
+**/__pycache__/**
+**/**.pyc

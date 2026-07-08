@@ -90,6 +90,29 @@ Every article needs at least one sentence for each:
 - What changes after: `作成から確認へ`, `全部確認から例外確認へ`, `口頭質問からAIマニュアルへ`.
 - What result appears: speed, fewer interruptions, earlier response, regained focus time, less anxiety.
 
+## Sentence-Level Revision Protocol
+
+When revising existing article body copy, do not rewrite the article from above. Use one responsible reviewer per article and propose changes sentence by sentence.
+
+Required format for body-copy changes:
+
+| Section | Sentence ID | Current sentence | Issue | Proposed sentence | Responsible reviewer |
+|---|---:|---|---|---|---|
+
+Rules:
+
+- One article has one responsible reviewer for body-copy changes.
+- Every changed sentence must keep its current sentence visible.
+- Improvements must be proposed as `Current sentence -> Proposed sentence`.
+- The main agent only integrates accepted proposals into HTML.
+- The main agent must not summarize, merge, or rewrite article body copy on its own.
+- If a sentence needs to be split, keep the original sentence in one row and place the split proposal in the proposed sentence cell.
+- If a sentence needs to be added, write the target location and reason clearly.
+- If a sentence needs to be removed, write the current sentence and deletion reason clearly.
+- Avoid article-level rewrites such as "make this more natural" unless they are broken down into sentence-level proposals.
+
+The purpose of this protocol is to prevent accidental flattening of the article voice. Article quality should improve through accountable sentence-level decisions, not through broad AI summarization.
+
 ## Narrative Requirements
 
 Every article should include one section where the reader can follow a single human through a concrete moment. Do not summarize the case from above. Write it as a small business scene.
