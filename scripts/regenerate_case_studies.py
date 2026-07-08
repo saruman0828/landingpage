@@ -3661,11 +3661,6 @@ def render_article(case: dict) -> str:
             </div>
           </section>
 
-          <figure class="blog-figure">
-            <img src="{e(case['image'])}" alt="{e(safe_image_alt(case['category']))}" loading="lazy" />
-            <figcaption>{e(case['figure_caption'])}</figcaption>
-          </figure>
-
           <section class="blog-section">
             <p class="eyebrow">改善のイメージ</p>
             <h2>{e(visual_heading)}</h2>
