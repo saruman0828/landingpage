@@ -420,6 +420,155 @@ NATURAL_HEADLINES = {
 }
 
 
+COPY_REFINEMENTS = {
+    "field-report.html": {
+        "caption": "現場で撮った写真と一言メモを、帰社後に確認する報告書の下書きへつなげます。",
+        "figure_caption": "現場で集めた材料が、報告書、連絡文、確認リストの形で戻ってきます。",
+        "visual_heading": "帰社後に見るものを、写真・予定・連絡履歴の順でそろえます。",
+    },
+    "store-shift.html": {
+        "caption": "希望休、必要人数、スキル条件を並べ、店長が候補を見比べられる表にします。",
+        "figure_caption": "店長の頭の中にあった条件を、毎月使えるシフト作成の材料にします。",
+        "visual_heading": "希望休と配置条件を先にそろえ、店長は公平性と現場事情を確認します。",
+    },
+    "quote-flow.html": {
+        "caption": "図面、メール、過去単価を案件票にまとめ、社長が価格と納期を判断しやすくします。",
+        "figure_caption": "見積前の転記と探し物を減らし、加工方法と納期の判断へ早く入れるようにします。",
+        "visual_heading": "Web発注データ、図面、過去単価を案件票にまとめ、社長は判断から始めます。",
+    },
+    "shop-manual.html": {
+        "caption": "店長の経験を、スタッフが接客中に確認できる手順へ落とし込みます。",
+        "figure_caption": "店長に聞かないと分からなかった回答を、スタッフが迷った時に開ける形へ残します。",
+        "visual_heading": "店長の判断基準を、質問・手順・例外条件に分けて残します。",
+    },
+    "customer-support.html": {
+        "caption": "問い合わせを種類と緊急度で分け、返信できるものから順に進めます。",
+        "figure_caption": "メールとチャットの問い合わせを、返信案と人が見るべき例外に分けます。",
+        "visual_heading": "問い合わせの種類と、先に確認すべき内容が画面で分かります。",
+    },
+    "sales-follow.html": {
+        "caption": "訪問前の確認と商談後の連絡を、営業担当が当日中に見直せる形へそろえます。",
+        "figure_caption": "商談メモ、宿題、次回連絡を並べ、フォローを白紙から始めないようにします。",
+        "visual_heading": "商談後に送るもの、社内で確認するもの、次に聞くことを一目で追えます。",
+    },
+    "manufacturing-quality.html": {
+        "caption": "検査後の写真とメモを、不良種別や確認点ごとに朝会で見直せる形へまとめます。",
+        "figure_caption": "検査後の写真とメモを、不良種別や確認点ごとに朝会で見直せる形へまとめます。",
+        "visual_heading": "不良写真、ロット、工程、未確認点を、朝会で話す順番に並べます。",
+    },
+    "accounting-check.html": {
+        "caption": "支払い前に、承認・保留・取引先確認が必要な項目を先に分けておきます。",
+        "figure_caption": "請求書、発注書、納品書の差異を、支払い前に確認できる一覧へまとめます。",
+        "visual_heading": "支払い前に見るものを、承認・保留・取引先確認に分けます。",
+    },
+    "accounting-reconciliation.html": {
+        "caption": "入金明細、請求書、領収書、会計データを取引ごとにそろえ、差異を見つけやすくします。",
+        "figure_caption": "入金と請求の照合を、資料探しから差異確認へ移します。",
+        "visual_heading": "入金、請求、領収書、会計データのずれを取引ごとに確認します。",
+    },
+    "recruiting-flow.html": {
+        "caption": "週末の応募を、返信案、面接候補日、不足確認の一覧にして見られるようにします。",
+        "figure_caption": "応募者ごとに、返信する内容と面接調整の候補をそろえます。",
+        "visual_heading": "応募情報、候補日、不足確認を、採用担当が連絡する順に並べます。",
+    },
+    "recruiting-scorecard.html": {
+        "caption": "面接官ごとのメモを評価軸にそろえ、根拠と未確認点を見比べられるようにします。",
+        "figure_caption": "面接メモを、評価軸・根拠・次に聞く質問へ分けて採用会議に持ち込みます。",
+        "visual_heading": "面接メモ、評価軸、未確認質問を同じ表で確認します。",
+    },
+    "property-maintenance.html": {
+        "caption": "入居者の連絡、写真、設備情報を案件票にまとめ、緊急性と次の連絡を判断しやすくします。",
+        "figure_caption": "修繕依頼を、聞き取りながら探す状態から、案件票を見て判断する状態へ変えます。",
+        "visual_heading": "修繕依頼を、案件票・緊急度・確認候補に分けて見られるようにします。",
+    },
+    "care-handoff.html": {
+        "caption": "介護記録と申し送りを、次の訪問前に確認する要点へまとめます。",
+        "figure_caption": "記録、注意点、次の確認事項を、担当者が訪問前に見直せる形へそろえます。",
+        "visual_heading": "記録、注意が必要な内容、確認事項を、訪問前に見る順で並べます。",
+    },
+    "ec-returns.html": {
+        "caption": "返品理由、注文履歴、返信案をそろえ、人が返金や交換を判断できるようにします。",
+        "figure_caption": "返品対応を、注文情報と返信案がそろった状態から進められるようにします。",
+        "visual_heading": "返品理由、注文履歴、返信案、要確認項目を順に見られるようにします。",
+    },
+    "agriculture-packing.html": {
+        "caption": "注文、収穫量、例外条件をそろえ、出荷前に数量と品質を確認しやすくします。",
+        "figure_caption": "注文と梱包リストを照らし合わせ、人が最後の数量と品質を確認します。",
+        "visual_heading": "注文、収穫量、例外条件を朝の出荷判断に使える形でそろえます。",
+    },
+    "restaurant-prep.html": {
+        "caption": "予約、天気、過去売上、残り食材を並べ、仕込みを増やす理由と抑える理由を見比べます。",
+        "figure_caption": "仕込み量とシフトを、候補と注意点から確認できるようにします。",
+        "visual_heading": "仕込み量を決める前に、予約、天気、在庫、シフトを同じ画面で見ます。",
+    },
+    "hotel-multilingual.html": {
+        "caption": "翻訳文、到着予定、食事制限、部屋要望を一枚にまとめ、夜間担当が引き継ぎを確認します。",
+        "figure_caption": "多言語問い合わせを、返信案と当日の引き継ぎメモに分けます。",
+        "visual_heading": "到着予定、食事制限、部屋要望、返信案を夜間担当が確認しやすくします。",
+    },
+    "salon-booking.html": {
+        "caption": "予約変更、前回メモ、注意点を施術前チェックにまとめ、接客前に確認できるようにします。",
+        "figure_caption": "予約とカルテの材料を並べ、施術内容と伝え方をスタッフが見直します。",
+        "visual_heading": "予約変更、カルテ、返信待ちを施術前チェックとして並べます。",
+    },
+    "legal-contract.html": {
+        "caption": "契約書PDF、過去雛形、取引条件を並べ、法務判断に入る前の材料をそろえます。",
+        "figure_caption": "契約書の下読みを、資料探しから論点確認へ移します。",
+        "visual_heading": "契約書、過去雛形、取引条件、確認質問を同じ案件で見られるようにします。",
+    },
+    "clinic-reception.html": {
+        "caption": "朝いちばんに、未記入、予約変更、医療者への確認が必要な項目を受付で把握します。",
+        "figure_caption": "問診と予約情報をそろえ、受付スタッフが内容確認から入れるようにします。",
+        "visual_heading": "受付で見る情報を、未記入、予約変更、医療者確認に分けます。",
+    },
+    "clinic-followup.html": {
+        "caption": "折り返し、検査案内、次回来院確認を患者別に並べ、受付が連絡前に見直せるようにします。",
+        "figure_caption": "フォロー連絡を、患者別の確認表と送信前メモにまとめます。",
+        "visual_heading": "折り返し、検査案内、医療者への確認事項を、対応する順に並べます。",
+    },
+    "school-parent.html": {
+        "caption": "授業メモ、欠席、日程変更を並べ、保護者へ送る前に講師が見直します。",
+        "figure_caption": "保護者連絡を、授業内容・宿題・日程変更の確認表から始めます。",
+        "visual_heading": "保護者へ送る前に、授業メモ、欠席、日程変更、送信先を確認します。",
+    },
+    "subsidy-files.html": {
+        "caption": "募集要項の必要書類と、見積・領収書・写真の対応を確認しやすくします。",
+        "figure_caption": "証拠書類を、必要書類、不足、確認質問に分けて申請前に見直します。",
+        "visual_heading": "必要書類、不足、確認質問を、申請前に見る順番で並べます。",
+    },
+    "delivery-dispatch.html": {
+        "caption": "欠員、時間指定、再配達、遅延連絡を並べ、配車担当が変更案を確認できるようにします。",
+        "figure_caption": "配車変更に必要な情報をそろえ、安全と顧客事情を人が判断できるようにします。",
+        "visual_heading": "欠員、時間指定、荷量、遅延連絡を、配車変更で見る順に並べます。",
+    },
+    "procurement-compare.html": {
+        "caption": "単価、納期、送料、支払条件、過去トラブルを並べ、発注前に比較しやすくします。",
+        "figure_caption": "仕入先比較を、単価だけでなく総額、納期、リスクまで見て判断します。",
+        "visual_heading": "単価、総額、納期差、送料条件を同じ比較表で見られるようにします。",
+    },
+    "retail-inventory-faq.html": {
+        "caption": "商品情報、在庫、入荷予定、店長確認条件をそろえ、接客中に回答を確認しやすくします。",
+        "figure_caption": "在庫確認と商品質問を、店頭で使える回答メモへ整えます。",
+        "visual_heading": "売場在庫、バックヤード、入荷予定、店長確認条件を同じ流れで確認します。",
+    },
+    "sales-lost-follow.html": {
+        "caption": "失注理由、次回連絡日、フォロー文下書きをそろえ、営業担当が送信前に見直します。",
+        "figure_caption": "失注後フォローを、次回接点と送信前確認の一覧から進めます。",
+        "visual_heading": "失注理由、次回接点、送信前確認を追客の順番で並べます。",
+    },
+    "npo-volunteer.html": {
+        "caption": "参加希望、空き時間、持ち物、当日連絡案を並べ、運営担当が無理のない配置を確認します。",
+        "figure_caption": "参加希望と空き時間を表にし、持ち物と当日連絡を送る前に見直します。",
+        "visual_heading": "参加希望、空き時間、持ち物、当日連絡を運営の流れに沿って並べます。",
+    },
+    "bcp-checklist.html": {
+        "caption": "連絡先、備蓄品、避難手順、取引先連絡先を台帳にまとめ、更新漏れを見つけやすくします。",
+        "figure_caption": "連絡網と備品点検を、更新漏れと確認担当が分かる台帳へまとめます。",
+        "visual_heading": "連絡網、備品、避難手順、取引先連絡を平時の点検順に並べます。",
+    },
+}
+
+
 TASK_BY_FILE = {
     "field-report.html": "現場報告と連絡文",
     "store-shift.html": "シフト調整",
@@ -3315,6 +3464,7 @@ def enrich_cases() -> None:
         case.update(ARTICLE_OVERRIDES.get(case["file"], {}))
         case.update(ARTICLE_DEEPENING_OVERRIDES.get(case["file"], {}))
         case.update(ARTICLE_NATURAL_LANGUAGE_OVERRIDES.get(case["file"], {}))
+        case.update(COPY_REFINEMENTS.get(case["file"], {}))
         case["figure_caption"] = case.get("figure_caption", case.get("caption", "業務の材料を、人が確認しやすい形へ整えます。"))
 
 
