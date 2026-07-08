@@ -11,15 +11,19 @@
       </div>
     </section>`;
 
+  const renderCaseReturn = () => `
+    <a class="blog-case-return" href="index.html">
+      <img src="../images/338_webref_case_study_card_grid.png" alt="改善事例の一覧イメージ" loading="lazy" />
+      <span>改善事例 一覧へ戻る</span>
+    </a>`;
+
   const renderCaseCta = () => `
+    ${renderCaseReturn()}
     <section class="blog-cta">
       <p class="eyebrow">相談</p>
       <h2>自社業務を自動化する</h2>
       <p>写真、メール、Excel、メモなど実際の材料を見ながら、AIに渡す準備と人が確認する判断を分けます。</p>
-      <div class="cta-row center">
-        <a class="button primary large" href="../index.html#contact">30分無料診断</a>
-        <a class="button secondary large blog-back-link" href="index.html">一覧へ戻る</a>
-      </div>
+      <a class="button primary large" href="../index.html#contact">30分無料診断</a>
     </section>`;
 
   document.querySelectorAll("[data-case-study-adoption]").forEach((mount) => {

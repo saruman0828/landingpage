@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/local-dev-server.js"
+    "dev": "node scripts/local-dev-server.js",
+    "check:case-studies": "node scripts/check-case-studies.js"
   },
   "dependencies": {
     "nodemailer": "^6.9.16"
