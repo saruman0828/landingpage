@@ -18,6 +18,19 @@ Use images to make the article feel like a real Japanese SMB scene, not a generi
 - Avoid using the same generic workflow image across many unrelated industries when a specific asset exists.
 - For high-risk areas, prefer images of review, checklist, documents, or human approval rather than autonomous action.
 
+## Public Image Copy Rules
+
+Public HTML must assume the chosen image may not perfectly match the surrounding sentence. Do not write alt text, captions, or image-card copy that claims a precise visible action, person, location, device, or object unless the image has been checked directly.
+
+Use role-based wording:
+
+- Good: `店舗スタッフ向けAIマニュアルの業務改善イメージ`
+- Good: `通常対応・確認条件・店長へ上げる基準を同じ順番で見られる状態にします。`
+- Avoid: `レジ横でスタッフが返品条件をタブレット確認する場面`
+- Avoid: `スタッフが店長を呼ぶ前に、レジ横の端末で通常対応か例外かを確認している場面です。`
+
+For image-adjacent cards, describe the workflow state the article wants to communicate, not what appears in the picture. Prefer `状態にします`, `確認しやすくします`, `一覧にします` over `場面です`, `見せます`, `写っています`, or exact scene narration.
+
 ## Useful Existing Image Families
 
 - `187`-`203`: industry-specific cases such as clinic, school, legal, recruiting, sales, BCP, procurement, property, care, agriculture, NPO, EC.

@@ -10,6 +10,7 @@ Use this pattern for `case-studies/*.html` pages.
 - Prefer visual assets from root `イメージ候補/` for industry-specific images and `case-studies/construction-ai-case-assets/` for existing construction/workflow images.
 - Keep visible article content anonymous unless the user explicitly asks otherwise.
 - Do not publish broken image paths. If an image is not present yet, use an existing real asset and save only the generation brief.
+- Write image `alt`, `figcaption`, and image-card text as workflow-role copy, not exact scene claims. Assume the image may not perfectly match the copy unless it has been visually checked.
 
 ## Required Story Arc
 
@@ -152,6 +153,7 @@ Do not expose production/planning labels in public copy:
 - Replace with reader-facing labels such as `現場の一場面`, `仕事の変化`, `相談`.
 - CTA button text should be `30分無料診断`, not `30分無料診断を申し込む`.
 - For bulk-generated pages, grep generated HTML and shared JS for banned phrases before finishing.
+- For image-adjacent copy, avoid `場面です`, `見せます`, `写っています`, `〜している様子`, and detailed location/device claims such as `レジ横の端末で`. Use `業務改善イメージ` for alt text and describe the workflow state in nearby text.
 
 ## Claim Handling
 
