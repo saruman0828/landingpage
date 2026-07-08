@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>クリニック・受付AI事例｜診療前の問診確認を、受付がすぐ動ける不足リストにする</title>
-  <meta name="description" content="朝の受付で散らばりやすい予約変更、問診票、検査前の確認事項をAIが一覧にし、受付スタッフは患者への伝え方と医療者へ戻す判断だけを確認します。" />
-  <meta property="og:title" content="クリニック・受付AI事例｜診療前の問診確認を、受付がすぐ動ける不足リストにする" />
-  <meta property="og:description" content="朝の受付で散らばりやすい予約変更、問診票、検査前の確認事項をAIが一覧にし、受付スタッフは患者への伝え方と医療者へ戻す判断だけを確認します。" />
+  <title>クリニック・受付AI事例｜問診と予約確認を、診察前の不足リストにしておく</title>
+  <meta name="description" content="朝の受付で散らばりやすい予約変更、問診票、検査前の確認事項をAIが一覧にし、受付スタッフは患者への伝え方と、医療者に確認すべき内容を見直します。" />
+  <meta property="og:title" content="クリニック・受付AI事例｜問診と予約確認を、診察前の不足リストにしておく" />
+  <meta property="og:description" content="朝の受付で散らばりやすい予約変更、問診票、検査前の確認事項をAIが一覧にし、受付スタッフは患者への伝え方と、医療者に確認すべき内容を見直します。" />
   <meta property="og:image" content="../images/253_improvement_clinic_reception_calm.jpg" />
   <meta property="og:type" content="article" />
   <link rel="icon" href="data:," />
@@ -20,8 +20,8 @@
       <header class="section blog-hero">
         <div class="blog-hero__copy">
           <p class="eyebrow">他社の改善事例 / クリニック・受付</p>
-          <h1>診療前の問診確認を、受付がすぐ動ける不足リストにする</h1>
-          <p class="lead">朝の受付で散らばりやすい予約変更、問診票、検査前の確認事項をAIが一覧にし、受付スタッフは患者への伝え方と医療者へ戻す判断だけを確認します。</p>
+          <h1>問診と予約確認を、診察前の不足リストにしておく</h1>
+          <p class="lead">朝の受付で散らばりやすい予約変更、問診票、検査前の確認事項をAIが一覧にし、受付スタッフは患者への伝え方と、医療者に確認すべき内容を見直します。</p>
           <div class="blog-meta">
             <span>要点: 不足リストへ変える</span>
             <span>対象: クリニック・受付</span>
@@ -30,7 +30,7 @@
         </div>
         <figure class="blog-hero__media">
           <img src="../images/253_improvement_clinic_reception_calm.jpg" alt="クリニック・受付の業務改善イメージ" loading="eager" />
-          <figcaption>受付が朝いちばんに、未記入・予約変更・医療者確認が必要な項目から見られる状態にします。</figcaption>
+          <figcaption>朝いちばんに、未記入・予約変更・医療者への確認が必要な項目を受付で把握できる状態にします。</figcaption>
         </figure>
       </header>
 
@@ -38,50 +38,50 @@
         <div class="blog-content">
           <section class="blog-section">
             <p class="eyebrow">先に結論</p>
-            <h2>電話が鳴る前に、問診の未記入と予約変更を受付で確認できる形にします。</h2>
+            <h2>受付が慌ただしい朝ほど、問診の不足を先に見える形にします。</h2>
             <p>朝のクリニックでは、受付開始と同時に予約変更、問診票の未記入、検査前の案内確認が重なります。</p>
-            <p>受付スタッフは来院対応をしながら、あとで電話する患者、医療者へ確認する内容、案内漏れが許されない注意点を覚えておく必要がありました。</p>
+            <p>受付スタッフは来院対応をしながら、あとで電話する患者、医療者へ確認する内容、案内前に確認すべき注意点を覚えておく必要がありました。</p>
             <div class="blog-aha-card">
               <strong>医療判断と患者への最終案内は、人が確認します。</strong>
-              <span>AIは問診票や予約情報を読み、未記入、予約変更、医療者に戻す確認事項を受付用の一覧にします。</span>
+              <span>AIは問診票や予約情報を読み、未記入、予約変更、医療者に確認する必要がある内容を受付用の一覧にします。</span>
             </div>
           </section>
 
           <section class="blog-section">
             <p class="eyebrow">仕事の変化</p>
-            <h2>朝の受付で詰まっていた確認を、患者ごとの確認リストに分けます。</h2>
+            <h2>朝の受付で重なっていた確認事項を、患者ごとのリストに整理します。</h2>
             <div class="blog-takeaway-grid">
               <article>
                 <span>場面</span>
                 <h3>現場で起きていたこと</h3>
-                <p>目の前の患者対応は進んでいても、誰に電話を戻すべきか、どの問診を医療者へ確認すべきかが見えにくい状態でした。</p>
+                <p>目の前の患者対応は進んでいても、誰に折り返すべきか、どの問診を医療者へ確認すべきかが見えにくい状態でした。</p>
               </article>
               <article>
                 <span>変更</span>
                 <h3>変えたこと</h3>
-                <p>予約システム、Web問診、電話メモ、検査案内、前回メモをAIへ渡し、患者ごとの不足・変更・要確認に分けます。</p>
+                <p>予約システム、Web問診、電話メモ、検査案内、前回メモをAIへ渡し、患者ごとに不足、変更、確認が必要な内容を整理します。</p>
               </article>
               <article>
                 <span>実感</span>
                 <h3>改善後に残るもの</h3>
-                <p>診療開始前に確認の順番が見えるため、受付は患者対応を止めずに必要な確認から進められます。</p>
+                <p>改善後、受付スタッフは用意された候補を見て確認から始めます。診察前の慌ただしさを減らす流れを作ります。</p>
               </article>
             </div>
           </section>
 
           <section class="blog-section">
             <p class="eyebrow">改善後の実感</p>
-            <h2>受付開始前に、誰へ何を確認するかが見える状態にします。</h2>
+            <h2>問診と予約確認が、探す仕事から判断する仕事に変わりました。</h2>
             <div class="blog-takeaway-grid">
               <article>
                 <span>Before</span>
                 <h3>手元で止まる</h3>
-                <p>予約画面、Web問診、電話メモ、前回の申し送りを行き来しながら、未記入や変更点を受付スタッフが拾っていました。</p>
+                <p>受付スタッフは予約画面、Web問診、電話メモ、前回の申し送りを開き直しながら、未記入や変更点を探していました。</p>
               </article>
               <article>
                 <span>After</span>
                 <h3>見る順に並ぶ</h3>
-                <p>患者ごとの不足、予約変更、案内文の下書きが並び、受付スタッフは送ってよい内容か確認するところから始められます。</p>
+                <p>患者ごとの不足、予約変更、案内文の下書きが並び、受付スタッフは内容と送信先を確認するところから始められます。</p>
               </article>
               <article>
                 <span>Result</span>
@@ -90,8 +90,8 @@
               </article>
             </div>
             <div class="blog-highlight">
-              <strong>短くなるのは作業時間だけではありません。</strong>
-              <span>誰に何を確認するかを頭で覚え続けなくてよくなり、来院中の患者対応に集中しやすくなります。</span>
+              <strong>短くなったのは、作業時間だけではありません。</strong>
+              <span>未確認のまま抱えていた仕事が見える場所へ出ることで、担当者は判断、顧客対応、教育に時間を戻せます。</span>
             </div>
           </section>
 
@@ -100,45 +100,45 @@
             <h2>8時33分、受付には午前診療の問診票が並んでいました。</h2>
             <p>受付開始と同時に、予約変更の電話、Web問診の未記入、検査案内の確認が重なります。</p>
             <p>以前は、予約画面、Web問診、電話メモ、前回の申し送りを行き来しながら、未記入や変更点を受付スタッフが拾っていました。</p>
-            <p>AIは未記入の項目、予約変更、検査前に確認が必要な内容、患者へ送る案内文の下書きをまとめます。</p>
-            <p>受付スタッフは探し物に追われる時間を減らし、患者への声かけや医療者への確認に時間を戻せます。</p>
+            <p>AIは未記入の項目、予約変更、検査前に確認が必要な内容、受付スタッフが確認する案内文の下書きをまとめます。</p>
+            <p>受付スタッフは探し物に追われる時間を減らし、患者への声かけや医療者への確認に時間を使いやすくなります。</p>
             <div class="blog-aha-card">
-              <strong>朝の最初の画面で、確認すべき患者と内容が分かります。</strong>
-              <span>問診票を読み直す、予約変更を探す、電話メモを転記する作業が、来院対応のいちばん忙しい時間に割り込まなくなります。</span>
+              <strong>うれしいのは、仕事が消えることではありません。</strong>
+              <span>人が見たい判断に早く入れること、そして疲れ切る前に顧客やスタッフへ向き合えることです。</span>
             </div>
           </section>
 
           <figure class="blog-figure">
             <img src="../images/253_improvement_clinic_reception_calm.jpg" alt="クリニック・受付の業務改善イメージ" loading="lazy" />
-            <figcaption>問診と予約確認を、作成ではなく確認から始められる状態にします。</figcaption>
+            <figcaption>問診と予約確認を、情報探しではなく内容確認から始められる状態にします。</figcaption>
           </figure>
 
           <section class="blog-section">
             <p class="eyebrow">改善のイメージ</p>
-            <h2>改善後は、担当者が見る材料の順番が変わります。</h2>
+            <h2>改善後は、受付スタッフが確認する情報の並び方が変わります。</h2>
             <div class="blog-insight-grid">
               <article>
                 <img src="../images/187_healthcare_clinic_followup_workflow.jpg" alt="クリニック受付のフォロー整理" loading="lazy" />
-                <div><span>改善後に見えるもの</span><h3>受付を落ち着かせる</h3><p>受付カウンターで、問診票と予約情報を見比べながら、未記入と確認済みを分けている場面です。朝の電話が増える前に、先に見る患者を決められます。</p></div>
+                <div><span>改善後に見えるもの</span><h3>朝の確認を先にそろえる</h3><p>受付カウンターで、問診票と予約情報を見比べながら、未記入と確認済みを分けている場面です。朝の電話が増える前に、優先して確認する患者を把握できます。</p></div>
               </article>
               <article>
                 <img src="../images/323_webref_young_doctor_admin_doorway.png" alt="クリニック事務の確認風景" loading="lazy" />
-                <div><span>改善後に見えるもの</span><h3>医療判断は人が持つ</h3><p>AIが作った不足リストを、受付と医療者が確認している場面です。症状や診療方針に関わる判断は、必ず人が見てから案内します。</p></div>
+                <div><span>改善後に見えるもの</span><h3>医療判断は人が行う</h3><p>AIが作った不足リストを、受付と医療者が確認している場面です。症状や診療方針に関わる判断は、必ず医療者が確認してから案内します。</p></div>
               </article>
               <article>
                 <img src="../images/268_improvement_clinic_reception_followup_relief.png" alt="受付フォローが整った様子" loading="lazy" />
-                <div><span>改善後に見えるもの</span><h3>連絡漏れを減らす</h3><p>折り返しが必要な患者、検査案内が未確認の患者、予約変更の返信待ちを分けている場面です。連絡漏れを、記憶ではなく一覧で防ぎます。</p></div>
+                <div><span>改善後に見えるもの</span><h3>連絡漏れを減らす</h3><p>折り返しが必要な患者、検査案内が未確認の患者、予約変更の返信待ちを分けている場面です。連絡漏れを記憶だけに頼らず、一覧で確認できるようにします。</p></div>
               </article>
             </div>
           </section>
 
           <section class="blog-section">
             <p class="eyebrow">導入前</p>
-            <h2>導入前は、問診と予約確認の前に資料探しと確認漏れの不安がありました。</h2>
+            <h2>導入前は、問診と予約確認に入る前に、必要な情報を探し直す時間がかかっていました。</h2>
             <div class="blog-principles">
-              <div><strong>材料が複数の場所に分かれている</strong><p>予約画面、Web問診、電話メモ、前回の申し送りを行き来しながら、未記入や変更点を受付スタッフが拾っていました。</p></div>
-              <div><strong>確認が忙しい時間に重なる</strong><p>問診票を読み直す、予約変更を探す、電話メモを転記する作業が、来院対応のいちばん忙しい時間に割り込んでいました。</p></div>
-              <div><strong>担当者の記憶に頼っている</strong><p>確認漏れを防ぐため、受付責任者や看護師への確認がその場で増え、待合の対応が止まりやすくなっていました。</p></div>
+              <div><strong>材料が複数の場所に分かれている</strong><p>メール、チャット、紙、写真、PDF、Excelを人が行き来していました。</p></div>
+              <div><strong>確認が忙しい時間に重なる</strong><p>読む、探す、転記する仕事ほど、接客や判断に集中したい時間へ割り込んでいました。</p></div>
+              <div><strong>担当者の記憶に頼っている</strong><p>確認漏れを防ぐため、管理者や社長への割り込みが増えていました。</p></div>
             </div>
           </section>
 
@@ -147,15 +147,15 @@
             <h2>問診と予約確認では、AIが材料を整え、人が最後に判断します。</h2>
             <div class="blog-timeline">
               <div><time>受け取り</time><strong>材料の置き場を決める</strong><p>予約システム、Web問診、電話メモ、検査案内、前回メモをAIへ渡します。</p></div>
-              <div><time>見える化</time><strong>患者ごとの不足・変更・要確認に分ける</strong><p>受付が最初に確認するもの、医療者に戻すもの、後でよいものを分けます。</p></div>
-              <div><time>下準備</time><strong>案内文と確認リストにする</strong><p>完成品ではなく、受付スタッフが直しやすい形で出します。</p></div>
-              <div><time>確認</time><strong>人が判断して外へ出す</strong><p>医療判断、個人情報、患者への表現、外部送信は人が確認します。</p></div>
+              <div><time>見える化</time><strong>患者ごとの不足・変更・要確認に分ける</strong><p>受付が先に確認するもの、医療者に確認するもの、後回しにできるものを分けます。</p></div>
+              <div><time>下準備</time><strong>案内文と確認リストにする</strong><p>完成した案内ではなく、受付スタッフが修正しやすい下書きとしてまとめます。</p></div>
+              <div><time>確認</time><strong>人が確認して送信する</strong><p>医療判断、個人情報、患者への伝え方、送信先は、必ず人が確認します。</p></div>
             </div>
           </section>
 
           <section class="blog-section">
             <p class="eyebrow">人とAIの分担</p>
-            <h2>医療判断、個人情報、患者への表現、外部送信は人が確認します。</h2>
+            <h2>AIが作るのは、受付と医療者が確認しやすくするための下書きと一覧です。患者への案内や診療に関わる判断は、最終的に人が確認します。</h2>
             <div class="blog-role-grid">
               <article>
                 <h3>AIに渡しやすい作業</h3>
