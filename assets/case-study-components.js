@@ -16,7 +16,10 @@
       <p class="eyebrow">相談</p>
       <h2>自社業務を自動化する</h2>
       <p>写真、メール、Excel、メモなど実際の材料を見ながら、AIに渡す準備と人が確認する判断を分けます。</p>
-      <a class="button primary large" href="../index.html#contact">30分無料診断</a>
+      <div class="cta-row center">
+        <a class="button primary large" href="../index.html#contact">30分無料診断</a>
+        <a class="button secondary large blog-back-link" href="index.html">一覧へ戻る</a>
+      </div>
     </section>`;
 
   document.querySelectorAll("[data-case-study-adoption]").forEach((mount) => {
