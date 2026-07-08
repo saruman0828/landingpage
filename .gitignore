@@ -40,3 +40,4 @@ test-results/
 output/
 **/__pycache__/**
 **/**.pyc
+.vercel

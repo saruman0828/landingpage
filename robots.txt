@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-# Search engines must be able to crawl pages to read the noindex meta tag.
+# Search engines must be able to crawl pages to read noindex directives.
+# Indexing is blocked by page-level robots meta tags and X-Robots-Tag headers.
