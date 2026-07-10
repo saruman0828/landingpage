@@ -26,6 +26,12 @@
 
   const clean = (value, max = 120) => String(value || "").replace(/\s+/g, " ").trim().slice(0, max);
 
+  const cleanUrl = (value, max = 255) => {
+    const normalized = clean(value, max);
+    if (!normalized || normalized.startsWith("#")) return normalized;
+    return normalized.split(/[?#]/, 1)[0];
+  };
+
   const sendLegacyEvent = (payload) => {
     const body = JSON.stringify(payload);
     if (navigator.sendBeacon && navigator.sendBeacon("/api/analytics", new Blob([body], { type: "application/json" }))) return;
@@ -42,7 +48,10 @@
       Object.entries(details)
         .filter(([, value]) => ["string", "number", "boolean"].includes(typeof value) || value === null)
         .slice(0, 2)
-        .map(([key, value]) => [key, typeof value === "string" ? clean(value, 255) : value])
+        .map(([key, value]) => {
+          if (typeof value !== "string") return [key, value];
+          return [key, ["href", "target", "referrer", "page", "path", "sourcePage"].includes(key) ? cleanUrl(value) : clean(value, 255)];
+        })
     );
 
     if (options.vercel !== false) window.va("event", { name: event, data: safeDetails });
@@ -52,7 +61,7 @@
       page: document.body.dataset.analyticsPage || "site",
       path: window.location.pathname,
       title: document.title,
-      referrer: document.referrer || "",
+      referrer: cleanUrl(document.referrer || ""),
       sessionId: getSessionId(),
       ...details
     });

@@ -15,6 +15,12 @@ const clean = (value, maxLength = 500) => {
   return value.trim().slice(0, maxLength);
 };
 
+const cleanUrl = (value, maxLength = 240) => {
+  const normalized = clean(value, maxLength);
+  if (!normalized || normalized.startsWith("#")) return normalized;
+  return normalized.split(/[?#]/, 1)[0];
+};
+
 const allowedEvents = new Set([
   "page_view",
   "cta_click",
@@ -71,21 +77,21 @@ module.exports = async (request, response) => {
 
   const eventPayload = {
     event,
-    page: clean(body.page, 240),
-    path: clean(body.path, 240),
+    page: cleanUrl(body.page, 240),
+    path: cleanUrl(body.path, 240),
     title: clean(body.title, 160),
     location: clean(body.location, 120),
     label: clean(body.label, 160),
-    href: clean(body.href, 240),
+    href: cleanUrl(body.href, 240),
     form: clean(body.form, 80),
     variant: clean(body.variant, 80),
     version: clean(body.version, 80),
     article: clean(body.article, 180),
-    target: clean(body.target, 240),
+    target: cleanUrl(body.target, 240),
     depth: Number.isFinite(Number(body.depth)) ? Number(body.depth) : null,
-    sourcePage: clean(body.sourcePage, 160),
+    sourcePage: cleanUrl(body.sourcePage, 160),
     sessionId: clean(body.sessionId, 80),
-    referrer: clean(body.referrer, 240),
+    referrer: cleanUrl(body.referrer, 240),
     userAgent: clean(request.headers["user-agent"], 240),
     ipCountry: clean(request.headers["x-vercel-ip-country"], 80),
     createdAt: new Date().toISOString()

@@ -20,8 +20,7 @@ const normalizeContact = (value) => clean(value, 200)
 const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
 const hasSmtpConfig = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
-const fallbackAutoReplyUrl =
-  process.env.FALLBACK_AUTOREPLY_URL || "https://formsubmit.co/ajax/0b239698323990ed50d174f1b83077b0";
+const fallbackAutoReplyUrl = process.env.FALLBACK_AUTOREPLY_URL || "";
 
 const createLogId = () => randomUUID().slice(0, 8);
 

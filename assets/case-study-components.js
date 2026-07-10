@@ -16,11 +16,12 @@
   const renderAdoptionSteps = () => `
     <section class="blog-section">
       <p class="eyebrow">自社で始めるなら</p>
-      <h2>まずは、${theme}に関わる1作業から試せます。</h2>
+      <h2>まずは、手間や判断が集中する1作業から試せます。</h2>
       <div class="blog-adoption-steps">
-        <div><span>1</span><strong>止まりやすい作業を一つ選ぶ</strong><p>毎週くり返す${theme}の仕事から、試す範囲を小さく決めます。</p></div>
-        <div><span>2</span><strong>使う資料と下書きの形を決める</strong><p>写真、メール、帳票、メモのうち、何を読み込ませて何を作るかを決めます。</p></div>
-        <div><span>3</span><strong>一件だけ試し、担当者が見る点を決める</strong><p>金額、契約、安全、個人情報、外部送信は、担当者が内容を見直してから使います。</p></div>
+        <div><span>1</span><strong>負担になっている作業を一つ選ぶ</strong><p>時間がかかる、迷いやすい、担当者へ集中する仕事から、試す範囲を一つ決めます。</p></div>
+        <div><span>2</span><strong>入力する情報を安全な範囲に絞る</strong><p>会社が利用を認めたAIだけを使い、個人名や機密情報は必要な分だけにします。可能なら匿名化し、保存・学習設定と閲覧権限も事前に決めます。決まるまでは実データを入力しません。</p></div>
+        <div><span>3</span><strong>使う資料と下書きの形を決める</strong><p>写真、メール、帳票、メモのうち、何を読み込ませて何を作るかを決めます。</p></div>
+        <div><span>4</span><strong>一件だけ試し、担当者が見る点を決める</strong><p>金額、契約、安全、個人情報、外部送信は、担当者が内容を見直してから使います。</p></div>
       </div>
     </section>`;
 
@@ -29,7 +30,7 @@
     <section class="blog-cta">
       <p class="eyebrow">相談</p>
       <h2>自社業務を自動化する</h2>
-      <p>見ていた事例の内容は相談フォームへ引き継がれます。自社との違いだけをお聞かせください。</p>
+      <p>負担になっている作業を一つお聞かせください。今ある資料で試せる進め方をご案内します。</p>
       <a class="button primary large" data-case-cta href="../index.html?${params.toString()}#contact">30分無料診断</a>
     </section>`;
 

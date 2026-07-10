@@ -1,6 +1,7 @@
 const fs = require("fs/promises");
 const os = require("os");
 const path = require("path");
+const { timingSafeEqual } = require("crypto");
 
 const analyticsFilePath = path.join(os.tmpdir(), "lp-analytics-events.jsonl");
 
@@ -30,6 +31,16 @@ const json = (response, statusCode, body) => {
 };
 
 const emptyCounts = () => Object.fromEntries(eventNames.map((name) => [name, 0]));
+
+const isAuthorized = (request) => {
+  const expected = process.env.ANALYTICS_SUMMARY_TOKEN || "";
+  const authorization = request.headers?.authorization || request.headers?.Authorization || "";
+  const supplied = authorization.startsWith("Bearer ") ? authorization.slice(7) : "";
+  if (!expected || !supplied) return false;
+  const expectedBuffer = Buffer.from(expected);
+  const suppliedBuffer = Buffer.from(supplied);
+  return expectedBuffer.length === suppliedBuffer.length && timingSafeEqual(expectedBuffer, suppliedBuffer);
+};
 
 const parseEvents = async () => {
   const raw = await fs.readFile(analyticsFilePath, "utf8").catch(() => "");
@@ -81,6 +92,10 @@ module.exports = async (request, response) => {
       if (event.event === "copy_view") copyVersions[version].views += 1;
       if (event.event === "lead_completed") copyVersions[version].leads += 1;
     }
+  }
+
+  if (!isAuthorized(request)) {
+    return json(response, 401, { ok: false, message: "認証が必要です。" });
   }
 
   return json(response, 200, {
