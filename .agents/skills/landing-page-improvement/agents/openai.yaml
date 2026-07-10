@@ -1,0 +1,4 @@
+interface:
+  display_name: "ランディングページ改善"
+  short_description: "文言・計測・画像・問い合わせ導線を一体で見直して改善する。"
+  default_prompt: "Use $landing-page-improvement to improve this landing page with clear copy, measurable conversions, optimized images, and production validation."

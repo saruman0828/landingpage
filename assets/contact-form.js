@@ -235,6 +235,12 @@
         if (typeof config.onSubmitSuccess === "function") {
           config.onSubmitSuccess(payload);
         }
+        try {
+          window.sessionStorage.setItem("lp_pending_conversion", JSON.stringify({
+            form: config.id || "contact",
+            createdAt: Date.now()
+          }));
+        } catch {}
         window.location.href = config.successUrl || DEFAULT_SUCCESS_URL;
       } catch (error) {
         if (typeof config.onSubmitError === "function") {

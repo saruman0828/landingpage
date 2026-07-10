@@ -4,6 +4,13 @@
   const rootPrefix = scriptSrc.includes("../assets/") ? "../" : "";
   const toRoot = (path) => `${rootPrefix}${path}`;
 
+  if (!window.SiteAnalytics && !document.querySelector('script[data-site-analytics="shared"]')) {
+    const analyticsScript = document.createElement("script");
+    analyticsScript.src = toRoot("assets/analytics.js");
+    analyticsScript.dataset.siteAnalytics = "shared";
+    document.head.appendChild(analyticsScript);
+  }
+
   const pageName = window.location.pathname.split("/").pop() || "index.html";
 
   const mainNav = [

@@ -13,7 +13,13 @@ const eventNames = [
   "form_submit_success",
   "form_submit_error",
   "calendar_open",
-  "calendar_booked"
+  "calendar_booked",
+  "case_view",
+  "case_open",
+  "outbound_click",
+  "scroll_depth",
+  "copy_view",
+  "lead_completed"
 ];
 
 const json = (response, statusCode, body) => {
@@ -51,6 +57,8 @@ module.exports = async (request, response) => {
   const events = await parseEvents();
   const counts = emptyCounts();
   const buttonLabels = {};
+  const caseArticles = {};
+  const copyVersions = {};
 
   for (const event of events) {
     if (eventNames.includes(event.event)) {
@@ -60,6 +68,18 @@ module.exports = async (request, response) => {
     if (event.event === "cta_click" || event.event === "nav_click") {
       const label = event.label || event.href || "不明";
       buttonLabels[label] = (buttonLabels[label] || 0) + 1;
+    }
+
+    if (event.event === "case_view") {
+      const article = event.article || event.path || "不明";
+      caseArticles[article] = (caseArticles[article] || 0) + 1;
+    }
+
+    if (event.event === "copy_view" || event.event === "lead_completed") {
+      const version = event.version || "unknown";
+      copyVersions[version] ||= { views: 0, leads: 0 };
+      if (event.event === "copy_view") copyVersions[version].views += 1;
+      if (event.event === "lead_completed") copyVersions[version].leads += 1;
     }
   }
 
@@ -73,6 +93,15 @@ module.exports = async (request, response) => {
       .map(([label, count]) => ({ label, count }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 8),
+    topCaseArticles: Object.entries(caseArticles)
+      .map(([article, count]) => ({ article, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 8),
+    copyVersions: Object.entries(copyVersions).map(([version, values]) => ({
+      version,
+      ...values,
+      conversionRate: values.views ? Number(((values.leads / values.views) * 100).toFixed(2)) : 0
+    })),
     updatedAt: new Date().toISOString()
   });
 };

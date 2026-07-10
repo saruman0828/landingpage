@@ -24,7 +24,13 @@ const allowedEvents = new Set([
   "form_submit_success",
   "form_submit_error",
   "calendar_open",
-  "calendar_booked"
+  "calendar_booked",
+  "case_view",
+  "case_open",
+  "outbound_click",
+  "scroll_depth",
+  "copy_view",
+  "lead_completed"
 ]);
 
 const forwardWebhook = async (payload) => {
@@ -73,6 +79,10 @@ module.exports = async (request, response) => {
     href: clean(body.href, 240),
     form: clean(body.form, 80),
     variant: clean(body.variant, 80),
+    version: clean(body.version, 80),
+    article: clean(body.article, 180),
+    target: clean(body.target, 240),
+    depth: Number.isFinite(Number(body.depth)) ? Number(body.depth) : null,
     sourcePage: clean(body.sourcePage, 160),
     sessionId: clean(body.sessionId, 80),
     referrer: clean(body.referrer, 240),
