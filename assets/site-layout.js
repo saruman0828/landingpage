@@ -13,10 +13,10 @@
   ];
 
   const homepageNav = [
-    { label: "サービス", href: "#service" },
+    { label: "サービス", href: "#results" },
     { label: "AI研修", href: toRoot("training.html") },
-    { label: "実績", href: "#works" },
-    { label: "流れ", href: "#flow" },
+    { label: "実績", href: "#results" },
+    { label: "流れ", href: "#price" },
   ];
 
   const inferActive = () => {
