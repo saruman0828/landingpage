@@ -28,12 +28,11 @@
     <p class="blog-case-return"><a href="index.html">ほかの改善事例から、近い仕事を探す</a></p>
     <section class="blog-cta">
       <p class="eyebrow">相談</p>
-      <h2>${caseTitle}に近い業務を相談する</h2>
+      <h2>自社業務を自動化する</h2>
       <p>見ていた事例の内容は相談フォームへ引き継がれます。自社との違いだけをお聞かせください。</p>
       <a class="button primary large" data-case-cta href="../index.html?${params.toString()}#contact">30分無料診断</a>
     </section>`;
 
   document.querySelectorAll("[data-case-study-adoption]").forEach((mount) => { mount.outerHTML = renderAdoptionSteps(); });
   document.querySelectorAll("[data-case-study-cta]").forEach((mount) => { mount.outerHTML = renderCaseCta(); });
-  document.querySelectorAll(".blog-meta").forEach((meta) => { meta.insertAdjacentHTML("afterbegin", `<span>事例種別: 改善イメージ</span><span>テーマ: ${theme}</span>`); });
 })();
