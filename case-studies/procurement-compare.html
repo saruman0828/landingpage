@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow, noarchive" />
   <title>購買・仕入先比較AI事例｜仕入先の単価・納期・送料・リスクを一枚の比較表にまとめる</title>
-  <meta name="description" content="午後に返ってきた3社分の見積書、希望納期、送料条件、過去の納品遅れメモ、代替品候補をAIで比較表にまとめます。購買担当は、発注可否、価格交渉、契約条件、取引先への問い合わせ文を人の目で決めます。" />
-  <meta property="og:title" content="購買・仕入先比較AI事例｜仕入先比較を、単価だけでなく納期・送料・リスクまで一覧で分かるようにする" />
-  <meta property="og:description" content="午後に返ってきた3社分の見積書、希望納期、送料条件、過去の納品遅れメモ、代替品候補をAIで比較表にまとめます。購買担当は、発注可否、価格交渉、契約条件、取引先への問い合わせ文を人の目で決めます。" />
+  <meta name="description" content="3社の見積から送料込み総額、納期、最小ロットを比較表にします。安さだけでは見落としやすい条件が分かり、上長への説明も早くなります。" />
+  <meta property="og:title" content="購買・仕入先比較AI事例｜3社の見積を、送料込み総額と納期まで一枚で比べる" />
+  <meta property="og:description" content="3社の見積から送料込み総額、納期、最小ロットを比較表にします。安さだけでは見落としやすい条件が分かり、上長への説明も早くなります。" />
   <meta property="og:image" content="../images/195_procurement_vendor_comparison.jpg" />
   <meta property="og:type" content="article" />
   <link rel="icon" href="data:," />
@@ -21,8 +21,8 @@
       <header class="section blog-hero">
         <div class="blog-hero__copy">
           <p class="eyebrow">他社の改善事例 / 購買・仕入先比較</p>
-          <h1>仕入先比較を、単価だけでなく納期・送料・リスクまで一覧で分かるようにする</h1>
-          <p class="lead">午後に返ってきた3社分の見積書、希望納期、送料条件、過去の納品遅れメモ、代替品候補をAIで比較表にまとめます。購買担当は、発注可否、価格交渉、契約条件、取引先への問い合わせ文を人の目で決めます。</p>
+          <h1>3社の見積を、送料込み総額と納期まで一枚で比べる</h1>
+          <p class="lead">3社の見積から送料込み総額、納期、最小ロットを比較表にします。安さだけでは見落としやすい条件が分かり、上長への説明も早くなります。</p>
           <div class="blog-meta">
             <span>要点: 納期とリスクまで表にする</span>
             <span>対象: 購買・仕入先比較</span>
@@ -52,7 +52,7 @@
 
           <section class="blog-section">
             <p class="eyebrow">仕事の変化</p>
-            <h2>見積条件を集める作業と、発注先を決める作業を分けます。</h2>
+            <h2>見積PDFを行き来せず、発注先を選べるまで</h2>
             <div class="blog-takeaway-grid">
               <article>
                 <span>場面</span>
@@ -62,7 +62,7 @@
               <article>
                 <span>変更</span>
                 <h3>変えたこと</h3>
-                <p>AIは見積条件を抜き出し、過去発注履歴やメモに残っている範囲で、納品遅れ、検品差し戻し、未回答になりやすい条件を整理します。発注前に人が見る候補として、価格・納期・送料・品質面の注意を分類します。</p>
+                <p>AIが見積条件を抜き出し、過去の納品遅れや検品差し戻しも比較表へ添えます。単価の安さだけでは選べない理由が一目で分かります。</p>
               </article>
               <article>
                 <span>実感</span>
@@ -74,7 +74,7 @@
 
           <section class="blog-section">
             <p class="eyebrow">改善後の実感</p>
-            <h2>仕入先比較が、資料探しから人による発注前の検討へ変わりました。</h2>
+            <h2>見積書やメールを探す時間が減り、納期と総額を見て発注先を選べるようになりました。</h2>
             <div class="blog-takeaway-grid">
               <article>
                 <span>Before</span>
@@ -88,8 +88,8 @@
               </article>
               <article>
                 <span>Result</span>
-                <h3>発注前の判断に入る</h3>
-                <p>この会社でよいのかを頭の中だけで抱えず、単価差、納期差、送料条件、質問案を見ながら発注前の判断に入れます。</p>
+                <h3>上長へ選定理由を説明できる</h3>
+                <p>単価差、納期差、送料条件を見比べながら、上長へ選定理由を説明できます。</p>
               </article>
             </div>
             <div class="blog-highlight">
@@ -145,18 +145,18 @@
 
           <section class="blog-section">
             <p class="eyebrow">仕事の流れ</p>
-            <h2>仕入先比較では、AIが比較表を整え、人が発注可否と交渉方針を判断します。</h2>
+            <h2>見積書を入れると、送料込み総額と納期を比べる表ができます。</h2>
             <div class="blog-timeline">
               <div><time>収集</time><strong>見積と発注履歴を集める</strong><p>複数見積、送料条件、納期回答、最小ロット、過去発注履歴、在庫メモを用意します。</p></div>
               <div><time>比較</time><strong>総額・納期・条件を同じ表にする</strong><p>単価だけでなく、送料込み総額、分納可否、希望納期との差、支払条件を一覧化します。</p></div>
               <div><time>例外</time><strong>条件外の候補を分ける</strong><p>希望納期を超える、送料が未回答、最小ロットが大きい、過去に遅延がある、契約条件がいつもと違う候補を、承認前に人が見る項目として切り分けます。</p></div>
-              <div><time>判断</time><strong>人が発注先を決める</strong><p>発注先、価格交渉、品質・納期リスク、契約条件、発注承認は人が判断します。</p></div>
+              <div><time>説明</time><strong>選定理由を上長へ伝える</strong><p>購買担当が総額、納期、過去の納品状況を見比べ、選んだ理由を上長へ説明します。</p></div>
             </div>
           </section>
 
           <section class="blog-section">
             <p class="eyebrow">人とAIの分担</p>
-            <h2>比較表づくりはAI、発注先と交渉方針は人が決める。</h2>
+            <h2>AIで比較表を作り、購買担当が上長へ選定理由を説明する</h2>
             <div class="blog-role-grid">
               <article>
                 <h3>AIで先に進める作業</h3>
