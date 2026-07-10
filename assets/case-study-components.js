@@ -5,9 +5,9 @@
       <h2>まずは、毎週くり返している1作業から見直します。</h2>
       <div class="blog-adoption-steps">
         <div><span>Step 1</span><strong>くり返し発生する作業を1つ選ぶ</strong><p>頻度が高く、材料が残っていて、時間を測れるものから始めます。</p></div>
-        <div><span>Step 2</span><strong>AIに渡す材料を固定する</strong><p>フォルダ、メール条件、写真の置き場、入力項目を決めます。</p></div>
-        <div><span>Step 3</span><strong>確認しやすい形を決める</strong><p>一覧表、返信下書き、チェックリスト、報告書など、担当者が直しやすい形にします。</p></div>
-        <div><span>Step 4</span><strong>人が見る判断を決める</strong><p>金額、契約、安全、個人情報、外部送信など、必ず人が確認する点を先に決めます。</p></div>
+        <div><span>Step 2</span><strong>AIが読む資料を固定する</strong><p>参照するフォルダ、メールの抽出条件、写真の保存先、入力項目を決めます。</p></div>
+        <div><span>Step 3</span><strong>AIが作る成果物を決める</strong><p>一覧表、返信案、チェックリスト、報告書など、担当者が手直ししやすい形式を選びます。</p></div>
+        <div><span>Step 4</span><strong>人が承認する範囲を決める</strong><p>金額、契約、安全、個人情報、外部送信など、担当者や責任者が必ず目を通す項目を決めます。</p></div>
       </div>
     </section>`;
 
