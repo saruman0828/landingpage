@@ -14,14 +14,14 @@
   const pageName = window.location.pathname.split("/").pop() || "index.html";
 
   const mainNav = [
-    { label: "AI研修", href: toRoot("training.html"), key: "training", mobilePriority: true },
+    { label: "AI研修はこちら", href: toRoot("training.html"), key: "training", mobilePriority: true },
     { label: "実績", href: toRoot("index.html#results"), key: "results" },
     { label: "ご支援の進め方", href: toRoot("index.html#price"), key: "price" },
   ];
 
   const homepageNav = [
     { label: "サービス", href: "#results" },
-    { label: "AI研修", href: toRoot("training.html") },
+    { label: "AI研修はこちら", href: toRoot("training.html") },
     { label: "実績", href: "#results" },
     { label: "流れ", href: "#price" },
   ];
@@ -31,16 +31,20 @@
     return "";
   };
 
-  const renderMainHeader = (active) => `
+  const renderMainHeader = (active) => {
+    const visibleNav = active === "training" ? mainNav.filter((item) => item.key !== "training") : mainNav;
+    const brandClass = active === "training" ? "brand brand-as-button" : "brand";
+    return `
     <header class="topbar">
-      <a class="brand" href="${toRoot("index.html#hero")}">社長の右腕AI</a>
+      <a class="${brandClass}" href="${toRoot("index.html#hero")}">社長の右腕AI</a>
       <nav aria-label="主要ナビゲーション">
-        ${mainNav
+        ${visibleNav
           .map((item) => `<a${item.mobilePriority ? ' class="mobile-priority"' : ""} href="${item.href}"${item.key === active ? ' aria-current="page"' : ""}>${item.label}</a>`)
           .join("")}
         <a class="nav-cta" href="${toRoot("index.html#contact")}">30分無料診断</a>
       </nav>
     </header>`;
+  };
 
   const renderHomepageHeader = () => `
     <header class="site-header">
