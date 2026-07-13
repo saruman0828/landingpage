@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow, noarchive" />
-  <title>クリニック・受付AI事例｜問診と予約確認を、診察前の不足リストにしておく</title>
-  <meta name="description" content="AIが予約変更、問診票の未記入、検査前の注意事項を患者ごとに一覧にし、受付スタッフは案内の表現と医療者へ相談する内容を確かめます。" />
-  <meta property="og:title" content="クリニック・受付AI事例｜問診と予約確認を、診察前の不足リストにしておく" />
-  <meta property="og:description" content="朝の受付で散らばりやすい予約変更、問診票、検査前の注意事項をAIが一覧にし、受付スタッフは患者への伝え方と、医療者へ相談する内容を確かめます。" />
+  <title>クリニック受付の改善事例｜問診の聞き直しと折り返し漏れを減らす</title>
+  <meta name="description" content="AIが問診票や電話メモから連絡が必要な患者を表示するため、受付スタッフは複数の画面を開き直さず、問診の聞き直しや折り返し漏れを防げます。" />
+  <meta property="og:title" content="クリニック受付の改善事例｜問診の聞き直しと折り返し漏れを減らす" />
+  <meta property="og:description" content="予約変更、問診票、電話メモ、検査案内から、診察前の不足と診察後の未連絡を患者別に表示します。医療者の回答が必要な案内は送らずに残します。" />
   <meta property="og:image" content="../images/253_improvement_clinic_reception_calm.webp" />
   <meta property="og:type" content="article" />
   <link rel="icon" href="data:," />
@@ -21,58 +21,58 @@
       <header class="section blog-hero">
         <div class="blog-hero__copy">
           <p class="eyebrow">業務改善の例 / クリニック・受付</p>
-          <h1>問診と予約確認を、診察前の不足リストにしておく</h1>
-          <p class="lead">朝の受付で散らばりやすい予約変更、問診票、検査前の注意事項をAIが一覧にし、受付スタッフは患者への伝え方と、医療者へ相談する内容を確かめます。</p>
+          <h1>問診の聞き直しと折り返し漏れを減らし、受付が患者対応に集中できる</h1>
+          <p class="lead">予約変更、問診票、電話メモ、検査案内を一度に読み取り、来院前に連絡する患者と診察後に折り返す患者を表示します。受付スタッフは電話メモを探し直さず、目の前の患者対応を中断せずに済みます。</p>
           <div class="blog-meta">
-            <span>要点: 不足リストへ変える</span>
+            <span>要点: 診察前の不足と診察後の未連絡を表示</span>
             <span>対象: クリニック・受付</span>
-            <span>成果: 診察前の慌ただしさを減らす</span>
+            <span>成果: 折り返し漏れを防ぎ、受付中の割り込みを減らす</span>
           </div>
         </div>
         <figure class="blog-hero__media">
-          <img src="../images/253_improvement_clinic_reception_calm.webp" alt="クリニック・受付の業務改善イメージ" loading="eager" />
-          <figcaption>朝いちばんに、未記入、予約変更、医療者への確認が必要な項目を受付で把握します。</figcaption>
+          <img src="../images/253_improvement_clinic_reception_calm.webp" alt="問診の未記入と折り返しが必要な患者を把握する受付業務の改善イメージ" loading="eager" />
+          <figcaption>問診の未記入、予約変更、折り返し、未送信案内、医療者への照会待ちを患者別に表示します。</figcaption>
         </figure>
       </header>
 
       <section class="section blog-body">
         <div class="blog-content">
           <section class="blog-section">
-            <p class="eyebrow">先に結論</p>
-            <h2>受付が慌ただしい朝ほど、問診票の未記入を一覧で把握できるようにします。</h2>
+            <p class="eyebrow">要点</p>
+            <h2>来院前に問診不足へ連絡でき、診察後の折り返しも忘れずに済みます。</h2>
             <p>朝のクリニックでは、受付開始と同時に予約変更、問診票の未記入、検査前の案内確認が重なります。</p>
-            <p>受付スタッフは来院対応をしながら、あとで電話する患者、医療者へ確認する内容、案内前に確認すべき注意点を覚えておく必要がありました。</p>
+            <p>受付スタッフは来院患者へ応対しながら、折り返す相手や未送信の案内まで覚える必要があり、電話や内線が重なると連絡漏れが起きやすい状態でした。</p>
             <div class="blog-aha-card">
-              <strong>医療判断と患者への最終案内は、人が目を通します。</strong>
+              <strong>受付責任者が送信先と文面を承認し、症状、緊急性、診療方針に関わる案内は医療者が決めます。</strong>
               <span>AIは問診票や予約情報を読み、未記入、予約変更、医療者に確認する必要がある内容を受付用の一覧にします。</span>
             </div>
           </section>
 
           <section class="blog-section">
             <p class="eyebrow">仕事の変化</p>
-            <h2>朝の受付に重なる未記入の問診票、予約変更、検査前の注意事項を、患者ごとのリストにまとめます。</h2>
+            <h2>連絡が必要な患者だけが分かり、予約画面と電話メモを何度も開かずに済みます。</h2>
             <div class="blog-takeaway-grid">
               <article>
                 <span>場面</span>
-                <h3>現場で起きていたこと</h3>
-                <p>目の前の患者対応は進んでいても、誰に折り返すべきか、どの問診を医療者へ確認すべきかが見えにくい状態でした。</p>
+                <h3>来院対応中も、未連絡が電話メモに残る</h3>
+                <p>目の前の患者対応を進める間に、折り返し電話、未送信の検査案内、医療者への照会待ちが電話メモや予約画面へ残っていました。</p>
               </article>
               <article>
                 <span>変更</span>
-                <h3>変えたこと</h3>
-                <p>予約システム、Web問診、電話メモ、検査案内、前回メモをAIへ渡し、患者ごとに不足、変更、確認が必要な内容を整理します。</p>
+                <h3>問診不足・折り返し・照会待ちを患者別に表示する</h3>
+                <p>AIが予約情報、Web問診、電話メモ、検査案内を患者ごとに突き合わせます。受付スタッフは別々の画面から氏名や連絡内容を転記せず、連絡できる患者から対応できます。</p>
               </article>
               <article>
                 <span>実感</span>
-                <h3>改善後に残るもの</h3>
-                <p>改善後、受付スタッフは患者ごとの不足項目を見て、案内や医療者への相談から始められます。診療開始前に対応順が決まり、受付の混乱を抑えられます。</p>
+                <h3>受付スタッフが連絡できる患者から対応する</h3>
+                <p>受付スタッフは診察前の不足を来院前に連絡し、診察後は医療者の回答を得た案内から送れます。未送信と照会待ちは表に残ります。</p>
               </article>
             </div>
           </section>
 
           <section class="blog-section">
             <p class="eyebrow">改善後の実感</p>
-            <h2>問診と予約確認が、探し回る時間を減らし、判断から始められるようになりました。</h2>
+            <h2>問診不足と未連絡が一表に並び、受付スタッフは連絡できる患者から対応できます。</h2>
             <div class="blog-takeaway-grid">
               <article>
                 <span>Before</span>
@@ -81,31 +81,31 @@
               </article>
               <article>
                 <span>After</span>
-                <h3>見る順に並ぶ</h3>
-                <p>患者ごとの不足、予約変更、案内文の下書きが並び、受付スタッフは内容と送信先を確認するところから始められます。</p>
+                <h3>連絡できる患者から対応する</h3>
+                <p>患者ごとに問診不足、予約変更、折り返し、未送信、照会待ちが表示され、受付スタッフは送信できる案内から対応します。</p>
               </article>
               <article>
                 <span>Result</span>
                 <h3>診察前の慌ただしさを減らす</h3>
-                <p>患者対応を止めずに必要な見直しから進められます。</p>
+                <p>来院患者への応対中に電話メモを探し直す回数が減り、問診不足への連絡と折り返しを空いた時間に進められます。</p>
               </article>
             </div>
             <div class="blog-highlight">
-              <strong>作業時間だけでなく、抱えていた不安も軽くなります。</strong>
-              <span>問診の未記入、予約情報、医療者へ確認する内容が先に分かり、受付スタッフは患者への説明に集中しやすくなります。</span>
+              <strong>折り返しと未送信の案内を、受付スタッフが記憶だけで抱えずに済みます。</strong>
+              <span>医療者への照会待ちも表に残るため、回答前の案内を誤って送るのを防げます。</span>
             </div>
           </section>
 
           <section class="blog-section blog-section--narrative">
             <p class="eyebrow">診療前の受付</p>
-            <h2>午前診療の前、受付責任者の机に未記入の問診票と予約変更が集まる。</h2>
+            <h2>午前診療前、未記入の問診票を探している間に、来院患者への声かけが遅れる。</h2>
             <p>診療前の受付カウンターでは、予約画面を開いた端末、Web問診の未記入一覧、検査案内の紙、電話メモが横一列に広がります。</p>
             <p>受付責任者が患者対応に入ろうとしたところで内線が鳴り、予約変更の伝言と前回の申し送りをもう一度探す必要が出てきます。</p>
-            <p>そこでWeb問診、予約変更メモ、前回の申し送り、検査前の案内テンプレートをAIへ渡し、不足項目、確認順、患者へ伝える案内文の下書きを出します。</p>
+            <p>Web問診、予約変更メモ、前回の申し送り、検査前の案内テンプレートをAIに読み込ませると、未記入項目と患者向け案内の文案が患者別に表示されます。</p>
             <p>医療判断や検査可否は医療者が確認し、受付責任者は本人確認、言い回し、医療者へ回すべき内容だけを見てから声をかけます。</p>
-            <p>探す時間が短くなると、受付は待合の患者に先に声をかけられ、診療開始前の小さな不安をため込まずに済みます。</p>
+            <p>問診票や申し送りを探す時間が減るため、受付スタッフは待合の患者へ早く声をかけ、持ち物不足や診察前の質問へ落ち着いて対応できます。</p>
             <div class="blog-aha-card">
-              <strong>AIに任せるのは、判断ではなく、確認材料を順番に並べるところまでです。</strong>
+              <strong>AIは問診不足の表示と案内文案の作成までを担い、受付責任者と医療者が内容を承認します。</strong>
               <span>受付責任者は画面と紙を往復する時間を減らし、患者への説明と医療者への相談に集中できます。</span>
             </div>
           </section>
@@ -116,16 +116,16 @@
             <h2>未記入の問診票、予約変更、医療者へ聞く内容が患者ごとに分かります。</h2>
             <div class="blog-insight-grid">
               <article>
-                <img src="../images/187_healthcare_clinic_followup_workflow.webp" alt="朝の確認を先にそろえるの業務改善イメージ" loading="lazy" />
+                <img src="../images/187_healthcare_clinic_followup_workflow.webp" alt="問診の未記入を患者別に表示する受付業務のイメージ" loading="lazy" />
                 <div><span>整理後</span><h3>未記入の問診票を朝のうちに見つける</h3><p>問診票と予約情報を見比べ、記入が足りない患者を一覧にします。朝の電話が増える前に、優先して連絡する患者が分かります。</p></div>
               </article>
               <article>
-                <img src="../images/323_webref_young_doctor_admin_doorway.webp" alt="医療判断は人が行うの業務改善イメージ" loading="lazy" />
-                <div><span>整理後</span><h3>医療判断は人が行う</h3><p>AIが作った不足リストを、受付と医療者が確認します。症状や診療方針に関わる判断は、必ず医療者が確認してから案内します。</p></div>
+                <img src="../images/323_webref_young_doctor_admin_doorway.webp" alt="症状や診療内容を医療者が決める業務改善イメージ" loading="lazy" />
+                <div><span>整理後</span><h3>症状や診療内容は医療者が決める</h3><p>受付スタッフが照会内容を医療者へ送り、症状や診療方針に関する回答を受けてから患者へ案内します。</p></div>
               </article>
               <article>
-                <img src="../images/268_improvement_clinic_reception_followup_relief.webp" alt="連絡漏れを減らすの業務改善イメージ" loading="lazy" />
-                <div><span>整理後</span><h3>連絡漏れを減らす</h3><p>折り返し、検査案内、予約変更の返信待ちが患者ごとの一覧に残ります。記憶だけに頼らず、未対応の連絡が分かります。</p></div>
+                <img src="../images/268_improvement_clinic_reception_followup_relief.webp" alt="折り返しと未送信案内を患者別に追う業務改善イメージ" loading="lazy" />
+                <div><span>整理後</span><h3>折り返し・未送信・照会待ちを残す</h3><p>折り返し、未送信の検査案内、予約変更への返信、医療者への照会待ちが患者ごとに残ります。回答前の案内は送信対象へ移しません。</p></div>
               </article>
             </div>
           </section>
@@ -144,10 +144,10 @@
             <p class="eyebrow">仕事の流れ</p>
             <h2>AIが問診の未記入を一覧にし、受付と医療者が患者への案内を進めます。</h2>
             <div class="blog-timeline">
-              <div><time>受け取り</time><strong>材料の置き場を決める</strong><p>予約システム、Web問診、電話メモ、検査案内、前回メモをAIへ渡します。</p></div>
-              <div><time>一覧化</time><strong>患者ごとの未記入と変更を表示する</strong><p>問診票の未記入と予約変更を一覧にし、症状や検査に関わる内容には医療者への相談先を記します。</p></div>
-              <div><time>下準備</time><strong>案内文と見直しリストにする</strong><p>完成した案内ではなく、受付スタッフが修正しやすい下書きとしてまとめます。</p></div>
-              <div><time>確認</time><strong>人が確認して送信する</strong><p>医療判断、個人情報、患者への伝え方、送信先は、必ず人が目を通します。</p></div>
+              <div><time>受け取り</time><strong>予約・問診・電話メモを読み込ませる</strong><p>予約システム、Web問診、電話メモ、検査案内、前回メモをAIに読み込ませます。</p></div>
+              <div><time>状態表示</time><strong>未記入・折り返し・照会待ちを患者別に表示する</strong><p>問診の未記入、予約変更、折り返し、未送信案内を表示し、症状や検査に関わる内容は医療者への照会待ちとして残します。</p></div>
+              <div><time>文案作成</time><strong>予約前と診察後の案内文案を作る</strong><p>予約前の持ち物案内と診察後の連絡文案を作り、患者名、送信先、医療者の回答欄を添えます。</p></div>
+              <div><time>承認</time><strong>受付責任者が送信を承認する</strong><p>受付責任者が患者名、送信先、文面を見直します。症状、緊急性、診療内容を含む案内は医療者の回答後に送ります。</p></div>
             </div>
           </section>
 
@@ -156,21 +156,21 @@
             <h2>AIが作るのは、受付用の不足リストと案内文の下書きです。案内の送信は受付責任者が承認し、診療に関わる判断は医療者が行います。</h2>
             <div class="blog-role-grid">
               <article>
-                <h3>AIで先に進める作業</h3>
+                <h3>AIが作る患者別受付表と案内文案</h3>
                 <ul>
                   <li>問診不足の抽出</li>
-                  <li>予約変更の整理</li>
-                  <li>案内文の下書き</li>
-                  <li>診察前見直しリスト</li>
+                  <li>変更前後の予約日時を患者別に表示</li>
+                  <li>承認済みの案内ひな型を使った連絡文案</li>
+                  <li>診察前の不足と診察後の未連絡を載せた患者別受付表</li>
                 </ul>
               </article>
               <article>
-                <h3>人が決めること</h3>
+                <h3>受付責任者と医療者が担う作業</h3>
                 <ul>
                   <li>医療判断と診療方針</li>
                   <li>患者への個別対応</li>
                   <li>個人情報の確認</li>
-                  <li>案内の最終送信</li>
+                  <li>受付責任者による患者名、送信先、文面の承認</li>
                 </ul>
               </article>
             </div>
