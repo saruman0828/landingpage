@@ -61,7 +61,6 @@ if (fs.existsSync(targetPath)) {
 let html = fs.readFileSync(sourcePath, "utf8");
 
 if (sourcePath !== templatePath) {
-  html = html.replace("</head>", "  <meta name=\"robots\" content=\"noindex\" />\n</head>");
   html = html.replace(/<title>(.*?)<\/title>/, "<title>TODO_CASE_STUDY $1</title>");
 }
 
