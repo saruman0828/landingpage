@@ -1,0 +1,10 @@
+.git/
+.vercel/
+.env
+.env.*
+node_modules/
+.next/
+out/
+coverage/
+*.log
+pnpm-debug.log*

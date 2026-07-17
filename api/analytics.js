@@ -1,8 +1,4 @@
-const fs = require("fs/promises");
-const os = require("os");
-const path = require("path");
-
-const analyticsFilePath = path.join(os.tmpdir(), "lp-analytics-events.jsonl");
+const { saveLocalEvent, savePersistentEvent } = require("./analytics-store");
 
 const json = (response, statusCode, body) => {
   response.statusCode = statusCode;
@@ -51,12 +47,6 @@ const forwardWebhook = async (payload) => {
   });
 };
 
-const saveLocalEvent = async (payload) => {
-  await fs.appendFile(analyticsFilePath, `${JSON.stringify(payload)}\n`, "utf8").catch((error) => {
-    console.error("lp_analytics_local_save_failed", error);
-  });
-};
-
 module.exports = async (request, response) => {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -99,7 +89,11 @@ module.exports = async (request, response) => {
 
   console.info("lp_analytics", eventPayload);
   await saveLocalEvent(eventPayload);
+  const persisted = await savePersistentEvent(eventPayload).catch((error) => {
+    console.error("lp_analytics_persistent_save_failed", error);
+    return false;
+  });
   await forwardWebhook(eventPayload);
 
-  return json(response, 200, { ok: true });
+  return json(response, persisted ? 200 : 500, { ok: persisted, persisted });
 };
